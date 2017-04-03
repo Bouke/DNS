@@ -33,8 +33,8 @@ func unpackName(_ data: Data, _ position: inout Data.Index) -> String {
 }
 
 
-// TODO: efficient packing (reuse labels with pointers)
-func packName(_ name: String) throws -> Data {
+public typealias Labels = [String: Data.Index]
+func packName(_ name: String, onto buffer: inout Data, labels: inout Labels) throws {
     if name.utf8.reduce(false, { $0 || $1 & 128 == 128 }) {
         throw EncodeError.unicodeEncodingNotSupported
     }
@@ -44,17 +44,14 @@ func packName(_ name: String) throws -> Data {
         bytes += [UInt8(codes.count)] + codes
     }
     bytes.append(0)
-    return Data(bytes)
+    buffer.append(contentsOf: bytes)
 }
-
-
 
 func unpack<T: Integer>(_ data: Data, _ position: inout Data.Index) -> T {
     let size = MemoryLayout<T>.size
     defer { position += size }
     return T(bytes: data[position..<position+size])
 }
-
 
 typealias RecordCommonFields = (name: String, type: UInt16, unique: Bool, internetClass: UInt16, ttl: UInt32)
 
@@ -66,8 +63,11 @@ func unpackRecordCommonFields(_ data: Data, _ position: inout Data.Index) -> Rec
             unpack(data, &position))
 }
 
-func packRecordCommonFields(_ common: RecordCommonFields) throws -> Data {
-    return try packName(common.name) + common.type.bytes + (common.internetClass | (common.unique ? 0x8000 : 0)).bytes + common.ttl.bytes
+func packRecordCommonFields(_ common: RecordCommonFields, onto buffer: inout Data, labels: inout Labels) throws {
+    try packName(common.name, onto: &buffer, labels: &labels)
+    buffer.append(common.type.bytes)
+    buffer.append((common.internetClass | (common.unique ? 0x8000 : 0)).bytes)
+    buffer.append(common.ttl.bytes)
 }
 
 
@@ -85,8 +85,9 @@ func unpackRecord(_ data: Data, _ position: inout Data.Index) -> ResourceRecord 
 
 
 extension Message {
-    public func pack() throws -> [UInt8] {
-        var bytes: [UInt8] = []
+    public func pack() throws -> Data {
+        var bytes = Data()
+        var labels = Labels()
 
         let flags: UInt16 = (header.response ? 1 : 0) << 15 | UInt16(header.operationCode.rawValue) << 11 | (header.authoritativeAnswer ? 1 : 0) << 10 | (header.truncation ? 1 : 0) << 9 | (header.recursionDesired ? 1 : 0) << 8 | (header.recursionAvailable ? 1 : 0) << 7 | UInt16(header.returnCode.rawValue)
 
@@ -100,21 +101,20 @@ extension Message {
 
         // questions
         for question in questions {
-            bytes += try! packName(question.name)
+            try! packName(question.name, onto: &bytes, labels: &labels)
             bytes += question.type.rawValue.bytes
             bytes += question.internetClass.bytes
         }
 
         for answer in answers {
-            bytes += try answer.pack()
+            try answer.pack(onto: &bytes, labels: &labels)
         }
         for authority in authorities {
-            bytes += try authority.pack()
+            try authority.pack(onto: &bytes, labels: &labels)
         }
         for additional in additional {
-            bytes += try additional.pack()
+            try additional.pack(onto: &bytes, labels: &labels)
         }
-
 
         return bytes
     }
@@ -150,7 +150,7 @@ extension Message {
         additional = (0..<UInt16(bytes: bytes[10..<12])).map { _ in unpackRecord(bytes, &position) }
     }
 
-    func tcp() throws -> [UInt8] {
+    func tcp() throws -> Data {
         let payload = try self.pack()
         return UInt16(payload.count).bytes + payload
     }
@@ -164,8 +164,9 @@ extension Record: ResourceRecord {
         position += size
     }
 
-    public func pack() throws -> Data {
-        return try packRecordCommonFields((name, type, unique, internetClass, ttl)) + UInt16(data.count).bytes + data
+    public func pack(onto buffer: inout Data, labels: inout Labels) throws {
+        try packRecordCommonFields((name, type, unique, internetClass, ttl), onto: &buffer, labels: &labels)
+        buffer.append(contentsOf: UInt16(data.count).bytes + data)
     }
 }
 
@@ -177,14 +178,18 @@ extension HostRecord: ResourceRecord {
         position += size
     }
 
-    public func pack() throws -> Data {
+    public func pack(onto buffer: inout Data, labels: inout Labels) throws {
         switch ip {
         case let ip as IPv4:
             let data = ip.bytes
-            return try packRecordCommonFields((name, ResourceRecordType.host.rawValue, unique, internetClass, ttl)) + UInt16(data.count).bytes + data
+            try packRecordCommonFields((name, ResourceRecordType.host.rawValue, unique, internetClass, ttl), onto: &buffer, labels: &labels)
+            buffer.append(UInt16(data.count).bytes)
+            buffer.append(data)
         case let ip as IPv6:
             let data = ip.bytes
-            return try packRecordCommonFields((name, ResourceRecordType.host6.rawValue, unique, internetClass, ttl)) + UInt16(data.count).bytes + data
+            try packRecordCommonFields((name, ResourceRecordType.host6.rawValue, unique, internetClass, ttl), onto: &buffer, labels: &labels)
+            buffer.append(UInt16(data.count).bytes)
+            buffer.append(data)
         default:
             abort()
         }
@@ -194,17 +199,27 @@ extension HostRecord: ResourceRecord {
 extension ServiceRecord: ResourceRecord {
     init(unpack data: Data, position: inout Data.Index, common: RecordCommonFields) {
         (name, _, unique, internetClass, ttl) = common
-        _ = unpack(data, &position) as UInt16
+        let length = unpack(data, &position) as UInt16
+        let expectedPosition = position + Data.Index(length)
         priority = unpack(data, &position)
         weight = unpack(data, &position)
         port = unpack(data, &position)
         server = unpackName(data, &position)
+        precondition(position == expectedPosition, "Unexpected length")
     }
 
-    public func pack() throws -> Data {
-        let data = try priority.bytes + weight.bytes + port.bytes + packName(server)
+    public func pack(onto buffer: inout Data, labels: inout Labels) throws {
+        try packRecordCommonFields((name, ResourceRecordType.service.rawValue, unique, internetClass, ttl), onto: &buffer, labels: &labels)
+        buffer += [0, 0]
+        let startPosition = buffer.endIndex
+        buffer += priority.bytes
+        buffer += weight.bytes
+        buffer += port.bytes
+        try packName(server, onto: &buffer, labels: &labels)
 
-         return try packRecordCommonFields((name, ResourceRecordType.service.rawValue, unique, internetClass, ttl)) + UInt16(data.count).bytes + data
+        // Set the length before the data field
+        let length = UInt16(buffer.endIndex - startPosition)
+        buffer.replaceSubrange((startPosition - 2)..<startPosition, with: length.bytes)
     }
 }
 
@@ -230,13 +245,14 @@ extension TextRecord: ResourceRecord {
         self.values = other
     }
 
-    public func pack() throws -> Data {
+    public func pack(onto buffer: inout Data, labels: inout Labels) throws {
+        try packRecordCommonFields((name, ResourceRecordType.text.rawValue, unique, internetClass, ttl), onto: &buffer, labels: &labels)
         let data = attributes.reduce(Data()) {
             let attr = "\($1.key)=\($1.value)".utf8
             return $0 + UInt8(attr.count).bytes + attr
         }
-
-        return try packRecordCommonFields((name, ResourceRecordType.text.rawValue, unique, internetClass, ttl)) + UInt16(data.count).bytes + data
+        buffer += UInt16(data.count).bytes
+        buffer += data
     }
 }
 
@@ -247,8 +263,14 @@ extension PointerRecord: ResourceRecord {
         destination = unpackName(data, &position)
     }
 
-    public func pack() throws -> Data {
-        let data = try packName(destination)
-        return try packRecordCommonFields((name, ResourceRecordType.pointer.rawValue, unique, internetClass, ttl)) + UInt16(data.count).bytes + data
+    public func pack(onto buffer: inout Data, labels: inout Labels) throws {
+        try packRecordCommonFields((name, ResourceRecordType.pointer.rawValue, unique, internetClass, ttl), onto: &buffer, labels: &labels)
+        buffer += [0, 0]
+        let startPosition = buffer.endIndex
+        try packName(destination, onto: &buffer, labels: &labels)
+        
+        // Set the length before the data field
+        let length = UInt16(buffer.endIndex - startPosition)
+        buffer.replaceSubrange((startPosition - 2)..<startPosition, with: length.bytes)
     }
 }

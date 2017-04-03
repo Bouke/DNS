@@ -115,7 +115,7 @@ public protocol ResourceRecord {
     var internetClass: UInt16 { get }
     var ttl: UInt32 { get set }
 
-    func pack() throws -> Data
+    func pack(onto: inout Data, labels: inout Labels) throws
 }
 
 
