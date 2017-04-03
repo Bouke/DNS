@@ -13,7 +13,8 @@ class IPTests: XCTestCase {
             ("testIPv6Valid", testIPv6Valid),
             ("testIPv6Invalid", testIPv6Invalid),
             ("testIPv6Predefined", testIPv6Predefined),
-            ("testIPv6Bytes", testIPv6Bytes)
+            ("testIPv6Bytes", testIPv6Bytes),
+            ("testLinuxTestSuiteIncludesAllTests", testLinuxTestSuiteIncludesAllTests),
         ]
     }
 
@@ -91,5 +92,17 @@ class IPTests: XCTestCase {
         XCTAssertEqual(IPv6(networkBytes: Data(hex: "ff010000000000000000000000000001")!), IPv6("ff01::1"))
         XCTAssertEqual(IPv6("ff01::1")!.bytes.hex, "ff010000000000000000000000000001")
         XCTAssertEqual(IPv6(networkBytes: IPv6("ff01::1")!.bytes), IPv6("ff01::1"))
+    }
+
+    // from: https://oleb.net/blog/2017/03/keeping-xctest-in-sync/#appendix-code-generation-with-sourcery
+    func testLinuxTestSuiteIncludesAllTests() {
+        #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
+            let thisClass = type(of: self)
+            let linuxCount = thisClass.allTests.count
+            let darwinCount = Int(thisClass
+                .defaultTestSuite().testCaseCount)
+            XCTAssertEqual(linuxCount, darwinCount,
+                           "\(darwinCount - linuxCount) tests are missing from allTests")
+        #endif
     }
 }

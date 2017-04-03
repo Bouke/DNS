@@ -11,6 +11,7 @@ class DNSTests: XCTestCase {
             ("testMessage4", testMessage4),
             ("testMessage5", testMessage5),
             ("testUnpackName", testUnpackName),
+            ("testLinuxTestSuiteIncludesAllTests", testLinuxTestSuiteIncludesAllTests),
         ]
     }
 
@@ -96,5 +97,17 @@ class DNSTests: XCTestCase {
         let name = unpackName(data, &position)
         XCTAssertEqual(name, "Zithoek._airplay._tcp.local.")
         XCTAssertEqual(position, 99)
+    }
+
+    // from: https://oleb.net/blog/2017/03/keeping-xctest-in-sync/#appendix-code-generation-with-sourcery
+    func testLinuxTestSuiteIncludesAllTests() {
+        #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
+            let thisClass = type(of: self)
+            let linuxCount = thisClass.allTests.count
+            let darwinCount = Int(thisClass
+                .defaultTestSuite().testCaseCount)
+            XCTAssertEqual(linuxCount, darwinCount,
+                           "\(darwinCount - linuxCount) tests are missing from allTests")
+        #endif
     }
 }
