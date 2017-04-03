@@ -11,6 +11,7 @@ class DNSTests: XCTestCase {
             ("testMessage4", testMessage4),
             ("testMessage5", testMessage5),
             ("testUnpackName", testUnpackName),
+            ("testPackNameCondensed", testPackNameCondensed),
             ("testLinuxTestSuiteIncludesAllTests", testLinuxTestSuiteIncludesAllTests),
         ]
     }
@@ -23,7 +24,7 @@ class DNSTests: XCTestCase {
 
         var labels1 = Labels()
         var packed1 = Data()
-        let pointer1 = PointerRecord(name: "_hap._tcp.local", ttl: 120, destination: "Swift._hap._tcp.local")
+        let pointer1 = PointerRecord(name: "_hap._tcp.local.", ttl: 120, destination: "Swift._hap._tcp.local.")
         try! pointer1.pack(onto: &packed1, labels: &labels1)
 
         XCTAssertEqual(packed0.hex, packed1.hex)
@@ -97,6 +98,25 @@ class DNSTests: XCTestCase {
         let name = unpackName(data, &position)
         XCTAssertEqual(name, "Zithoek._airplay._tcp.local.")
         XCTAssertEqual(position, 99)
+    }
+    
+    func testPackNameCondensed() {
+        var message = Message(header: Header(response: true),
+                              questions: [Question(name: "abc.def.ghi.jk.local.", type: .pointer)])
+        let size0 = try! message.pack().count
+        XCTAssertEqual(size0, 38)
+        
+        message.questions.append(Question(name: "abc.def.ghi.jk.local.", type: .pointer))
+        let size1 = try! message.pack().count
+        XCTAssertEqual(size1, size0 + 6)
+
+        message.questions.append(Question(name: "def.ghi.jk.local.", type: .pointer))
+        let size2 = try! message.pack().count
+        XCTAssertEqual(size2, size1 + 10)
+        
+        message.questions.append(Question(name: "xyz.def.ghi.jk.local.", type: .pointer))
+        let size3 = try! message.pack().count
+        XCTAssertEqual(size3, size2 + 10)
     }
 
     // from: https://oleb.net/blog/2017/03/keeping-xctest-in-sync/#appendix-code-generation-with-sourcery

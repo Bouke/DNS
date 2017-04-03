@@ -38,13 +38,24 @@ func packName(_ name: String, onto buffer: inout Data, labels: inout Labels) thr
     if name.utf8.reduce(false, { $0 || $1 & 128 == 128 }) {
         throw EncodeError.unicodeEncodingNotSupported
     }
-    var bytes: [UInt8] = []
-    for label in name.components(separatedBy: ".").filter({ $0 != "" }) {
-        let codes = Array(label.utf8)
-        bytes += [UInt8(codes.count)] + codes
+    // re-use existing label
+    if let index = labels[name] {
+        buffer += (0xc000 | UInt16(index)).bytes
+        return
     }
-    bytes.append(0)
-    buffer.append(contentsOf: bytes)
+    // position of the new label
+    labels[name] = buffer.endIndex
+    var components = name.components(separatedBy: ".").filter { $0 != "" }
+
+    let codes = Array(components.removeFirst().utf8)
+    buffer.append(UInt8(codes.count))
+    buffer += codes
+
+    if components.count > 0 {
+        try packName(components.joined(separator: "."), onto: &buffer, labels: &labels)
+    } else {
+        buffer.append(0)
+    }
 }
 
 func unpack<T: Integer>(_ data: Data, _ position: inout Data.Index) -> T {
