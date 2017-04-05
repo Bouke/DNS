@@ -20,6 +20,7 @@ enum DecodeError: Swift.Error {
 
 func unpackName(_ data: Data, _ position: inout Data.Index) throws -> String {
     var components = [String]()
+    let startPosition = position
     while true {
         let step = data[position]
         if step & 0xc0 == 0xc0 {
@@ -29,7 +30,7 @@ func unpackName(_ data: Data, _ position: inout Data.Index) throws -> String {
             }
             // Prevent cyclic references. I think it's safe to assume that label
             // pointers only point to a prior label.
-            guard pointer < (position - 2) else {
+            guard pointer < startPosition else {
                 throw DecodeError.invalidLabelOffset
             }
             components += try unpackName(data, &pointer).components(separatedBy: ".").filter({ $0 != "" })

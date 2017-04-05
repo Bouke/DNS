@@ -11,6 +11,7 @@ class DNSTests: XCTestCase {
             ("testMessage4", testMessage4),
             ("testMessage5", testMessage5),
             ("testUnpackName", testUnpackName),
+            ("testUnpackCorruptedName", testUnpackCorruptedName),
             ("testPackNameCondensed", testPackNameCondensed),
             ("testLinuxTestSuiteIncludesAllTests", testLinuxTestSuiteIncludesAllTests),
         ]
@@ -98,6 +99,14 @@ class DNSTests: XCTestCase {
         let name = try! unpackName(data, &position)
         XCTAssertEqual(name, "Zithoek._airplay._tcp.local.")
         XCTAssertEqual(position, 99)
+    }
+    
+    func testUnpackCorruptedName() {
+        let data = Data(hex: "000084000001000200009302085f616972706c6179045f746370065f6c6f63616c00000c0001c00c000c0001000000480013076578616d706c65085f616972706c6179c03ac03200210001000000780015000000001b5807656a616d706c65056c6f63616c00c057000100010000007800040a000102c00c0010000143000078000c0b68656c6c6f3d7767726c64")!
+        data.dump()
+        if let _ = try? Message(unpack: data) {
+            return XCTFail("Should not have unpacked message")
+        }
     }
     
     func testPackNameCondensed() {
