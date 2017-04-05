@@ -14,6 +14,8 @@ enum DecodeError: Swift.Error {
     case unicodeEncodingNotSupported
     case invalidIntegerSize
     case invalidResourceRecordType
+    case invalidIPAddress
+    case invalidDataSize
 }
 
 func unpackName(_ data: Data, _ position: inout Data.Index) throws -> String {
@@ -205,9 +207,12 @@ extension Message {
 extension Record: ResourceRecord {
     init(unpack data: Data, position: inout Data.Index, common: RecordCommonFields) throws {
         (name, type, unique, internetClass, ttl) = common
-        let size = Int(try unpack(data, &position) as UInt16)
-        self.data = Data(data[position..<position+size])
-        position += size
+        let size = Int(try UInt16(data: data, position: &position))
+        let dataStart = position
+        guard data.formIndex(&position, offsetBy: size, limitedBy: data.endIndex) else {
+            throw DecodeError.invalidDataSize
+        }
+        self.data = Data(data[dataStart..<position])
     }
 
     public func pack(onto buffer: inout Data, labels: inout Labels) throws {
@@ -219,9 +224,15 @@ extension Record: ResourceRecord {
 extension HostRecord: ResourceRecord {
     init(unpack data: Data, position: inout Data.Index, common: RecordCommonFields) throws {
         (name, _, unique, internetClass, ttl) = common
-        let size = Int(try unpack(data, &position) as UInt16)
-        ip = IPType(networkBytes: Data(data[position..<position+size]))!
-        position += size
+        let size = Int(try UInt16(data: data, position: &position))
+        let dataStart = position
+        guard data.formIndex(&position, offsetBy: size, limitedBy: data.endIndex) else {
+            throw DecodeError.invalidDataSize
+        }
+        guard let ipType = IPType(networkBytes: Data(data[dataStart..<position])) else {
+            throw DecodeError.invalidIPAddress
+        }
+        ip = ipType
     }
 
     public func pack(onto buffer: inout Data, labels: inout Labels) throws {
@@ -245,13 +256,15 @@ extension HostRecord: ResourceRecord {
 extension ServiceRecord: ResourceRecord {
     init(unpack data: Data, position: inout Data.Index, common: RecordCommonFields) throws {
         (name, _, unique, internetClass, ttl) = common
-        let length = try unpack(data, &position) as UInt16
+        let length = try UInt16(data: data, position: &position)
         let expectedPosition = position + Data.Index(length)
         priority = try unpack(data, &position)
         weight = try unpack(data, &position)
         port = try unpack(data, &position)
         server = try unpackName(data, &position)
-        precondition(position == expectedPosition, "Unexpected length")
+        guard position == expectedPosition else {
+            throw DecodeError.invalidDataSize
+        }
     }
 
     public func pack(onto buffer: inout Data, labels: inout Labels) throws {
@@ -278,14 +291,22 @@ extension TextRecord: ResourceRecord {
         var other = [String]()
         while position < endIndex {
             let size = Int(try UInt8(data: data, position: &position))
-            guard size > 0 else { break }
-            var attr = String(bytes: data[position..<position+size], encoding: .utf8)!.characters.split(separator: "=", maxSplits: 1, omittingEmptySubsequences: false).map { String($0) }
+            let labelStart = position
+            guard size > 0 else {
+                break
+            }
+            guard data.formIndex(&position, offsetBy: size, limitedBy: data.endIndex) else {
+                throw DecodeError.invalidLabelSize
+            }
+            guard let label = String(bytes: data[labelStart..<position], encoding: .utf8) else {
+                throw DecodeError.unicodeDecodingError
+            }
+            let attr = label.characters.split(separator: "=", maxSplits: 1, omittingEmptySubsequences: false).map { String($0) }
             if attr.count == 2 {
                 attrs[attr[0]] = attr[1]
             } else {
                 other.append(attr[0])
             }
-            position += size
         }
         self.attributes = attrs
         self.values = other
