@@ -82,12 +82,14 @@ public struct Question {
         self.internetClass = internetClass
     }
 
-    init(unpack data: Data, position: inout Data.Index) {
-        name = unpackName(data, &position)
-        type = ResourceRecordType(rawValue: UInt16(bytes: data[position..<position+2]))!
-        unique = data[position+2] & 0x80 == 0x80
-        internetClass = UInt16(bytes: data[position+2..<position+4]) & 0x7fff
-        position += 4
+    init(unpack data: Data, position: inout Data.Index) throws {
+        name = try unpackName(data, &position)
+        guard let recordType = ResourceRecordType(rawValue: try UInt16(data: data, position: &position)) else {
+            throw DecodeError.invalidResourceRecordType
+        }
+        type = recordType
+        unique = data[position] & 0x80 == 0x80
+        internetClass = try UInt16(data: data, position: &position) & 0x7fff
     }
 }
 

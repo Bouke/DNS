@@ -30,8 +30,8 @@ class DNSTests: XCTestCase {
         XCTAssertEqual(packed0.hex, packed1.hex)
 
         var position = packed0.startIndex
-        let rcf = unpackRecordCommonFields(packed0, &position)
-        let pointer0copy = PointerRecord(unpack: packed0, position: &position, common: rcf)
+        let rcf = try! unpackRecordCommonFields(packed0, &position)
+        let pointer0copy = try! PointerRecord(unpack: packed0, position: &position, common: rcf)
 
         XCTAssertEqual(pointer0, pointer0copy)
     }
@@ -40,7 +40,7 @@ class DNSTests: XCTestCase {
         let message0 = Message(header: Header(id: 4529, response: true, operationCode: .query, authoritativeAnswer: false, truncation: false, recursionDesired: false, recursionAvailable: false, returnCode: .NXDOMAIN))
         let packed0 = try! message0.pack()
         XCTAssertEqual(packed0.hex, "11b180030000000000000000")
-        let message1 = Message(unpack: packed0)
+        let message1 = try! Message(unpack: packed0)
         let packed1 = try! message1.pack()
         XCTAssertEqual(packed0.hex, packed1.hex)
     }
@@ -49,7 +49,7 @@ class DNSTests: XCTestCase {
         let message0 = Message(header: Header(id: 18765, response: true, operationCode: .query, authoritativeAnswer: true, truncation: true, recursionDesired: true, recursionAvailable: true, returnCode: .NOERROR))
         let packed0 = try! message0.pack()
         XCTAssertEqual(packed0.hex, "494d87800000000000000000")
-        let message1 = Message(unpack: packed0)
+        let message1 = try! Message(unpack: packed0)
         let packed1 = try! message1.pack()
         XCTAssertEqual(packed0.hex, packed1.hex)
     }
@@ -58,7 +58,7 @@ class DNSTests: XCTestCase {
         let message0 = Message(header: Header(response: false),
                                questions: [Question(name: "_airplay._tcp._local", type: .pointer)])
         let packed0 = try! message0.pack()
-        let message1 = Message(unpack: packed0)
+        let message1 = try! Message(unpack: packed0)
         let packed1 = try! message1.pack()
         XCTAssertEqual(packed0.hex, packed1.hex)
     }
@@ -70,7 +70,7 @@ class DNSTests: XCTestCase {
                                questions: [Question(name: service, type: .pointer)],
                                answers: [PointerRecord(name: service, ttl: 120, destination: name)])
         let packed0 = try! message0.pack()
-        let message1 = Message(unpack: packed0)
+        let message1 = try! Message(unpack: packed0)
         let packed1 = try! message1.pack()
         XCTAssertEqual(packed0.hex, packed1.hex)
     }
@@ -86,7 +86,7 @@ class DNSTests: XCTestCase {
                                additional: [HostRecord<IPv4>(name: server, ttl: 120, ip: IPv4("10.0.1.2")!),
                                             TextRecord(name: service, ttl: 120, attributes: ["hello": "world"])])
         let packed0 = try! message0.pack()
-        let message1 = Message(unpack: packed0)
+        let message1 = try! Message(unpack: packed0)
         let packed1 = try! message1.pack()
         XCTAssertEqual(packed0.hex, packed1.hex)
     }
@@ -95,7 +95,7 @@ class DNSTests: XCTestCase {
         // This is part of a record. The name can be found by following two pointers indicated by 0xc000 (mask).
         let data = Data(hex: "000084000000000200000006075a6974686f656b0c5f6465766963652d696e666f045f746370056c6f63616c000010000100001194000d0c6d6f64656c3d4a3432644150085f616972706c6179c021000c000100001194000a075a6974686f656bc044")!
         var position = 89
-        let name = unpackName(data, &position)
+        let name = try! unpackName(data, &position)
         XCTAssertEqual(name, "Zithoek._airplay._tcp.local.")
         XCTAssertEqual(position, 99)
     }

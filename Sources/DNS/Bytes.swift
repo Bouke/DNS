@@ -4,25 +4,50 @@ enum EncodeError: Swift.Error {
     case unicodeEncodingNotSupported
 }
 
+enum DecodeError: Swift.Error {
+    case invalidMessageSize
+    case invalidOperationCode
+    case invalidReturnCode
+    case invalidLabelSize
+    case invalidLabelOffset
+    case unicodeDecodingError
+    case unicodeEncodingNotSupported
+    case invalidIntegerSize
+    case invalidResourceRecordType
+}
 
-func unpackName(_ data: Data, _ position: inout Data.Index) -> String {
+func unpackName(_ data: Data, _ position: inout Data.Index) throws -> String {
     var components = [String]()
     while true {
         let step = data[position]
         if step & 0xc0 == 0xc0 {
-            var pointer = data.index(data.startIndex, offsetBy: Int(UInt16(bytes: data[position..<position+2]) ^ 0xc000))
-            components += unpackName(data, &pointer).components(separatedBy: ".").filter({ $0 != "" })
+            guard position + 2 <= data.endIndex else {
+                throw DecodeError.invalidLabelOffset
+            }
+            let offset = Int(UInt16(bytes: data[position..<position+2]) ^ 0xc000)
+            guard var pointer = data.index(data.startIndex, offsetBy: offset, limitedBy: data.endIndex) else {
+                throw DecodeError.invalidLabelOffset
+            }
+            components += try unpackName(data, &pointer).components(separatedBy: ".").filter({ $0 != "" })
             position += 2
             break
         }
 
-        let start = data.index(position, offsetBy: 1)
-        let end = data.index(start, offsetBy: Int(step))
+        guard let start = data.index(position, offsetBy: 1, limitedBy: data.endIndex),
+            let end = data.index(start, offsetBy: Int(step), limitedBy: data.endIndex) else
+        {
+            throw DecodeError.invalidLabelSize
+        }
         if step > 0 {
             for byte in data[start..<end] {
-                precondition((0x20..<0xff).contains(byte))
+                guard (0x20..<0xff).contains(byte) else {
+                    throw DecodeError.unicodeEncodingNotSupported
+                }
             }
-            components.append(String(bytes: data[start..<end], encoding: .utf8)!)
+            guard let component = String(bytes: data[start..<end], encoding: .utf8) else {
+                throw DecodeError.unicodeDecodingError
+            }
+            components.append(component)
         } else {
             position = end
             break
@@ -58,7 +83,7 @@ func packName(_ name: String, onto buffer: inout Data, labels: inout Labels) thr
     }
 }
 
-func unpack<T: Integer>(_ data: Data, _ position: inout Data.Index) -> T {
+func unpack<T: Integer>(_ data: Data, _ position: inout Data.Index) throws -> T {
     let size = MemoryLayout<T>.size
     defer { position += size }
     return T(bytes: data[position..<position+size])
@@ -66,12 +91,12 @@ func unpack<T: Integer>(_ data: Data, _ position: inout Data.Index) -> T {
 
 typealias RecordCommonFields = (name: String, type: UInt16, unique: Bool, internetClass: UInt16, ttl: UInt32)
 
-func unpackRecordCommonFields(_ data: Data, _ position: inout Data.Index) -> RecordCommonFields {
-    return (unpackName(data, &position),
-            unpack(data, &position),
-            data[position] & 0x80 == 0x80,
-            unpack(data, &position),
-            unpack(data, &position))
+func unpackRecordCommonFields(_ data: Data, _ position: inout Data.Index) throws -> RecordCommonFields {
+    return try (unpackName(data, &position),
+                unpack(data, &position),
+                data[position] & 0x80 == 0x80,
+                unpack(data, &position),
+                unpack(data, &position))
 }
 
 func packRecordCommonFields(_ common: RecordCommonFields, onto buffer: inout Data, labels: inout Labels) throws {
@@ -82,15 +107,15 @@ func packRecordCommonFields(_ common: RecordCommonFields, onto buffer: inout Dat
 }
 
 
-func unpackRecord(_ data: Data, _ position: inout Data.Index) -> ResourceRecord {
-    let common = unpackRecordCommonFields(data, &position)
+func unpackRecord(_ data: Data, _ position: inout Data.Index) throws -> ResourceRecord {
+    let common = try unpackRecordCommonFields(data, &position)
     switch ResourceRecordType(rawValue: common.type) {
-    case .host?: return HostRecord<IPv4>(unpack: data, position: &position, common: common)
-    case .host6?: return HostRecord<IPv6>(unpack: data, position: &position, common: common)
-    case .service?: return ServiceRecord(unpack: data, position: &position, common: common)
-    case .text?: return TextRecord(unpack: data, position: &position, common: common)
-    case .pointer?: return PointerRecord(unpack: data, position: &position, common: common)
-    default: return Record(unpack: data, position: &position, common: common)
+    case .host?: return try HostRecord<IPv4>(unpack: data, position: &position, common: common)
+    case .host6?: return try HostRecord<IPv6>(unpack: data, position: &position, common: common)
+    case .service?: return try ServiceRecord(unpack: data, position: &position, common: common)
+    case .text?: return try TextRecord(unpack: data, position: &position, common: common)
+    case .pointer?: return try PointerRecord(unpack: data, position: &position, common: common)
+    default: return try Record(unpack: data, position: &position, common: common)
     }
 }
 
@@ -142,23 +167,33 @@ extension Message {
     }
 
     public init(unpack bytes: Data) throws {
+        guard bytes.count >= 12 else {
+            throw DecodeError.invalidMessageSize
+        }
+        
         let flags = UInt16(bytes: bytes[2..<4])
+        guard let operationCode = OperationCode(rawValue: UInt8(flags >> 11 & 0x7)) else {
+            throw DecodeError.invalidOperationCode
+        }
+        guard let returnCode = ReturnCode(rawValue: UInt8(flags & 0x7)) else {
+            throw DecodeError.invalidReturnCode
+        }
 
         header = Header(id: UInt16(bytes: bytes[0..<2]),
                         response: flags >> 15 & 1 == 1,
-                        operationCode: OperationCode(rawValue: UInt8(flags >> 11 & 0x7))!,
+                        operationCode: operationCode,
                         authoritativeAnswer: flags >> 10 & 0x1 == 0x1,
                         truncation: flags >> 9 & 0x1 == 0x1,
                         recursionDesired: flags >> 8 & 0x1 == 0x1,
                         recursionAvailable: flags >> 7 & 0x1 == 0x1,
-                        returnCode: ReturnCode(rawValue: UInt8(flags & 0x7))!)
+                        returnCode: returnCode)
 
         var position = bytes.index(bytes.startIndex, offsetBy: 12)
 
-        questions = (0..<UInt16(bytes: bytes[4..<6])).map { _ in Question(unpack: bytes, position: &position) }
-        answers = (0..<UInt16(bytes: bytes[6..<8])).map { _ in unpackRecord(bytes, &position) }
-        authorities = (0..<UInt16(bytes: bytes[8..<10])).map { _ in unpackRecord(bytes, &position) }
-        additional = (0..<UInt16(bytes: bytes[10..<12])).map { _ in unpackRecord(bytes, &position) }
+        questions = try (0..<UInt16(bytes: bytes[4..<6])).map { _ in try Question(unpack: bytes, position: &position) }
+        answers = try (0..<UInt16(bytes: bytes[6..<8])).map { _ in try unpackRecord(bytes, &position) }
+        authorities = try (0..<UInt16(bytes: bytes[8..<10])).map { _ in try unpackRecord(bytes, &position) }
+        additional = try (0..<UInt16(bytes: bytes[10..<12])).map { _ in try unpackRecord(bytes, &position) }
     }
 
     func tcp() throws -> Data {
@@ -168,9 +203,9 @@ extension Message {
 }
 
 extension Record: ResourceRecord {
-    init(unpack data: Data, position: inout Data.Index, common: RecordCommonFields) {
+    init(unpack data: Data, position: inout Data.Index, common: RecordCommonFields) throws {
         (name, type, unique, internetClass, ttl) = common
-        let size = Int(unpack(data, &position) as UInt16)
+        let size = Int(try unpack(data, &position) as UInt16)
         self.data = Data(data[position..<position+size])
         position += size
     }
@@ -182,9 +217,9 @@ extension Record: ResourceRecord {
 }
 
 extension HostRecord: ResourceRecord {
-    init(unpack data: Data, position: inout Data.Index, common: RecordCommonFields) {
+    init(unpack data: Data, position: inout Data.Index, common: RecordCommonFields) throws {
         (name, _, unique, internetClass, ttl) = common
-        let size = Int(unpack(data, &position) as UInt16)
+        let size = Int(try unpack(data, &position) as UInt16)
         ip = IPType(networkBytes: Data(data[position..<position+size]))!
         position += size
     }
@@ -208,14 +243,14 @@ extension HostRecord: ResourceRecord {
 }
 
 extension ServiceRecord: ResourceRecord {
-    init(unpack data: Data, position: inout Data.Index, common: RecordCommonFields) {
+    init(unpack data: Data, position: inout Data.Index, common: RecordCommonFields) throws {
         (name, _, unique, internetClass, ttl) = common
-        let length = unpack(data, &position) as UInt16
+        let length = try unpack(data, &position) as UInt16
         let expectedPosition = position + Data.Index(length)
-        priority = unpack(data, &position)
-        weight = unpack(data, &position)
-        port = unpack(data, &position)
-        server = unpackName(data, &position)
+        priority = try unpack(data, &position)
+        weight = try unpack(data, &position)
+        port = try unpack(data, &position)
+        server = try unpackName(data, &position)
         precondition(position == expectedPosition, "Unexpected length")
     }
 
@@ -235,14 +270,14 @@ extension ServiceRecord: ResourceRecord {
 }
 
 extension TextRecord: ResourceRecord {
-    init(unpack data: Data, position: inout Data.Index, common: RecordCommonFields) {
+    init(unpack data: Data, position: inout Data.Index, common: RecordCommonFields) throws {
         (name, _, unique, internetClass, ttl) = common
-        let endIndex = Int(unpack(data, &position) as UInt16) + position
+        let endIndex = Int(try UInt16(data: data, position: &position)) + position
 
         var attrs = [String: String]()
         var other = [String]()
         while position < endIndex {
-            let size = Int(unpack(data, &position) as UInt8)
+            let size = Int(try UInt8(data: data, position: &position))
             guard size > 0 else { break }
             var attr = String(bytes: data[position..<position+size], encoding: .utf8)!.characters.split(separator: "=", maxSplits: 1, omittingEmptySubsequences: false).map { String($0) }
             if attr.count == 2 {
@@ -268,10 +303,10 @@ extension TextRecord: ResourceRecord {
 }
 
 extension PointerRecord: ResourceRecord {
-    init(unpack data: Data, position: inout Data.Index, common: RecordCommonFields) {
+    init(unpack data: Data, position: inout Data.Index, common: RecordCommonFields) throws {
         (name, _, unique, internetClass, ttl) = common
         position += 2
-        destination = unpackName(data, &position)
+        destination = try unpackName(data, &position)
     }
 
     public func pack(onto buffer: inout Data, labels: inout Labels) throws {

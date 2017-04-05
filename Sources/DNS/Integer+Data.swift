@@ -13,6 +13,19 @@ extension Integer {
     init<S: Sequence>(bytes: S) where S.Iterator.Element == UInt8 {
         self.init(bytes: Array(bytes))
     }
+    
+    init(data: Data, position: inout Data.Index) throws {
+        let start = position
+        guard data.formIndex(&position, offsetBy: MemoryLayout<Self>.size, limitedBy: data.endIndex) else {
+            throw DecodeError.invalidIntegerSize
+        }
+        let bytes = Array(data[start..<position].reversed())
+        self = bytes.withUnsafeBufferPointer() {
+            $0.baseAddress!.withMemoryRebound(to: Self.self, capacity: 1) {
+                return $0.pointee
+            }
+        }
+    }
 }
 
 extension UnsignedInteger {
