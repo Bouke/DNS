@@ -112,7 +112,7 @@ extension Message {
 
         // questions
         for question in questions {
-            try! packName(question.name, onto: &bytes, labels: &labels)
+            try packName(question.name, onto: &bytes, labels: &labels)
             bytes += question.type.rawValue.bytes
             bytes += question.internetClass.bytes
         }
@@ -130,7 +130,7 @@ extension Message {
         return bytes
     }
 
-    public init(unpackTCP bytes: Data) {
+    public init(unpackTCP bytes: Data) throws {
         precondition(bytes.count >= 2)
         let size = Int(UInt16(bytes: bytes[0..<2]))
 
@@ -138,10 +138,10 @@ extension Message {
         var bytes = Data(bytes[2..<2+size]) // copy? :(
         precondition(bytes.count == Int(size))
 
-        self.init(unpack: bytes)
+        try self.init(unpack: bytes)
     }
 
-    public init(unpack bytes: Data) {
+    public init(unpack bytes: Data) throws {
         let flags = UInt16(bytes: bytes[2..<4])
 
         header = Header(id: UInt16(bytes: bytes[0..<2]),
