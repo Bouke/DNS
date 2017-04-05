@@ -5,4 +5,5 @@ import XCTest
 XCTMain([
        testCase(DNSTests.allTests),
        testCase(IPTests.allTests),
+       testCase(FuzzTests.allTests),
 ])
