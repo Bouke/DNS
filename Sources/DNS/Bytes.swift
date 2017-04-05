@@ -23,15 +23,16 @@ func unpackName(_ data: Data, _ position: inout Data.Index) throws -> String {
     while true {
         let step = data[position]
         if step & 0xc0 == 0xc0 {
-            guard position + 2 <= data.endIndex else {
-                throw DecodeError.invalidLabelOffset
-            }
-            let offset = Int(UInt16(bytes: data[position..<position+2]) ^ 0xc000)
+            let offset = Int(try UInt16(data: data, position: &position) ^ 0xc000)
             guard var pointer = data.index(data.startIndex, offsetBy: offset, limitedBy: data.endIndex) else {
                 throw DecodeError.invalidLabelOffset
             }
+            // Prevent cyclic references. I think it's safe to assume that label
+            // pointers only point to a prior label.
+            guard pointer < (position - 2) else {
+                throw DecodeError.invalidLabelOffset
+            }
             components += try unpackName(data, &pointer).components(separatedBy: ".").filter({ $0 != "" })
-            position += 2
             break
         }
 
