@@ -48,7 +48,7 @@ func unpackName(_ data: Data, _ position: inout Data.Index) throws -> String {
                     throw DecodeError.unicodeEncodingNotSupported
                 }
             }
-            guard let component = String(bytes: data[start..<end], encoding: .utf8) else {
+            guard let component = String(bytes: Data(data[start..<end]), encoding: .utf8) else {
                 throw DecodeError.unicodeDecodingError
             }
             components.append(component)
@@ -299,7 +299,7 @@ extension TextRecord: ResourceRecord {
             guard data.formIndex(&position, offsetBy: size, limitedBy: data.endIndex) else {
                 throw DecodeError.invalidLabelSize
             }
-            guard let label = String(bytes: data[labelStart..<position], encoding: .utf8) else {
+            guard let label = String(bytes: Data(data[labelStart..<position]), encoding: .utf8) else {
                 throw DecodeError.unicodeDecodingError
             }
             let attr = label.characters.split(separator: "=", maxSplits: 1, omittingEmptySubsequences: false).map { String($0) }
