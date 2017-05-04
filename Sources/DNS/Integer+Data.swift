@@ -19,7 +19,7 @@ extension Integer {
         guard data.formIndex(&position, offsetBy: MemoryLayout<Self>.size, limitedBy: data.endIndex) else {
             throw DecodeError.invalidIntegerSize
         }
-        let bytes = Array(data[start..<position].reversed())
+        let bytes = Array(Data(data[start..<position]).reversed())
         self = bytes.withUnsafeBufferPointer() {
             $0.baseAddress!.withMemoryRebound(to: Self.self, capacity: 1) {
                 return $0.pointee
