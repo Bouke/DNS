@@ -87,20 +87,14 @@ func packName(_ name: String, onto buffer: inout Data, labels: inout Labels) thr
     }
 }
 
-func unpack<T: Integer>(_ data: Data, _ position: inout Data.Index) throws -> T {
-    let size = MemoryLayout<T>.size
-    defer { position += size }
-    return T(bytes: data[position..<position+size])
-}
-
 typealias RecordCommonFields = (name: String, type: UInt16, unique: Bool, internetClass: UInt16, ttl: UInt32)
 
 func unpackRecordCommonFields(_ data: Data, _ position: inout Data.Index) throws -> RecordCommonFields {
-    return try (unpackName(data, &position),
-                unpack(data, &position),
-                data[position] & 0x80 == 0x80,
-                unpack(data, &position),
-                unpack(data, &position))
+    let name = try unpackName(data, &position)
+    let type = try UInt16(data: data, position: &position)
+    let internetClass = try UInt16(data: data, position: &position)
+    let ttl = try UInt32(data: data, position: &position)
+    return (name, type, type & 0x80 == 0x80, internetClass, ttl)
 }
 
 func packRecordCommonFields(_ common: RecordCommonFields, onto buffer: inout Data, labels: inout Labels) throws {
@@ -161,7 +155,8 @@ extension Message {
 
     public init(unpackTCP bytes: Data) throws {
         precondition(bytes.count >= 2)
-        let size = Int(UInt16(bytes: bytes[0..<2]))
+        var position = bytes.startIndex
+        let size = try Int(UInt16(data: bytes, position: &position))
 
         // strip size bytes (tcp only?)
         var bytes = Data(bytes[2..<2+size]) // copy? :(
@@ -174,8 +169,9 @@ extension Message {
         guard bytes.count >= 12 else {
             throw DecodeError.invalidMessageSize
         }
-        
-        let flags = UInt16(bytes: bytes[2..<4])
+        var position = bytes.startIndex
+        let id = try UInt16(data: bytes, position: &position)
+        let flags = try UInt16(data: bytes, position: &position)
         guard let operationCode = OperationCode(rawValue: UInt8(flags >> 11 & 0x7)) else {
             throw DecodeError.invalidOperationCode
         }
@@ -183,7 +179,7 @@ extension Message {
             throw DecodeError.invalidReturnCode
         }
 
-        header = Header(id: UInt16(bytes: bytes[0..<2]),
+        header = Header(id: id,
                         response: flags >> 15 & 1 == 1,
                         operationCode: operationCode,
                         authoritativeAnswer: flags >> 10 & 0x1 == 0x1,
@@ -191,13 +187,16 @@ extension Message {
                         recursionDesired: flags >> 8 & 0x1 == 0x1,
                         recursionAvailable: flags >> 7 & 0x1 == 0x1,
                         returnCode: returnCode)
-
-        var position = bytes.index(bytes.startIndex, offsetBy: 12)
-
-        questions = try (0..<UInt16(bytes: bytes[4..<6])).map { _ in try Question(unpack: bytes, position: &position) }
-        answers = try (0..<UInt16(bytes: bytes[6..<8])).map { _ in try unpackRecord(bytes, &position) }
-        authorities = try (0..<UInt16(bytes: bytes[8..<10])).map { _ in try unpackRecord(bytes, &position) }
-        additional = try (0..<UInt16(bytes: bytes[10..<12])).map { _ in try unpackRecord(bytes, &position) }
+        
+        let numQuestions = try UInt16(data: bytes, position: &position)
+        let numAnswers = try UInt16(data: bytes, position: &position)
+        let numAuthorities = try UInt16(data: bytes, position: &position)
+        let numAdditional = try UInt16(data: bytes, position: &position)
+        
+        questions = try (0..<numQuestions).map { _ in try Question(unpack: bytes, position: &position) }
+        answers = try (0..<numAnswers).map { _ in try unpackRecord(bytes, &position) }
+        authorities = try (0..<numAuthorities).map { _ in try unpackRecord(bytes, &position) }
+        additional = try (0..<numAdditional).map { _ in try unpackRecord(bytes, &position) }
     }
 
     func tcp() throws -> Data {
@@ -260,9 +259,9 @@ extension ServiceRecord: ResourceRecord {
         (name, _, unique, internetClass, ttl) = common
         let length = try UInt16(data: data, position: &position)
         let expectedPosition = position + Data.Index(length)
-        priority = try unpack(data, &position)
-        weight = try unpack(data, &position)
-        port = try unpack(data, &position)
+        priority = try UInt16(data: data, position: &position)
+        weight = try UInt16(data: data, position: &position)
+        port = try UInt16(data: data, position: &position)
         server = try unpackName(data, &position)
         guard position == expectedPosition else {
             throw DecodeError.invalidDataSize
