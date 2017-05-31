@@ -228,8 +228,8 @@ public struct TextRecord {
     public var unique: Bool
     public var internetClass: UInt16
     public var ttl: UInt32
-    var attributes: [String: String]
-    var values: [String]
+    public var attributes: [String: String]
+    public var values: [String]
 
     public init(name: String, unique: Bool = false, internetClass: UInt16 = 1, ttl: UInt32, attributes: [String: String]) {
         self.name = name
