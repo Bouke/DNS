@@ -248,3 +248,12 @@ extension PointerRecord: Hashable {
         return lhs.name == rhs.name && lhs.destination == rhs.destination
     }
 }
+
+
+public struct AliasRecord {
+    public var name: String
+    public var unique: Bool
+    public var internetClass: UInt16
+    public var ttl: UInt32
+    public var canonicalName: String
+}

@@ -113,6 +113,7 @@ func unpackRecord(_ data: Data, _ position: inout Data.Index) throws -> Resource
     case .service?: return try ServiceRecord(unpack: data, position: &position, common: common)
     case .text?: return try TextRecord(unpack: data, position: &position, common: common)
     case .pointer?: return try PointerRecord(unpack: data, position: &position, common: common)
+    case .alias?: return try AliasRecord(unpack: data, position: &position, common: common)
     default: return try Record(unpack: data, position: &position, common: common)
     }
 }
@@ -336,6 +337,25 @@ extension PointerRecord: ResourceRecord {
         buffer += [0, 0]
         let startPosition = buffer.endIndex
         try packName(destination, onto: &buffer, labels: &labels)
+        
+        // Set the length before the data field
+        let length = UInt16(buffer.endIndex - startPosition)
+        buffer.replaceSubrange((startPosition - 2)..<startPosition, with: length.bytes)
+    }
+}
+
+extension AliasRecord: ResourceRecord {
+    init(unpack data: Data, position: inout Data.Index, common: RecordCommonFields) throws {
+        (name, _, unique, internetClass, ttl) = common
+        position += 2
+        canonicalName = try unpackName(data, &position)
+    }
+    
+    public func pack(onto buffer: inout Data, labels: inout Labels) throws {
+        try packRecordCommonFields((name, ResourceRecordType.alias.rawValue, unique, internetClass, ttl), onto: &buffer, labels: &labels)
+        buffer += [0, 0]
+        let startPosition = buffer.endIndex
+        try packName(canonicalName, onto: &buffer, labels: &labels)
         
         // Set the length before the data field
         let length = UInt16(buffer.endIndex - startPosition)
