@@ -111,6 +111,25 @@ public enum ResourceRecordType: UInt16 {
     case all = 0x00ff // All cached records
 }
 
+extension ResourceRecordType: CustomDebugStringConvertible {
+    public var debugDescription: String {
+        switch self {
+        case .host: return "A"
+        case .nameServer: return "NS"
+        case .alias: return "CNAME"
+        case .startOfAuthority: return "SOA"
+        case .pointer: return "PTR"
+        case .mailExchange: return "MX"
+        case .text: return "TXT"
+        case .host6: return "AAAA"
+        case .service: return "SRV"
+        case .incrementalZoneTransfer: return "IXFR"
+        case .standardZoneTransfer: return "AXFR"
+        case .all: return "*"
+        }
+    }
+}
+
 
 public protocol ResourceRecord {
     var name: String { get }
