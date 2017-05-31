@@ -51,7 +51,9 @@ extension Header: CustomDebugStringConvertible {
 
 
 public enum OperationCode: UInt8 {
-    case query = 0
+    case query = 0 // QUERY
+    case inverseQuery = 1 // IQUERY
+    case statusRequest = 2 // STATUS
 }
 
 public enum ReturnCode: UInt8 {
