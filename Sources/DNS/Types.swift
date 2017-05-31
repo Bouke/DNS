@@ -101,7 +101,6 @@ public enum ResourceRecordType: UInt16 {
     case nameServer = 0x0002
     case alias = 0x0005
     case startOfAuthority = 0x0006
-    case wellKnownSource = 0x000b
     case pointer = 0x000c
     case mailExchange = 0x000f
     case text = 0x0010
@@ -109,7 +108,7 @@ public enum ResourceRecordType: UInt16 {
     case service = 0x0021
     case incrementalZoneTransfer = 0x00fb
     case standardZoneTransfer = 0x00fc
-    case all = 0x00ff
+    case all = 0x00ff // All cached records
 }
 
 
