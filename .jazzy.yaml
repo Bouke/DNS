@@ -9,3 +9,31 @@ theme: fullwidth
 clean: true
 github_url: https://github.com/Bouke/DNS
 dash_url: http://boukehaarsma.nl/DNS/DNS.xml
+custom_categories:
+  - name: Querying
+    children:
+      - Message
+      - MessageType
+      - OperationCode
+      - Question
+      - ReturnCode
+  - name: Resource Record
+    children:
+      - ResourceRecord
+      - ResourceRecordType
+  - name: Resource Record Types
+    children:
+      - AliasRecord
+      - HostRecord
+      - PointerRecord
+      - Record
+      - ServiceRecord
+      - TextRecord
+  - name: Resource Data Types
+    children:
+      - createIP(networkBytes:)
+      - InternetClass
+      - IP
+      - IPv4
+      - IPv6
+
