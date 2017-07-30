@@ -35,7 +35,7 @@ class FuzzTests: XCTestCase {
         let service = "_airplay._tcp._local."
         let name = "example.\(service)"
         let server = "example.local."
-        let message = Message(header: Header(response: true),
+        let message = Message(type: .response,
                               questions: [Question(name: service, type: .pointer)],
                               answers: [PointerRecord(name: service, ttl: 120, destination: name),
                                         ServiceRecord(name: name, ttl: 120, port: 7000, server: server)],

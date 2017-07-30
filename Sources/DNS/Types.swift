@@ -1,26 +1,13 @@
 import Foundation
 
-
-public struct Message {
-    public var header: Header
-    public var questions: [Question]
-    public var answers: [ResourceRecord]
-    public var authorities: [ResourceRecord]
-    public var additional: [ResourceRecord]
-
-    public init(header: Header, questions: [Question] = [], answers: [ResourceRecord] = [], authorities: [ResourceRecord] = [], additional: [ResourceRecord] = []) {
-        self.header = header
-        self.questions = questions
-        self.answers = answers
-        self.authorities = authorities
-        self.additional = additional
-    }
+public enum MessageType {
+    case query
+    case response
 }
 
-
-public struct Header {
+public struct Message {
     public var id: UInt16
-    public var response: Bool
+    public var type: MessageType
     public var operationCode: OperationCode
     public var authoritativeAnswer: Bool
     public var truncation: Bool
@@ -28,23 +15,46 @@ public struct Header {
     public var recursionAvailable: Bool
     public var returnCode: ReturnCode
 
-    public init(id: UInt16 = 0, response: Bool, operationCode: OperationCode = .query, authoritativeAnswer: Bool = true, truncation: Bool = false, recursionDesired: Bool = false, recursionAvailable: Bool = false, returnCode: ReturnCode = .NOERROR) {
+    public var questions: [Question]
+    public var answers: [ResourceRecord]
+    public var authorities: [ResourceRecord]
+    public var additional: [ResourceRecord]
+
+    public init(
+        id: UInt16 = 0,
+        type: MessageType,
+        operationCode: OperationCode = .query,
+        authoritativeAnswer: Bool = true,
+        truncation: Bool = false,
+        recursionDesired: Bool = false,
+        recursionAvailable: Bool = false,
+        returnCode: ReturnCode = .NOERROR,
+        questions: [Question] = [],
+        answers: [ResourceRecord] = [],
+        authorities: [ResourceRecord] = [],
+        additional: [ResourceRecord] = []
+    ) {
         self.id = id
-        self.response = response
+        self.type = type
         self.operationCode = operationCode
         self.authoritativeAnswer = authoritativeAnswer
         self.truncation = truncation
         self.recursionDesired = recursionDesired
         self.recursionAvailable = recursionAvailable
         self.returnCode = returnCode
+
+        self.questions = questions
+        self.answers = answers
+        self.authorities = authorities
+        self.additional = additional
     }
 }
 
-extension Header: CustomDebugStringConvertible {
+extension Message: CustomDebugStringConvertible {
     public var debugDescription: String {
-        switch response {
-        case false: return "DNS Request Header(id: \(id), authoritativeAnswer: \(authoritativeAnswer), truncation: \(truncation), recursionDesired: \(recursionDesired), recursionAvailable: \(recursionAvailable))"
-        case true: return "DNS Response Header(id: \(id), returnCode: \(returnCode), authoritativeAnswer: \(authoritativeAnswer), truncation: \(truncation), recursionDesired: \(recursionDesired), recursionAvailable: \(recursionAvailable))"
+        switch type {
+        case .query: return "DNS Request(id: \(id), authoritativeAnswer: \(authoritativeAnswer), truncation: \(truncation), recursionDesired: \(recursionDesired), recursionAvailable: \(recursionAvailable))"
+        case .response: return "DNS Response(id: \(id), returnCode: \(returnCode), authoritativeAnswer: \(authoritativeAnswer), truncation: \(truncation), recursionDesired: \(recursionDesired), recursionAvailable: \(recursionAvailable))"
         }
     }
 }

@@ -38,7 +38,7 @@ class DNSTests: XCTestCase {
     }
     
     func testMessage1() {
-        let message0 = Message(header: Header(id: 4529, response: true, operationCode: .query, authoritativeAnswer: false, truncation: false, recursionDesired: false, recursionAvailable: false, returnCode: .NXDOMAIN))
+        let message0 = Message(id: 4529, type: .response, operationCode: .query, authoritativeAnswer: false, truncation: false, recursionDesired: false, recursionAvailable: false, returnCode: .NXDOMAIN)
         let packed0 = try! message0.pack()
         XCTAssertEqual(packed0.hex, "11b180030000000000000000")
         let message1 = try! Message(unpack: packed0)
@@ -47,7 +47,7 @@ class DNSTests: XCTestCase {
     }
 
     func testMessage2() {
-        let message0 = Message(header: Header(id: 18765, response: true, operationCode: .query, authoritativeAnswer: true, truncation: true, recursionDesired: true, recursionAvailable: true, returnCode: .NOERROR))
+        let message0 = Message(id: 18765, type: .response, operationCode: .query, authoritativeAnswer: true, truncation: true, recursionDesired: true, recursionAvailable: true, returnCode: .NOERROR)
         let packed0 = try! message0.pack()
         XCTAssertEqual(packed0.hex, "494d87800000000000000000")
         let message1 = try! Message(unpack: packed0)
@@ -56,7 +56,7 @@ class DNSTests: XCTestCase {
     }
 
     func testMessage3() {
-        let message0 = Message(header: Header(response: false),
+        let message0 = Message(type: .query,
                                questions: [Question(name: "_airplay._tcp._local", type: .pointer)])
         let packed0 = try! message0.pack()
         let message1 = try! Message(unpack: packed0)
@@ -67,7 +67,7 @@ class DNSTests: XCTestCase {
     func testMessage4() {
         let service = "_airplay._tcp._local."
         let name = "example.\(service)"
-        let message0 = Message(header: Header(response: true),
+        let message0 = Message(type: .response,
                                questions: [Question(name: service, type: .pointer)],
                                answers: [PointerRecord(name: service, ttl: 120, destination: name)])
         let packed0 = try! message0.pack()
@@ -80,7 +80,7 @@ class DNSTests: XCTestCase {
         let service = "_airplay._tcp._local."
         let name = "example.\(service)"
         let server = "example.local."
-        let message0 = Message(header: Header(response: true),
+        let message0 = Message(type: .response,
                                questions: [Question(name: service, type: .pointer)],
                                answers: [PointerRecord(name: service, ttl: 120, destination: name),
                                          ServiceRecord(name: name, ttl: 120, port: 7000, server: server)],
@@ -107,9 +107,9 @@ class DNSTests: XCTestCase {
             return XCTFail("Should not have unpacked message")
         }
     }
-    
+
     func testPackNameCondensed() {
-        var message = Message(header: Header(response: true),
+        var message = Message(type: .response,
                               questions: [Question(name: "abc.def.ghi.jk.local.", type: .pointer)])
         let size0 = try! message.pack().count
         XCTAssertEqual(size0, 38)

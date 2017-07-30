@@ -123,11 +123,17 @@ extension Message {
     public func pack() throws -> Data {
         var bytes = Data()
         var labels = Labels()
-
-        let flags: UInt16 = (header.response ? 1 : 0) << 15 | UInt16(header.operationCode.rawValue) << 11 | (header.authoritativeAnswer ? 1 : 0) << 10 | (header.truncation ? 1 : 0) << 9 | (header.recursionDesired ? 1 : 0) << 8 | (header.recursionAvailable ? 1 : 0) << 7 | UInt16(header.returnCode.rawValue)
+        let qr: UInt16 = type == .response ? 1 : 0
+        let flags: UInt16 = qr << 15
+            | UInt16(operationCode.rawValue) << 11
+            | (authoritativeAnswer ? 1 : 0) << 10
+            | (truncation ? 1 : 0) << 9
+            | (recursionDesired ? 1 : 0) << 8
+            | (recursionAvailable ? 1 : 0) << 7
+            | UInt16(returnCode.rawValue)
 
         // header
-        bytes += header.id.bytes
+        bytes += id.bytes
         bytes += flags.bytes
         bytes += UInt16(questions.count).bytes
         bytes += UInt16(answers.count).bytes
@@ -171,7 +177,7 @@ extension Message {
             throw DecodeError.invalidMessageSize
         }
         var position = bytes.startIndex
-        let id = try UInt16(data: bytes, position: &position)
+        id = try UInt16(data: bytes, position: &position)
         let flags = try UInt16(data: bytes, position: &position)
         guard let operationCode = OperationCode(rawValue: UInt8(flags >> 11 & 0x7)) else {
             throw DecodeError.invalidOperationCode
@@ -180,14 +186,13 @@ extension Message {
             throw DecodeError.invalidReturnCode
         }
 
-        header = Header(id: id,
-                        response: flags >> 15 & 1 == 1,
-                        operationCode: operationCode,
-                        authoritativeAnswer: flags >> 10 & 0x1 == 0x1,
-                        truncation: flags >> 9 & 0x1 == 0x1,
-                        recursionDesired: flags >> 8 & 0x1 == 0x1,
-                        recursionAvailable: flags >> 7 & 0x1 == 0x1,
-                        returnCode: returnCode)
+        type = flags >> 15 & 1 == 1 ? .response : .query
+        self.operationCode = operationCode
+        authoritativeAnswer = flags >> 10 & 0x1 == 0x1
+        truncation = flags >> 9 & 0x1 == 0x1
+        recursionDesired = flags >> 8 & 0x1 == 0x1
+        recursionAvailable = flags >> 7 & 0x1 == 0x1
+        self.returnCode = returnCode
         
         let numQuestions = try UInt16(data: bytes, position: &position)
         let numAnswers = try UInt16(data: bytes, position: &position)
