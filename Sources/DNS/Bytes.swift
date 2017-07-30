@@ -19,6 +19,9 @@ enum DecodeError: Swift.Error {
 }
 
 func unpackName(_ data: Data, _ position: inout Data.Index) throws -> String {
+    guard position < data.endIndex else {
+        throw DecodeError.invalidLabelOffset
+    }
     var components = [String]()
     let startPosition = position
     while true {
