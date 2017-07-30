@@ -10,9 +10,11 @@ NetService.
 
 ```swift
 // Encoding a message
-let request = Message(header: Header(response: false),
-questions: [Question(name: "apple.com.", type: .pointer)])
-let reqeustData = request.pack()
+let request = Message(
+    type: .query,
+    questions: [Question(name: "apple.com.", type: .pointer)]
+)
+let requestData = try request.pack()
 
 // Not shown here: send to DNS server over UDP, receive reply.
 
