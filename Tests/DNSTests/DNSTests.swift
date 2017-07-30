@@ -38,7 +38,7 @@ class DNSTests: XCTestCase {
     }
     
     func testMessage1() {
-        let message0 = Message(id: 4529, type: .response, operationCode: .query, authoritativeAnswer: false, truncation: false, recursionDesired: false, recursionAvailable: false, returnCode: .NXDOMAIN)
+        let message0 = Message(id: 4529, type: .response, operationCode: .query, authoritativeAnswer: false, truncation: false, recursionDesired: false, recursionAvailable: false, returnCode: .nonExistentDomain)
         let packed0 = try! message0.pack()
         XCTAssertEqual(packed0.hex, "11b180030000000000000000")
         let message1 = try! Message(unpack: packed0)
@@ -47,7 +47,7 @@ class DNSTests: XCTestCase {
     }
 
     func testMessage2() {
-        let message0 = Message(id: 18765, type: .response, operationCode: .query, authoritativeAnswer: true, truncation: true, recursionDesired: true, recursionAvailable: true, returnCode: .NOERROR)
+        let message0 = Message(id: 18765, type: .response, operationCode: .query, authoritativeAnswer: true, truncation: true, recursionDesired: true, recursionAvailable: true, returnCode: .noError)
         let packed0 = try! message0.pack()
         XCTAssertEqual(packed0.hex, "494d87800000000000000000")
         let message1 = try! Message(unpack: packed0)

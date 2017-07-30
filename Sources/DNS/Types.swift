@@ -28,7 +28,7 @@ public struct Message {
         truncation: Bool = false,
         recursionDesired: Bool = false,
         recursionAvailable: Bool = false,
-        returnCode: ReturnCode = .NOERROR,
+        returnCode: ReturnCode = .noError,
         questions: [Question] = [],
         answers: [ResourceRecord] = [],
         authorities: [ResourceRecord] = [],
@@ -66,18 +66,18 @@ public enum OperationCode: UInt8 {
     case statusRequest = 2 // STATUS
 }
 
-public enum ReturnCode: UInt8 {
-    case NOERROR = 0
-    case FORMERR = 1
-    case SERVFAIL = 0x2
-    case NXDOMAIN = 0x3
-    case NOTIMP = 0x4
-    case REFUSED = 0x5
-    case YXDOMAIN = 0x6
-    case YXRRSET = 0x7
-    case NXRRSET = 0x8
-    case NOTAUTH = 0x9
-    case NOTZONE = 0xA
+public enum ReturnCode: UInt8 { // 4 bits: 0-15
+    case noError = 0 // NOERROR
+    case formatError = 1 // FORMERR
+    case serverFailure = 2 // SERVFAIL
+    case nonExistentDomain = 3 // NXDOMAIN
+    case notImplemented = 4 // NOTIMPL
+    case queryRefused = 5 // REFUSED
+    case nameExistsWhenItShouldNot = 6 // YXDOMAIN
+    case rrSetExistsWhenItShouldNot = 7 // YXRRSET
+    case rrSetThatShouldExistDoestNot = 8 // NXRRSET
+    case serverNotAuthoritativeForZone = 9 // NOTAUTH
+    case nameNotContainedInZone = 10 // NOTZONE
 }
 
 
