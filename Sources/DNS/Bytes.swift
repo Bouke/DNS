@@ -15,7 +15,7 @@ enum DecodeError: Swift.Error {
     case invalidDataSize
 }
 
-func unpackName(_ data: Data, _ position: inout Data.Index) throws -> String {
+func deserializeName(_ data: Data, _ position: inout Data.Index) throws -> String {
     guard position < data.endIndex else {
         throw DecodeError.invalidLabelOffset
     }
@@ -34,7 +34,7 @@ func unpackName(_ data: Data, _ position: inout Data.Index) throws -> String {
             guard pointer < startPosition else {
                 throw DecodeError.invalidLabelOffset
             }
-            components += try unpackName(data, &pointer).components(separatedBy: ".").filter({ $0 != "" })
+            components += try deserializeName(data, &pointer).components(separatedBy: ".").filter({ $0 != "" })
             break
         }
 
@@ -64,7 +64,7 @@ func unpackName(_ data: Data, _ position: inout Data.Index) throws -> String {
 
 
 public typealias Labels = [String: Data.Index]
-func packName(_ name: String, onto buffer: inout Data, labels: inout Labels) throws {
+func serializeName(_ name: String, onto buffer: inout Data, labels: inout Labels) throws {
     if name.utf8.reduce(false, { $0 || $1 & 128 == 128 }) {
         throw EncodeError.unicodeEncodingNotSupported
     }
@@ -82,7 +82,7 @@ func packName(_ name: String, onto buffer: inout Data, labels: inout Labels) thr
     buffer += codes
 
     if components.count > 0 {
-        try packName(components.joined(separator: "."), onto: &buffer, labels: &labels)
+        try serializeName(components.joined(separator: "."), onto: &buffer, labels: &labels)
     } else {
         buffer.append(0)
     }
@@ -90,8 +90,8 @@ func packName(_ name: String, onto buffer: inout Data, labels: inout Labels) thr
 
 typealias RecordCommonFields = (name: String, type: UInt16, unique: Bool, internetClass: InternetClass, ttl: UInt32)
 
-func unpackRecordCommonFields(_ data: Data, _ position: inout Data.Index) throws -> RecordCommonFields {
-    let name = try unpackName(data, &position)
+func deserializeRecordCommonFields(_ data: Data, _ position: inout Data.Index) throws -> RecordCommonFields {
+    let name = try deserializeName(data, &position)
     let type = try UInt16(data: data, position: &position)
     let rrClass = try UInt16(data: data, position: &position)
     let internetClass = InternetClass(rrClass & 0x7fff)
@@ -99,30 +99,35 @@ func unpackRecordCommonFields(_ data: Data, _ position: inout Data.Index) throws
     return (name, type, rrClass & 0x8000 == 0x8000, internetClass, ttl)
 }
 
-func packRecordCommonFields(_ common: RecordCommonFields, onto buffer: inout Data, labels: inout Labels) throws {
-    try packName(common.name, onto: &buffer, labels: &labels)
+func serializeRecordCommonFields(_ common: RecordCommonFields, onto buffer: inout Data, labels: inout Labels) throws {
+    try serializeName(common.name, onto: &buffer, labels: &labels)
     buffer.append(common.type.bytes)
     buffer.append((common.internetClass | (common.unique ? 0x8000 : 0)).bytes)
     buffer.append(common.ttl.bytes)
 }
 
 
-func unpackRecord(_ data: Data, _ position: inout Data.Index) throws -> ResourceRecord {
-    let common = try unpackRecordCommonFields(data, &position)
+func deserializeRecord(_ data: Data, _ position: inout Data.Index) throws -> ResourceRecord {
+    let common = try deserializeRecordCommonFields(data, &position)
     switch ResourceRecordType(common.type) {
-    case .host: return try HostRecord<IPv4>(unpack: data, position: &position, common: common)
-    case .host6: return try HostRecord<IPv6>(unpack: data, position: &position, common: common)
-    case .service: return try ServiceRecord(unpack: data, position: &position, common: common)
-    case .text: return try TextRecord(unpack: data, position: &position, common: common)
-    case .pointer: return try PointerRecord(unpack: data, position: &position, common: common)
-    case .alias: return try AliasRecord(unpack: data, position: &position, common: common)
-    default: return try Record(unpack: data, position: &position, common: common)
+    case .host: return try HostRecord<IPv4>(deserialize: data, position: &position, common: common)
+    case .host6: return try HostRecord<IPv6>(deserialize: data, position: &position, common: common)
+    case .service: return try ServiceRecord(deserialize: data, position: &position, common: common)
+    case .text: return try TextRecord(deserialize: data, position: &position, common: common)
+    case .pointer: return try PointerRecord(deserialize: data, position: &position, common: common)
+    case .alias: return try AliasRecord(deserialize: data, position: &position, common: common)
+    default: return try Record(deserialize: data, position: &position, common: common)
     }
 }
 
 
 extension Message {
-    public func pack() throws -> Data {
+    public func serializeTCP() throws -> Data {
+        let data = try serialize()
+        precondition(data.count <= UInt16.max)
+        return UInt16(truncatingIfNeeded: data.count).bytes + data
+    }
+    public func serialize() throws -> Data {
         var bytes = Data()
         var labels = Labels()
         let qr: UInt16 = type == .response ? 1 : 0
@@ -144,25 +149,25 @@ extension Message {
 
         // questions
         for question in questions {
-            try packName(question.name, onto: &bytes, labels: &labels)
+            try serializeName(question.name, onto: &bytes, labels: &labels)
             bytes += question.type.bytes
             bytes += question.internetClass.bytes
         }
 
         for answer in answers {
-            try answer.pack(onto: &bytes, labels: &labels)
+            try answer.serialize(onto: &bytes, labels: &labels)
         }
         for authority in authorities {
-            try authority.pack(onto: &bytes, labels: &labels)
+            try authority.serialize(onto: &bytes, labels: &labels)
         }
         for additional in additional {
-            try additional.pack(onto: &bytes, labels: &labels)
+            try additional.serialize(onto: &bytes, labels: &labels)
         }
 
         return bytes
     }
 
-    public init(unpackTCP bytes: Data) throws {
+    public init(deserializeTCP bytes: Data) throws {
         precondition(bytes.count >= 2)
         var position = bytes.startIndex
         let size = try Int(UInt16(data: bytes, position: &position))
@@ -171,10 +176,10 @@ extension Message {
         var bytes = Data(bytes[2..<2+size]) // copy? :(
         precondition(bytes.count == Int(size))
 
-        try self.init(unpack: bytes)
+        try self.init(deserialize: bytes)
     }
 
-    public init(unpack bytes: Data) throws {
+    public init(deserialize bytes: Data) throws {
         guard bytes.count >= 12 else {
             throw DecodeError.invalidMessageSize
         }
@@ -195,20 +200,15 @@ extension Message {
         let numAuthorities = try UInt16(data: bytes, position: &position)
         let numAdditional = try UInt16(data: bytes, position: &position)
         
-        questions = try (0..<numQuestions).map { _ in try Question(unpack: bytes, position: &position) }
-        answers = try (0..<numAnswers).map { _ in try unpackRecord(bytes, &position) }
-        authorities = try (0..<numAuthorities).map { _ in try unpackRecord(bytes, &position) }
-        additional = try (0..<numAdditional).map { _ in try unpackRecord(bytes, &position) }
-    }
-
-    func tcp() throws -> Data {
-        let payload = try self.pack()
-        return UInt16(payload.count).bytes + payload
+        questions = try (0..<numQuestions).map { _ in try Question(deserialize: bytes, position: &position) }
+        answers = try (0..<numAnswers).map { _ in try deserializeRecord(bytes, &position) }
+        authorities = try (0..<numAuthorities).map { _ in try deserializeRecord(bytes, &position) }
+        additional = try (0..<numAdditional).map { _ in try deserializeRecord(bytes, &position) }
     }
 }
 
 extension Record: ResourceRecord {
-    init(unpack data: Data, position: inout Data.Index, common: RecordCommonFields) throws {
+    init(deserialize data: Data, position: inout Data.Index, common: RecordCommonFields) throws {
         (name, type, unique, internetClass, ttl) = common
         let size = Int(try UInt16(data: data, position: &position))
         let dataStart = position
@@ -218,14 +218,14 @@ extension Record: ResourceRecord {
         self.data = Data(data[dataStart..<position])
     }
 
-    public func pack(onto buffer: inout Data, labels: inout Labels) throws {
-        try packRecordCommonFields((name, type, unique, internetClass, ttl), onto: &buffer, labels: &labels)
+    public func serialize(onto buffer: inout Data, labels: inout Labels) throws {
+        try serializeRecordCommonFields((name, type, unique, internetClass, ttl), onto: &buffer, labels: &labels)
         buffer.append(contentsOf: UInt16(data.count).bytes + data)
     }
 }
 
 extension HostRecord: ResourceRecord {
-    init(unpack data: Data, position: inout Data.Index, common: RecordCommonFields) throws {
+    init(deserialize data: Data, position: inout Data.Index, common: RecordCommonFields) throws {
         (name, _, unique, internetClass, ttl) = common
         let size = Int(try UInt16(data: data, position: &position))
         let dataStart = position
@@ -238,16 +238,16 @@ extension HostRecord: ResourceRecord {
         ip = ipType
     }
 
-    public func pack(onto buffer: inout Data, labels: inout Labels) throws {
+    public func serialize(onto buffer: inout Data, labels: inout Labels) throws {
         switch ip {
         case let ip as IPv4:
             let data = ip.bytes
-            try packRecordCommonFields((name, ResourceRecordType.host, unique, internetClass, ttl), onto: &buffer, labels: &labels)
+            try serializeRecordCommonFields((name, ResourceRecordType.host, unique, internetClass, ttl), onto: &buffer, labels: &labels)
             buffer.append(UInt16(data.count).bytes)
             buffer.append(data)
         case let ip as IPv6:
             let data = ip.bytes
-            try packRecordCommonFields((name, ResourceRecordType.host6, unique, internetClass, ttl), onto: &buffer, labels: &labels)
+            try serializeRecordCommonFields((name, ResourceRecordType.host6, unique, internetClass, ttl), onto: &buffer, labels: &labels)
             buffer.append(UInt16(data.count).bytes)
             buffer.append(data)
         default:
@@ -257,27 +257,27 @@ extension HostRecord: ResourceRecord {
 }
 
 extension ServiceRecord: ResourceRecord {
-    init(unpack data: Data, position: inout Data.Index, common: RecordCommonFields) throws {
+    init(deserialize data: Data, position: inout Data.Index, common: RecordCommonFields) throws {
         (name, _, unique, internetClass, ttl) = common
         let length = try UInt16(data: data, position: &position)
         let expectedPosition = position + Data.Index(length)
         priority = try UInt16(data: data, position: &position)
         weight = try UInt16(data: data, position: &position)
         port = try UInt16(data: data, position: &position)
-        server = try unpackName(data, &position)
+        server = try deserializeName(data, &position)
         guard position == expectedPosition else {
             throw DecodeError.invalidDataSize
         }
     }
 
-    public func pack(onto buffer: inout Data, labels: inout Labels) throws {
-        try packRecordCommonFields((name, ResourceRecordType.service, unique, internetClass, ttl), onto: &buffer, labels: &labels)
+    public func serialize(onto buffer: inout Data, labels: inout Labels) throws {
+        try serializeRecordCommonFields((name, ResourceRecordType.service, unique, internetClass, ttl), onto: &buffer, labels: &labels)
         buffer += [0, 0]
         let startPosition = buffer.endIndex
         buffer += priority.bytes
         buffer += weight.bytes
         buffer += port.bytes
-        try packName(server, onto: &buffer, labels: &labels)
+        try serializeName(server, onto: &buffer, labels: &labels)
 
         // Set the length before the data field
         let length = UInt16(buffer.endIndex - startPosition)
@@ -286,7 +286,7 @@ extension ServiceRecord: ResourceRecord {
 }
 
 extension TextRecord: ResourceRecord {
-    init(unpack data: Data, position: inout Data.Index, common: RecordCommonFields) throws {
+    init(deserialize data: Data, position: inout Data.Index, common: RecordCommonFields) throws {
         (name, _, unique, internetClass, ttl) = common
         let endIndex = Int(try UInt16(data: data, position: &position)) + position
 
@@ -315,8 +315,8 @@ extension TextRecord: ResourceRecord {
         self.values = other
     }
 
-    public func pack(onto buffer: inout Data, labels: inout Labels) throws {
-        try packRecordCommonFields((name, ResourceRecordType.text, unique, internetClass, ttl), onto: &buffer, labels: &labels)
+    public func serialize(onto buffer: inout Data, labels: inout Labels) throws {
+        try serializeRecordCommonFields((name, ResourceRecordType.text, unique, internetClass, ttl), onto: &buffer, labels: &labels)
         let data = attributes.reduce(Data()) {
             let attr = "\($1.key)=\($1.value)".utf8
             return $0 + UInt8(attr.count).bytes + attr
@@ -327,17 +327,17 @@ extension TextRecord: ResourceRecord {
 }
 
 extension PointerRecord: ResourceRecord {
-    init(unpack data: Data, position: inout Data.Index, common: RecordCommonFields) throws {
+    init(deserialize data: Data, position: inout Data.Index, common: RecordCommonFields) throws {
         (name, _, unique, internetClass, ttl) = common
         position += 2
-        destination = try unpackName(data, &position)
+        destination = try deserializeName(data, &position)
     }
 
-    public func pack(onto buffer: inout Data, labels: inout Labels) throws {
-        try packRecordCommonFields((name, ResourceRecordType.pointer, unique, internetClass, ttl), onto: &buffer, labels: &labels)
+    public func serialize(onto buffer: inout Data, labels: inout Labels) throws {
+        try serializeRecordCommonFields((name, ResourceRecordType.pointer, unique, internetClass, ttl), onto: &buffer, labels: &labels)
         buffer += [0, 0]
         let startPosition = buffer.endIndex
-        try packName(destination, onto: &buffer, labels: &labels)
+        try serializeName(destination, onto: &buffer, labels: &labels)
         
         // Set the length before the data field
         let length = UInt16(buffer.endIndex - startPosition)
@@ -346,17 +346,17 @@ extension PointerRecord: ResourceRecord {
 }
 
 extension AliasRecord: ResourceRecord {
-    init(unpack data: Data, position: inout Data.Index, common: RecordCommonFields) throws {
+    init(deserialize data: Data, position: inout Data.Index, common: RecordCommonFields) throws {
         (name, _, unique, internetClass, ttl) = common
         position += 2
-        canonicalName = try unpackName(data, &position)
+        canonicalName = try deserializeName(data, &position)
     }
     
-    public func pack(onto buffer: inout Data, labels: inout Labels) throws {
-        try packRecordCommonFields((name, ResourceRecordType.alias, unique, internetClass, ttl), onto: &buffer, labels: &labels)
+    public func serialize(onto buffer: inout Data, labels: inout Labels) throws {
+        try serializeRecordCommonFields((name, ResourceRecordType.alias, unique, internetClass, ttl), onto: &buffer, labels: &labels)
         buffer += [0, 0]
         let startPosition = buffer.endIndex
-        try packName(canonicalName, onto: &buffer, labels: &labels)
+        try serializeName(canonicalName, onto: &buffer, labels: &labels)
         
         // Set the length before the data field
         let length = UInt16(buffer.endIndex - startPosition)

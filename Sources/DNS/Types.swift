@@ -108,8 +108,8 @@ public struct Question {
         self.internetClass = internetClass
     }
 
-    init(unpack data: Data, position: inout Data.Index) throws {
-        name = try unpackName(data, &position)
+    init(deserialize data: Data, position: inout Data.Index) throws {
+        name = try deserializeName(data, &position)
         type = try ResourceRecordType(data: data, position: &position)
         unique = data[position] & 0x80 == 0x80
         let rawInternetClass = try UInt16(data: data, position: &position)
@@ -161,7 +161,7 @@ public protocol ResourceRecord {
     var internetClass: InternetClass { get }
     var ttl: UInt32 { get set }
 
-    func pack(onto: inout Data, labels: inout Labels) throws
+    func serialize(onto: inout Data, labels: inout Labels) throws
 }
 
 

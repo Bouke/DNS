@@ -14,13 +14,13 @@ let request = Message(
     type: .query,
     questions: [Question(name: "apple.com.", type: .pointer)]
 )
-let requestData = try request.pack()
+let requestData = try request.serialize()
 
 // Not shown here: send to DNS server over UDP, receive reply.
 
 // Decoding a message
 let responseData = Data()
-let response = try Message.init(unpack: responseData)
+let response = try Message.init(deserialize: responseData)
 print(response.answers.first)
 ```
 

@@ -24,7 +24,7 @@ class FuzzTests: XCTestCase {
             let data = randomData()
             print(data.hex)
             do {
-                _ = try Message(unpack: data)
+                _ = try Message(deserialize: data)
             } catch {
             }
         }
@@ -41,7 +41,7 @@ class FuzzTests: XCTestCase {
                                         ServiceRecord(name: name, ttl: 120, port: 7000, server: server)],
                               additional: [HostRecord<IPv4>(name: server, ttl: 120, ip: IPv4("10.0.1.2")!),
                                            TextRecord(name: service, ttl: 120, attributes: ["hello": "world"])])
-        let original = try! message.pack()
+        let original = try! message.serialize()
         for _ in 0..<101_000_00000 {
             var corrupted = original
             for _ in 1..<(2 + arc4random_uniform(4)) {
@@ -59,7 +59,7 @@ class FuzzTests: XCTestCase {
             }
             print(corrupted.hex)
             do {
-                _ = try Message(unpack: corrupted)
+                _ = try Message(deserialize: corrupted)
             } catch {
             }
         }
