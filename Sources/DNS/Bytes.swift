@@ -14,6 +14,7 @@ enum DecodeError: Swift.Error {
     case unicodeEncodingNotSupported
     case invalidIntegerSize
     case invalidResourceRecordType
+    case invalidInternetClass
     case invalidIPAddress
     case invalidDataSize
 }
@@ -90,20 +91,23 @@ func packName(_ name: String, onto buffer: inout Data, labels: inout Labels) thr
     }
 }
 
-typealias RecordCommonFields = (name: String, type: UInt16, unique: Bool, internetClass: UInt16, ttl: UInt32)
+typealias RecordCommonFields = (name: String, type: UInt16, unique: Bool, internetClass: InternetClass, ttl: UInt32)
 
 func unpackRecordCommonFields(_ data: Data, _ position: inout Data.Index) throws -> RecordCommonFields {
     let name = try unpackName(data, &position)
     let type = try UInt16(data: data, position: &position)
-    let internetClass = try UInt16(data: data, position: &position)
+    let rrClass = try UInt16(data: data, position: &position)
+    guard let internetClass = try InternetClass(rawValue: rrClass & 0x7fff) else {
+        throw DecodeError.invalidInternetClass
+    }
     let ttl = try UInt32(data: data, position: &position)
-    return (name, type, type & 0x80 == 0x80, internetClass, ttl)
+    return (name, type, rrClass & 0x8000 == 0x8000, internetClass, ttl)
 }
 
 func packRecordCommonFields(_ common: RecordCommonFields, onto buffer: inout Data, labels: inout Labels) throws {
     try packName(common.name, onto: &buffer, labels: &labels)
     buffer.append(common.type.bytes)
-    buffer.append((common.internetClass | (common.unique ? 0x8000 : 0)).bytes)
+    buffer.append((common.internetClass.rawValue | (common.unique ? 0x8000 : 0)).bytes)
     buffer.append(common.ttl.bytes)
 }
 
@@ -147,7 +151,7 @@ extension Message {
         for question in questions {
             try packName(question.name, onto: &bytes, labels: &labels)
             bytes += question.type.rawValue.bytes
-            bytes += question.internetClass.bytes
+            bytes += question.internetClass.rawValue.bytes
         }
 
         for answer in answers {

@@ -80,14 +80,21 @@ public enum ReturnCode: UInt8 { // 4 bits: 0-15
     case nameNotContainedInZone = 10 // NOTZONE
 }
 
+public enum InternetClass: UInt16 { // 2 bytes
+    case internet = 1 // IN
+    case chaos = 3 // CH
+    case hesiod = 4 // HS
+    case none = 254
+    case any = 255
+}
 
 public struct Question {
     public var name: String
     public var type: ResourceRecordType
     public var unique: Bool
-    public var internetClass: UInt16
+    public var internetClass: InternetClass
 
-    public init(name: String, type: ResourceRecordType, unique: Bool = false, internetClass: UInt16 = 1) {
+    public init(name: String, type: ResourceRecordType, unique: Bool = false, internetClass: InternetClass = .internet) {
         self.name = name
         self.type = type
         self.unique = unique
@@ -101,7 +108,10 @@ public struct Question {
         }
         type = recordType
         unique = data[position] & 0x80 == 0x80
-        internetClass = try UInt16(data: data, position: &position) & 0x7fff
+        guard let internetClass = try InternetClass(rawValue: UInt16(data: data, position: &position) & 0x7fff) else {
+            throw DecodeError.invalidInternetClass
+        }
+        self.internetClass = internetClass
     }
 }
 
@@ -144,7 +154,7 @@ extension ResourceRecordType: CustomDebugStringConvertible {
 public protocol ResourceRecord {
     var name: String { get }
     var unique: Bool { get }
-    var internetClass: UInt16 { get }
+    var internetClass: InternetClass { get }
     var ttl: UInt32 { get set }
 
     func pack(onto: inout Data, labels: inout Labels) throws
@@ -154,12 +164,12 @@ public protocol ResourceRecord {
 public struct Record {
     public var name: String
     public var type: UInt16
-    public var internetClass: UInt16
+    public var internetClass: InternetClass
     public var unique: Bool
     public var ttl: UInt32
     var data: Data
 
-    public init(name: String, type: UInt16, internetClass: UInt16, unique: Bool, ttl: UInt32, data: Data) {
+    public init(name: String, type: UInt16, internetClass: InternetClass, unique: Bool, ttl: UInt32, data: Data) {
         self.name = name
         self.type = type
         self.internetClass = internetClass
@@ -173,11 +183,11 @@ public struct Record {
 public struct HostRecord<IPType: IP> {
     public var name: String
     public var unique: Bool
-    public var internetClass: UInt16
+    public var internetClass: InternetClass
     public var ttl: UInt32
     public var ip: IPType
 
-    public init(name: String, unique: Bool = false, internetClass: UInt16 = 1, ttl: UInt32, ip: IPType) {
+    public init(name: String, unique: Bool = false, internetClass: InternetClass = .internet, ttl: UInt32, ip: IPType) {
         self.name = name
         self.unique = unique
         self.internetClass = internetClass
@@ -202,14 +212,14 @@ extension HostRecord: Hashable {
 public struct ServiceRecord {
     public var name: String
     public var unique: Bool
-    public var internetClass: UInt16
+    public var internetClass: InternetClass
     public var ttl: UInt32
     public var priority: UInt16
     public var weight: UInt16
     public var port: UInt16
     public var server: String
 
-    public init(name: String, unique: Bool = false, internetClass: UInt16 = 1, ttl: UInt32, priority: UInt16 = 0, weight: UInt16 = 0, port: UInt16, server: String) {
+    public init(name: String, unique: Bool = false, internetClass: InternetClass = .internet, ttl: UInt32, priority: UInt16 = 0, weight: UInt16 = 0, port: UInt16, server: String) {
         self.name = name
         self.unique = unique
         self.internetClass = internetClass
@@ -236,12 +246,12 @@ extension ServiceRecord: Hashable {
 public struct TextRecord {
     public var name: String
     public var unique: Bool
-    public var internetClass: UInt16
+    public var internetClass: InternetClass
     public var ttl: UInt32
     public var attributes: [String: String]
     public var values: [String]
 
-    public init(name: String, unique: Bool = false, internetClass: UInt16 = 1, ttl: UInt32, attributes: [String: String]) {
+    public init(name: String, unique: Bool = false, internetClass: InternetClass = .internet, ttl: UInt32, attributes: [String: String]) {
         self.name = name
         self.unique = unique
         self.internetClass = internetClass
@@ -255,11 +265,11 @@ public struct TextRecord {
 public struct PointerRecord {
     public var name: String
     public var unique: Bool
-    public var internetClass: UInt16
+    public var internetClass: InternetClass
     public var ttl: UInt32
     public var destination: String
 
-    public init(name: String, unique: Bool = false, internetClass: UInt16 = 1, ttl: UInt32, destination: String) {
+    public init(name: String, unique: Bool = false, internetClass: InternetClass = .internet, ttl: UInt32, destination: String) {
         self.name = name
         self.unique = unique
         self.internetClass = internetClass
@@ -283,7 +293,7 @@ extension PointerRecord: Hashable {
 public struct AliasRecord {
     public var name: String
     public var unique: Bool
-    public var internetClass: UInt16
+    public var internetClass: InternetClass
     public var ttl: UInt32
     public var canonicalName: String
 }
