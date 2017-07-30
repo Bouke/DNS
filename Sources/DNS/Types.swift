@@ -171,7 +171,7 @@ public struct Record {
     public var internetClass: InternetClass
     public var unique: Bool
     public var ttl: UInt32
-    var data: Data
+    public var data: Data
 
     public init(name: String, type: UInt16, internetClass: InternetClass, unique: Bool, ttl: UInt32, data: Data) {
         self.name = name
