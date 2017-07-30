@@ -1,6 +1,6 @@
 import Foundation
 
-public enum MessageType {
+public enum MessageType { // 1 bit
     case query
     case response
 }
@@ -60,10 +60,12 @@ extension Message: CustomDebugStringConvertible {
 }
 
 
-public enum OperationCode: UInt8 {
+public enum OperationCode: UInt8 { // 4 bits: 0-15
     case query = 0 // QUERY
     case inverseQuery = 1 // IQUERY
     case statusRequest = 2 // STATUS
+    case notify = 4 // NOTIFY
+    case update = 5 // UPDATE
 }
 
 public enum ReturnCode: UInt8 { // 4 bits: 0-15
