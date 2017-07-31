@@ -24,6 +24,9 @@ extension IP {
     }
 }
 
+// IPv4 address, wraps `in_addr`. This type is used to convert between
+// human-readable presentation format and bytes in both host order and
+// network order.
 public struct IPv4: IP {
     /// IPv4 address in network-byte-order
     public let address: in_addr
@@ -53,6 +56,7 @@ public struct IPv4: IP {
         self.address = in_addr(s_addr: htonl(address))
     }
 
+    /// Format this IPv4 address using common `a.b.c.d` notation.
     public var presentation: String {
         var output = Data(count: Int(INET_ADDRSTRLEN))
         var address = self.address
@@ -70,6 +74,8 @@ public struct IPv4: IP {
 }
 
 extension IPv4: Equatable, Hashable {
+    // MARK: Conformance to `Hashable`
+
     public static func == (lhs: IPv4, rhs: IPv4) -> Bool {
         return lhs.address.s_addr == rhs.address.s_addr
     }
@@ -80,6 +86,7 @@ extension IPv4: Equatable, Hashable {
 }
 
 extension IPv4: ExpressibleByIntegerLiteral {
+    // MARK: Conformance to `ExpressibleByIntegerLiteral`
     public init(integerLiteral value: UInt32) {
         self.init(value)
     }
@@ -110,6 +117,7 @@ public struct IPv6: IP {
         }
     }
 
+    /// Format this IPv6 address using common `a:b:c:d:e:f:g:h` notation.
     public var presentation: String {
         var output = Data(count: Int(INET6_ADDRSTRLEN))
         var address = self.address
@@ -139,6 +147,8 @@ public struct IPv6: IP {
 }
 
 extension IPv6: Equatable, Hashable {
+    // MARK: Conformance to `Hashable`
+
     public static func == (lhs: IPv6, rhs: IPv6) -> Bool {
         return lhs.presentation == rhs.presentation
     }
