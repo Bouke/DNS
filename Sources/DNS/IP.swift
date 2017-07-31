@@ -24,14 +24,6 @@ extension IP {
     }
 }
 
-public func createIP<C: Collection>(networkBytes bytes: C) -> IP? where C.Iterator.Element == UInt8 {
-    switch bytes.count {
-    case 4: return IPv4(networkBytes: Data(bytes))
-    case 16: return IPv6(networkBytes: Data(bytes))
-    default: return nil
-    }
-}
-
 public struct IPv4: IP {
     /// IPv4 address in network-byte-order
     public let address: in_addr
