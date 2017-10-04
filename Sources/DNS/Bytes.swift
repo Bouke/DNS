@@ -128,13 +128,13 @@ extension Message {
         var bytes = Data()
         var labels = Labels()
         let qr: UInt16 = type == .response ? 1 : 0
-        let flags: UInt16 = qr << 15
-            | UInt16(operationCode.rawValue) << 11
-            | (authoritativeAnswer ? 1 : 0) << 10
-            | (truncation ? 1 : 0) << 9
-            | (recursionDesired ? 1 : 0) << 8
-            | (recursionAvailable ? 1 : 0) << 7
-            | UInt16(returnCode.rawValue)
+        var flags: UInt16 = qr << 15
+        flags |= UInt16(operationCode.rawValue) << 11
+        flags |= (authoritativeAnswer ? 1 : 0) << 10
+        flags |= (truncation ? 1 : 0) << 9
+        flags |= (recursionDesired ? 1 : 0) << 8
+        flags |= (recursionAvailable ? 1 : 0) << 7
+        flags |= UInt16(returnCode.rawValue)
 
         // header
         bytes += id.bytes
