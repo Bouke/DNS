@@ -28,8 +28,9 @@ func unpackName(_ data: Data, _ position: inout Data.Index) throws -> String {
             guard var pointer = data.index(data.startIndex, offsetBy: offset, limitedBy: data.endIndex) else {
                 throw DecodeError.invalidLabelOffset
             }
-            // Prevent cyclic references. I think it's safe to assume that label
-            // pointers only point to a prior label.
+            // Prevent cyclic references
+            // Its safe to assume the pointer is to an earlier label
+            // See https://www.ietf.org/rfc/rfc1035.txt 4.1.4
             guard pointer < startPosition else {
                 throw DecodeError.invalidLabelOffset
             }
