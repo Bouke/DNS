@@ -6,7 +6,6 @@ enum EncodeError: Swift.Error {
 
 enum DecodeError: Swift.Error {
     case invalidMessageSize
-    case invalidOperationCode
     case invalidReturnCode
     case invalidLabelSize
     case invalidLabelOffset
@@ -129,7 +128,7 @@ extension Message {
         var labels = Labels()
         let qr: UInt16 = type == .response ? 1 : 0
         var flags: UInt16 = qr << 15
-        flags |= UInt16(operationCode.rawValue) << 11
+        flags |= UInt16(operationCode) << 11
         flags |= (authoritativeAnswer ? 1 : 0) << 10
         flags |= (truncation ? 1 : 0) << 9
         flags |= (recursionDesired ? 1 : 0) << 8
@@ -183,9 +182,7 @@ extension Message {
         var position = bytes.startIndex
         id = try UInt16(data: bytes, position: &position)
         let flags = try UInt16(data: bytes, position: &position)
-        guard let operationCode = OperationCode(rawValue: UInt8(flags >> 11 & 0x7)) else {
-            throw DecodeError.invalidOperationCode
-        }
+        let operationCode = OperationCode(flags >> 11 & 0x7)
         guard let returnCode = ReturnCode(rawValue: UInt8(flags & 0x7)) else {
             throw DecodeError.invalidReturnCode
         }

@@ -59,13 +59,14 @@ extension Message: CustomDebugStringConvertible {
     }
 }
 
+public typealias OperationCode = UInt8
 
-public enum OperationCode: UInt8 { // 4 bits: 0-15
-    case query = 0 // QUERY
-    case inverseQuery = 1 // IQUERY
-    case statusRequest = 2 // STATUS
-    case notify = 4 // NOTIFY
-    case update = 5 // UPDATE
+public extension OperationCode { // 4 bits: 0-15
+    public static let query: OperationCode = 0 // QUERY
+    public static let inverseQuery: OperationCode = 1 // IQUERY
+    public static let statusRequest: OperationCode = 2 // STATUS
+    public static let notify: OperationCode = 4 // NOTIFY
+    public static let update: OperationCode = 5 // UPDATE
 }
 
 public enum ReturnCode: UInt8 { // 4 bits: 0-15
