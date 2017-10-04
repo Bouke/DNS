@@ -69,18 +69,20 @@ public extension OperationCode { // 4 bits: 0-15
     public static let update: OperationCode = 5 // UPDATE
 }
 
-public enum ReturnCode: UInt8 { // 4 bits: 0-15
-    case noError = 0 // NOERROR
-    case formatError = 1 // FORMERR
-    case serverFailure = 2 // SERVFAIL
-    case nonExistentDomain = 3 // NXDOMAIN
-    case notImplemented = 4 // NOTIMPL
-    case queryRefused = 5 // REFUSED
-    case nameExistsWhenItShouldNot = 6 // YXDOMAIN
-    case rrSetExistsWhenItShouldNot = 7 // YXRRSET
-    case rrSetThatShouldExistDoestNot = 8 // NXRRSET
-    case serverNotAuthoritativeForZone = 9 // NOTAUTH
-    case nameNotContainedInZone = 10 // NOTZONE
+public typealias ReturnCode = UInt8
+
+public extension ReturnCode { // 4 bits: 0-15
+    public static let noError: ReturnCode = 0 // NOERROR
+    public static let formatError: ReturnCode = 1 // FORMERR
+    public static let serverFailure: ReturnCode = 2 // SERVFAIL
+    public static let nonExistentDomain: ReturnCode = 3 // NXDOMAIN
+    public static let notImplemented: ReturnCode = 4 // NOTIMPL
+    public static let queryRefused: ReturnCode = 5 // REFUSED
+    public static let nameExistsWhenItShouldNot: ReturnCode = 6 // YXDOMAIN
+    public static let rrSetExistsWhenItShouldNot: ReturnCode = 7 // YXRRSET
+    public static let rrSetThatShouldExistDoestNot: ReturnCode = 8 // NXRRSET
+    public static let serverNotAuthoritativeForZone: ReturnCode = 9 // NOTAUTH
+    public static let nameNotContainedInZone: ReturnCode = 10 // NOTZONE
 }
 
 public typealias InternetClass = UInt16

@@ -6,7 +6,6 @@ enum EncodeError: Swift.Error {
 
 enum DecodeError: Swift.Error {
     case invalidMessageSize
-    case invalidReturnCode
     case invalidLabelSize
     case invalidLabelOffset
     case unicodeDecodingError
@@ -133,7 +132,7 @@ extension Message {
         flags |= (truncation ? 1 : 0) << 9
         flags |= (recursionDesired ? 1 : 0) << 8
         flags |= (recursionAvailable ? 1 : 0) << 7
-        flags |= UInt16(returnCode.rawValue)
+        flags |= UInt16(returnCode)
 
         // header
         bytes += id.bytes
@@ -183,9 +182,7 @@ extension Message {
         id = try UInt16(data: bytes, position: &position)
         let flags = try UInt16(data: bytes, position: &position)
         let operationCode = OperationCode(flags >> 11 & 0x7)
-        guard let returnCode = ReturnCode(rawValue: UInt8(flags & 0x7)) else {
-            throw DecodeError.invalidReturnCode
-        }
+        let returnCode = ReturnCode(flags & 0x7)
 
         type = flags >> 15 & 1 == 1 ? .response : .query
         self.operationCode = operationCode
