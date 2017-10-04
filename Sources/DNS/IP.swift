@@ -130,18 +130,18 @@ public struct IPv6: IP {
     }
 
     public var bytes: Data {
-        #if os(OSX)
-            return
-                htonl(address.__u6_addr.__u6_addr32.0).bytes +
-                htonl(address.__u6_addr.__u6_addr32.1).bytes +
-                htonl(address.__u6_addr.__u6_addr32.2).bytes +
-                htonl(address.__u6_addr.__u6_addr32.3).bytes
-        #else
+        #if os(Linux)
             return
                 htonl(address.__in6_u.__u6_addr32.0).bytes +
                 htonl(address.__in6_u.__u6_addr32.1).bytes +
                 htonl(address.__in6_u.__u6_addr32.2).bytes +
                 htonl(address.__in6_u.__u6_addr32.3).bytes
+        #else
+            return
+                htonl(address.__u6_addr.__u6_addr32.0).bytes +
+                htonl(address.__u6_addr.__u6_addr32.1).bytes +
+                htonl(address.__u6_addr.__u6_addr32.2).bytes +
+                htonl(address.__u6_addr.__u6_addr32.3).bytes
         #endif
     }
 }
