@@ -82,12 +82,14 @@ public enum ReturnCode: UInt8 { // 4 bits: 0-15
     case nameNotContainedInZone = 10 // NOTZONE
 }
 
-public enum InternetClass: UInt16 { // 2 bytes
-    case internet = 1 // IN
-    case chaos = 3 // CH
-    case hesiod = 4 // HS
-    case none = 254
-    case any = 255
+public typealias InternetClass = UInt16
+
+public extension InternetClass {
+    public static let internet: InternetClass = 1 // IN
+    public static let chaos: InternetClass = 3 // CH
+    public static let hesiod: InternetClass = 4 // HS
+    public static let none: InternetClass = 254
+    public static let any: InternetClass = 255
 }
 
 public struct Question {
@@ -110,9 +112,8 @@ public struct Question {
         }
         type = recordType
         unique = data[position] & 0x80 == 0x80
-        guard let internetClass = try InternetClass(rawValue: UInt16(data: data, position: &position) & 0x7fff) else {
-            throw DecodeError.invalidInternetClass
-        }
+        let rawInternetClass = try UInt16(data: data, position: &position)
+        let internetClass = InternetClass(rawInternetClass & 0x7fff)
         self.internetClass = internetClass
     }
 }

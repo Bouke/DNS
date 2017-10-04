@@ -14,7 +14,6 @@ enum DecodeError: Swift.Error {
     case unicodeEncodingNotSupported
     case invalidIntegerSize
     case invalidResourceRecordType
-    case invalidInternetClass
     case invalidIPAddress
     case invalidDataSize
 }
@@ -97,9 +96,7 @@ func unpackRecordCommonFields(_ data: Data, _ position: inout Data.Index) throws
     let name = try unpackName(data, &position)
     let type = try UInt16(data: data, position: &position)
     let rrClass = try UInt16(data: data, position: &position)
-    guard let internetClass = try InternetClass(rawValue: rrClass & 0x7fff) else {
-        throw DecodeError.invalidInternetClass
-    }
+    let internetClass = InternetClass(rrClass & 0x7fff)
     let ttl = try UInt32(data: data, position: &position)
     return (name, type, rrClass & 0x8000 == 0x8000, internetClass, ttl)
 }
@@ -107,7 +104,7 @@ func unpackRecordCommonFields(_ data: Data, _ position: inout Data.Index) throws
 func packRecordCommonFields(_ common: RecordCommonFields, onto buffer: inout Data, labels: inout Labels) throws {
     try packName(common.name, onto: &buffer, labels: &labels)
     buffer.append(common.type.bytes)
-    buffer.append((common.internetClass.rawValue | (common.unique ? 0x8000 : 0)).bytes)
+    buffer.append((common.internetClass | (common.unique ? 0x8000 : 0)).bytes)
     buffer.append(common.ttl.bytes)
 }
 
@@ -151,7 +148,7 @@ extension Message {
         for question in questions {
             try packName(question.name, onto: &bytes, labels: &labels)
             bytes += question.type.rawValue.bytes
-            bytes += question.internetClass.rawValue.bytes
+            bytes += question.internetClass.bytes
         }
 
         for answer in answers {
