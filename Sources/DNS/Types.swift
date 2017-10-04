@@ -110,9 +110,7 @@ public struct Question {
 
     init(unpack data: Data, position: inout Data.Index) throws {
         name = try unpackName(data, &position)
-        guard let recordType = ResourceRecordType(rawValue: try UInt16(data: data, position: &position)) else {
-            throw DecodeError.invalidResourceRecordType
-        }
+        let recordType = try ResourceRecordType(data: data, position: &position)
         type = recordType
         unique = data[position] & 0x80 == 0x80
         let rawInternetClass = try UInt16(data: data, position: &position)
@@ -121,20 +119,21 @@ public struct Question {
     }
 }
 
+public typealias ResourceRecordType = UInt16
 
-public enum ResourceRecordType: UInt16 {
-    case host = 0x0001
-    case nameServer = 0x0002
-    case alias = 0x0005
-    case startOfAuthority = 0x0006
-    case pointer = 0x000c
-    case mailExchange = 0x000f
-    case text = 0x0010
-    case host6 = 0x001c
-    case service = 0x0021
-    case incrementalZoneTransfer = 0x00fb
-    case standardZoneTransfer = 0x00fc
-    case all = 0x00ff // All cached records
+public extension ResourceRecordType {
+    public static let host: ResourceRecordType = 0x0001
+    public static let nameServer: ResourceRecordType = 0x0002
+    public static let alias: ResourceRecordType = 0x0005
+    public static let startOfAuthority: ResourceRecordType = 0x0006
+    public static let pointer: ResourceRecordType = 0x000c
+    public static let mailExchange: ResourceRecordType = 0x000f
+    public static let text: ResourceRecordType = 0x0010
+    public static let host6: ResourceRecordType = 0x001c
+    public static let service: ResourceRecordType = 0x0021
+    public static let incrementalZoneTransfer: ResourceRecordType = 0x00fb
+    public static let standardZoneTransfer: ResourceRecordType = 0x00fc
+    public static let all: ResourceRecordType = 0x00ff // All cached records
 }
 
 extension ResourceRecordType: CustomDebugStringConvertible {
@@ -152,6 +151,7 @@ extension ResourceRecordType: CustomDebugStringConvertible {
         case .incrementalZoneTransfer: return "IXFR"
         case .standardZoneTransfer: return "AXFR"
         case .all: return "*"
+        default: return "Unknown"
         }
     }
 }
