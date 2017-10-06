@@ -181,16 +181,14 @@ extension Message {
         var position = bytes.startIndex
         id = try UInt16(data: bytes, position: &position)
         let flags = try UInt16(data: bytes, position: &position)
-        let operationCode = OperationCode(flags >> 11 & 0x7)
-        let returnCode = ReturnCode(flags & 0x7)
-
+        
         type = flags >> 15 & 1 == 1 ? .response : .query
-        self.operationCode = operationCode
+        operationCode = OperationCode(flags >> 11 & 0x7)
         authoritativeAnswer = flags >> 10 & 0x1 == 0x1
         truncation = flags >> 9 & 0x1 == 0x1
         recursionDesired = flags >> 8 & 0x1 == 0x1
         recursionAvailable = flags >> 7 & 0x1 == 0x1
-        self.returnCode = returnCode
+        returnCode = ReturnCode(flags & 0x7)
         
         let numQuestions = try UInt16(data: bytes, position: &position)
         let numAnswers = try UInt16(data: bytes, position: &position)

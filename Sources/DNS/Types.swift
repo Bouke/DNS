@@ -110,12 +110,10 @@ public struct Question {
 
     init(unpack data: Data, position: inout Data.Index) throws {
         name = try unpackName(data, &position)
-        let recordType = try ResourceRecordType(data: data, position: &position)
-        type = recordType
+        type = try ResourceRecordType(data: data, position: &position)
         unique = data[position] & 0x80 == 0x80
         let rawInternetClass = try UInt16(data: data, position: &position)
-        let internetClass = InternetClass(rawInternetClass & 0x7fff)
-        self.internetClass = internetClass
+        internetClass = InternetClass(rawInternetClass & 0x7fff)
     }
 }
 
