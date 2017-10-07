@@ -1,4 +1,5 @@
 // swift-tools-version:4.0
+
 import PackageDescription
 
 let package = Package(
@@ -9,5 +10,6 @@ let package = Package(
     targets: [
         .target(name: "DNS", dependencies: []),
         .testTarget(name: "DNSTests", dependencies: ["DNS"])
-    ]
+    ],
+    swiftLanguageVersions: [4]
 )
