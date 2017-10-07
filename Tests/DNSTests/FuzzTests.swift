@@ -48,11 +48,11 @@ class FuzzTests: XCTestCase {
                 let index = Data.Index(arc4random_uniform(UInt32(corrupted.endIndex)))
                 switch arc4random_uniform(3) {
                 case 0:
-                    corrupted[index] = corrupted[index] ^ UInt8(truncatingBitPattern: arc4random_uniform(256))
+                    corrupted[index] = corrupted[index] ^ UInt8(truncatingIfNeeded: arc4random_uniform(256))
                 case 1:
                     corrupted.remove(at: index)
                 case 2:
-                    corrupted.insert(UInt8(truncatingBitPattern: arc4random_uniform(256)), at: index)
+                    corrupted.insert(UInt8(truncatingIfNeeded: arc4random_uniform(256)), at: index)
                 default:
                     abort()
                 }
@@ -71,7 +71,7 @@ class FuzzTests: XCTestCase {
             let thisClass = type(of: self)
             let linuxCount = thisClass.allTests.count
             let darwinCount = Int(thisClass
-                .defaultTestSuite().testCaseCount)
+                .defaultTestSuite.testCaseCount)
             XCTAssertEqual(linuxCount, darwinCount,
                            "\(darwinCount - linuxCount) tests are missing from allTests")
         #endif
@@ -80,5 +80,5 @@ class FuzzTests: XCTestCase {
 
 func randomData() -> Data {
     let size = arc4random_uniform(32)
-    return Data(bytes: (0..<size).map { _ in UInt8(truncatingBitPattern: arc4random_uniform(256)) })
+    return Data(bytes: (0..<size).map { _ in UInt8(truncatingIfNeeded: arc4random_uniform(256)) })
 }
