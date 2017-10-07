@@ -4,6 +4,7 @@ import XCTest
 class DNSTests: XCTestCase {
     static var allTests : [(String, (DNSTests) -> () throws -> Void)] {
         return [
+            ("testReadMe", testReadMe),
             ("testPointerRecord", testPointerRecord),
             ("testMessage1", testMessage1),
             ("testMessage2", testMessage2),
@@ -15,6 +16,23 @@ class DNSTests: XCTestCase {
             ("testPackNameCondensed", testPackNameCondensed),
             ("testLinuxTestSuiteIncludesAllTests", testLinuxTestSuiteIncludesAllTests),
         ]
+    }
+
+    func testReadMe() throws {
+        // If the code below doesn't work, also update the README.md to
+        // demonstrate the changes in the API.
+        let request = Message(
+            type: .query,
+            questions: [Question(name: "apple.com.", type: .pointer)]
+        )
+        let requestData = try request.pack()
+
+        // Not shown here: send to DNS server over UDP, receive reply.
+        let responseData = requestData
+
+        // Decoding a message
+        let response = try Message.init(unpack: responseData)
+        print(response.answers.first)
     }
 
     func testPointerRecord() {
