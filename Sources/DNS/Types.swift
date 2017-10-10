@@ -73,9 +73,9 @@ extension ResourceRecordType: CustomDebugStringConvertible {
 
 
 public protocol ResourceRecord {
-    var name: String { get }
-    var unique: Bool { get }
-    var internetClass: InternetClass { get }
+    var name: String { get set }
+    var unique: Bool { get set }
+    var internetClass: InternetClass { get set }
     var ttl: UInt32 { get set }
 
     func serialize(onto: inout Data, labels: inout Labels) throws
