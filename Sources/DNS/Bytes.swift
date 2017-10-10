@@ -76,7 +76,11 @@ func serializeName(_ name: String, onto buffer: inout Data, labels: inout Labels
     // position of the new label
     labels[name] = buffer.endIndex
     var components = name.components(separatedBy: ".").filter { $0 != "" }
-
+    guard !components.isEmpty else {
+        buffer.append(0)
+        return
+    }
+    
     let codes = Array(components.removeFirst().utf8)
     buffer.append(UInt8(codes.count))
     buffer += codes
