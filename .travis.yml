@@ -1,6 +1,8 @@
 language: generic
 sudo: required
-script: swift test
+script:
+  - swift test
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then carthage build --no-skip-current ; fi
 matrix:
   include:
     - os: osx
