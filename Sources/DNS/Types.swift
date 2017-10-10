@@ -123,7 +123,7 @@ extension HostRecord: Hashable {
         return name.hashValue
     }
 
-    public static func ==<IPType: IP> (lhs: HostRecord<IPType>, rhs: HostRecord<IPType>) -> Bool {
+    public static func ==<IPType> (lhs: HostRecord<IPType>, rhs: HostRecord<IPType>) -> Bool {
         return lhs.name == rhs.name
         // TODO: check equality of IP addresses
     }
