@@ -218,3 +218,32 @@ public struct AliasRecord {
     public var ttl: UInt32
     public var canonicalName: String
 }
+
+// https://tools.ietf.org/html/rfc1035#section-3.3.13
+public struct StartOfAuthorityRecord {
+    public var name: String
+    public var unique: Bool
+    public var internetClass: InternetClass
+    public var ttl: UInt32
+    public var mname: String
+    public var rname: String
+    public var serial: UInt32
+    public var refresh: Int32
+    public var retry: Int32
+    public var expire: Int32
+    public var minimum: UInt32
+    
+    public init(name: String, unique: Bool = false, internetClass: InternetClass = .internet, ttl: UInt32, mname: String, rname: String, serial: UInt32, refresh: Int32, retry: Int32, expire: Int32, minimum: UInt32) {
+        self.name = name
+        self.unique = unique
+        self.internetClass = internetClass
+        self.ttl = ttl
+        self.mname = mname
+        self.rname = rname
+        self.serial = serial
+        self.refresh = refresh
+        self.retry = retry
+        self.expire = expire
+        self.minimum = minimum
+    }
+}

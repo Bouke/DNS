@@ -120,6 +120,7 @@ func deserializeRecord(_ data: Data, _ position: inout Data.Index) throws -> Res
     case .text: return try TextRecord(deserialize: data, position: &position, common: common)
     case .pointer: return try PointerRecord(deserialize: data, position: &position, common: common)
     case .alias: return try AliasRecord(deserialize: data, position: &position, common: common)
+    case .startOfAuthority: return try StartOfAuthorityRecord(deserialize: data, position: &position, common: common)
     default: return try Record(deserialize: data, position: &position, common: common)
     }
 }
@@ -387,6 +388,41 @@ extension AliasRecord: ResourceRecord {
         buffer += [0, 0]
         let startPosition = buffer.endIndex
         try serializeName(canonicalName, onto: &buffer, labels: &labels)
+        
+        // Set the length before the data field
+        let length = UInt16(buffer.endIndex - startPosition)
+        buffer.replaceSubrange((startPosition - 2)..<startPosition, with: length.bytes)
+    }
+}
+
+extension StartOfAuthorityRecord: ResourceRecord {
+    init(deserialize data: Data, position: inout Data.Index, common: RecordCommonFields) throws {
+        (name, _, unique, internetClass, ttl) = common
+        let length = try UInt16(data: data, position: &position)
+        let expectedPosition = position + Data.Index(length)
+        mname = try deserializeName(data, &position)
+        rname = try deserializeName(data, &position)
+        serial = try UInt32(data: data, position: &position)
+        refresh = try Int32(data: data, position: &position)
+        retry = try Int32(data: data, position: &position)
+        expire = try Int32(data: data, position: &position)
+        minimum = try UInt32(data: data, position: &position)
+        guard position == expectedPosition else {
+            throw DecodeError.invalidDataSize
+        }
+    }
+    
+    public func serialize(onto buffer: inout Data, labels: inout Labels) throws {
+        try serializeRecordCommonFields((name, ResourceRecordType.startOfAuthority, unique, internetClass, ttl), onto: &buffer, labels: &labels)
+        buffer += [0, 0]
+        let startPosition = buffer.endIndex
+        try serializeName(mname, onto: &buffer, labels: &labels)
+        try serializeName(rname, onto: &buffer, labels: &labels)
+        buffer += serial.bytes
+        buffer += refresh.bytes
+        buffer += retry.bytes
+        buffer += expire.bytes
+        buffer += minimum.bytes
         
         // Set the length before the data field
         let length = UInt16(buffer.endIndex - startPosition)
