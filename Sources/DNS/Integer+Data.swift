@@ -28,7 +28,7 @@ extension BinaryInteger {
     }
 }
 
-extension UnsignedInteger {
+extension BinaryInteger {
     // returns little endian; use .bigEndian.bytes for BE.
     var bytes: Data {
         var copy = self
