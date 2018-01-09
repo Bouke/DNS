@@ -32,7 +32,7 @@ class DNSTests: XCTestCase {
 
         // Decoding a message
         let response = try Message(deserialize: responseData)
-        print(response.answers.first)
+        print(response.answers.first ?? "No answers")
     }
 
     func testPointerRecord() {

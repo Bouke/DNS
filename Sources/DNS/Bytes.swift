@@ -335,7 +335,7 @@ extension TextRecord: ResourceRecord {
             guard let label = String(bytes: Data(data[labelStart..<position]), encoding: .utf8) else {
                 throw DecodeError.unicodeDecodingError
             }
-            let attr = label.characters.split(separator: "=", maxSplits: 1, omittingEmptySubsequences: false).map { String($0) }
+            let attr = label.split(separator: "=", maxSplits: 1, omittingEmptySubsequences: false).map { String($0) }
             if attr.count == 2 {
                 attrs[attr[0]] = attr[1]
             } else {
