@@ -16,12 +16,12 @@ enum DecodeError: Swift.Error {
 }
 
 func deserializeName(_ data: Data, _ position: inout Data.Index) throws -> String {
-    guard position < data.endIndex else {
-        throw DecodeError.invalidLabelOffset
-    }
     var components = [String]()
     let startPosition = position
     while true {
+        guard position < data.endIndex else {
+            throw DecodeError.invalidLabelOffset
+        }
         let step = data[position]
         if step & 0xc0 == 0xc0 {
             let offset = Int(try UInt16(data: data, position: &position) ^ 0xc000)
@@ -53,11 +53,11 @@ func deserializeName(_ data: Data, _ position: inout Data.Index) throws -> Strin
                 throw DecodeError.unicodeDecodingError
             }
             components.append(component)
-        } else {
-            position = end
-            break
         }
         position = end
+        if step == 0 {
+            break
+        }
     }
     return components.joined(separator: ".") + "."
 }

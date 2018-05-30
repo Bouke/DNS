@@ -15,6 +15,7 @@ class DNSTests: XCTestCase {
             ("testDeserializeCorruptedName", testDeserializeCorruptedName),
             ("testSerializeNameCondensed", testSerializeNameCondensed),
             ("testLinuxTestSuiteIncludesAllTests", testLinuxTestSuiteIncludesAllTests),
+            ("testDeserializeFuzzMessages", testDeserializeFuzzMessages),
         ]
     }
 
@@ -117,6 +118,11 @@ class DNSTests: XCTestCase {
         let name = try! deserializeName(data, &position)
         XCTAssertEqual(name, "Zithoek._airplay._tcp.local.")
         XCTAssertEqual(position, 99)
+    }
+
+    func testDeserializeFuzzMessages() {
+        let data = Data(hex: "000084000001000200000002085f61692e706c6179045f746370065f6c6f63616c00000c0001c00c000c0001000000780013076578616d706c65085f616972706c6179c015c03200210001000000780015000000001b58076578616d706c65056c6f63616c00c057000100010000007800040a000102c00c000c000100000078000c0b68656c6c6f3d776f726c64")!
+        _ = try? Message(deserialize: data) // should either deserialize or throw, but not sigfault
     }
     
     func testDeserializeCorruptedName() {
