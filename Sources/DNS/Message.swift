@@ -185,7 +185,6 @@ extension Message: CustomDebugStringConvertible {
     }
 }
 
-
 /// A four bit field that specifies kind of query in this
 /// message.  This value is set by the originator of a query
 /// and copied into the response.
@@ -204,7 +203,6 @@ public extension OperationCode { // 4 bits: 0-15
     public static let notify: OperationCode = 4 // NOTIFY
     public static let update: OperationCode = 5 // UPDATE
 }
-
 
 /// Response code - this 4 bit field is set as part of responses.
 ///
@@ -257,4 +255,3 @@ public extension ReturnCode { // 4 bits: 0-15
     /// zone denoted by the Zone Section.
     public static let nameNotContainedInZone: ReturnCode = 10 // NOTZONE
 }
-

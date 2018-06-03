@@ -1,0 +1,17 @@
+disabled_rules:
+  - cyclomatic_complexity
+  - file_length
+  - force_try
+  - function_body_length
+  - line_length
+  - private_over_fileprivate
+  - todo
+included:
+  - Sources
+  - Tests
+identifier_name:
+  excluded:
+    - id
+    - ip
+    - qr
+    - to

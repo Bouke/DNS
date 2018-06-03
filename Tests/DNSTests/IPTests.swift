@@ -2,7 +2,7 @@ import XCTest
 @testable import DNS
 
 class IPTests: XCTestCase {
-    static var allTests : [(String, (IPTests) -> () throws -> Void)] {
+    static var allTests: [(String, (IPTests) -> () throws -> Void)] {
         return [
             ("testIPv4Valid", testIPv4Valid),
             ("testIPv4Invalid", testIPv4Invalid),
@@ -14,7 +14,7 @@ class IPTests: XCTestCase {
             ("testIPv6Invalid", testIPv6Invalid),
             ("testIPv6Predefined", testIPv6Predefined),
             ("testIPv6Bytes", testIPv6Bytes),
-            ("testLinuxTestSuiteIncludesAllTests", testLinuxTestSuiteIncludesAllTests),
+            ("testLinuxTestSuiteIncludesAllTests", testLinuxTestSuiteIncludesAllTests)
         ]
     }
 

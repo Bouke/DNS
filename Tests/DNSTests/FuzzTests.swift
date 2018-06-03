@@ -3,21 +3,21 @@ import XCTest
 
 #if os(Linux)
     import Glibc
-    
+
     public func arc4random_uniform(_ max: UInt32) -> Int32 {
         return Glibc.rand() % Int32(max - 1)
     }
 #endif
 
 class FuzzTests: XCTestCase {
-    static var allTests : [(String, (FuzzTests) -> () throws -> Void)] {
+    static var allTests: [(String, (FuzzTests) -> () throws -> Void)] {
         return [
             ("testFuzzRandom", testFuzzRandom),
             ("testFuzzCorrupted", testFuzzCorrupted),
-            ("testLinuxTestSuiteIncludesAllTests", testLinuxTestSuiteIncludesAllTests),
+            ("testLinuxTestSuiteIncludesAllTests", testLinuxTestSuiteIncludesAllTests)
         ]
     }
-    
+
     func testFuzzRandom() {
         return
         for _ in 0..<1_000_000 {
@@ -29,7 +29,7 @@ class FuzzTests: XCTestCase {
             }
         }
     }
-    
+
     func testFuzzCorrupted() {
         return
         let service = "_airplay._tcp._local."
@@ -64,7 +64,7 @@ class FuzzTests: XCTestCase {
             }
         }
     }
-    
+
     // from: https://oleb.net/blog/2017/03/keeping-xctest-in-sync/#appendix-code-generation-with-sourcery
     func testLinuxTestSuiteIncludesAllTests() {
         #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)

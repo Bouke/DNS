@@ -39,8 +39,7 @@ func deserializeName(_ data: Data, _ position: inout Data.Index) throws -> Strin
         }
 
         guard let start = data.index(position, offsetBy: 1, limitedBy: data.endIndex),
-            let end = data.index(start, offsetBy: Int(step), limitedBy: data.endIndex) else
-        {
+            let end = data.index(start, offsetBy: Int(step), limitedBy: data.endIndex) else {
             throw DecodeError.invalidLabelSize
         }
         if step > 0 {
@@ -62,7 +61,6 @@ func deserializeName(_ data: Data, _ position: inout Data.Index) throws -> Strin
     return components.joined(separator: ".") + "."
 }
 
-
 public typealias Labels = [String: Data.Index]
 func serializeName(_ name: String, onto buffer: inout Data, labels: inout Labels) throws {
     if name.utf8.reduce(false, { $0 || $1 & 128 == 128 }) {
@@ -80,7 +78,7 @@ func serializeName(_ name: String, onto buffer: inout Data, labels: inout Labels
         buffer.append(0)
         return
     }
-    
+
     let codes = Array(components.removeFirst().utf8)
     buffer.append(UInt8(codes.count))
     buffer += codes
@@ -110,7 +108,6 @@ func serializeRecordCommonFields(_ common: RecordCommonFields, onto buffer: inou
     buffer.append(common.ttl.bytes)
 }
 
-
 func deserializeRecord(_ data: Data, _ position: inout Data.Index) throws -> ResourceRecord {
     let common = try deserializeRecordCommonFields(data, &position)
     switch ResourceRecordType(common.type) {
@@ -124,7 +121,6 @@ func deserializeRecord(_ data: Data, _ position: inout Data.Index) throws -> Res
     default: return try Record(deserialize: data, position: &position, common: common)
     }
 }
-
 
 extension Message {
 
@@ -217,7 +213,7 @@ extension Message {
         var position = bytes.startIndex
         id = try UInt16(data: bytes, position: &position)
         let flags = try UInt16(data: bytes, position: &position)
-        
+
         type = flags >> 15 & 1 == 1 ? .response : .query
         operationCode = OperationCode(flags >> 11 & 0x7)
         authoritativeAnswer = flags >> 10 & 0x1 == 0x1
@@ -225,12 +221,12 @@ extension Message {
         recursionDesired = flags >> 8 & 0x1 == 0x1
         recursionAvailable = flags >> 7 & 0x1 == 0x1
         returnCode = ReturnCode(flags & 0x7)
-        
+
         let numQuestions = try UInt16(data: bytes, position: &position)
         let numAnswers = try UInt16(data: bytes, position: &position)
         let numAuthorities = try UInt16(data: bytes, position: &position)
         let numAdditional = try UInt16(data: bytes, position: &position)
-        
+
         questions = try (0..<numQuestions).map { _ in try Question(deserialize: bytes, position: &position) }
         answers = try (0..<numAnswers).map { _ in try deserializeRecord(bytes, &position) }
         authorities = try (0..<numAuthorities).map { _ in try deserializeRecord(bytes, &position) }
@@ -369,7 +365,7 @@ extension PointerRecord: ResourceRecord {
         buffer += [0, 0]
         let startPosition = buffer.endIndex
         try serializeName(destination, onto: &buffer, labels: &labels)
-        
+
         // Set the length before the data field
         let length = UInt16(buffer.endIndex - startPosition)
         buffer.replaceSubrange((startPosition - 2)..<startPosition, with: length.bytes)
@@ -382,13 +378,13 @@ extension AliasRecord: ResourceRecord {
         position += 2
         canonicalName = try deserializeName(data, &position)
     }
-    
+
     public func serialize(onto buffer: inout Data, labels: inout Labels) throws {
         try serializeRecordCommonFields((name, ResourceRecordType.alias, unique, internetClass, ttl), onto: &buffer, labels: &labels)
         buffer += [0, 0]
         let startPosition = buffer.endIndex
         try serializeName(canonicalName, onto: &buffer, labels: &labels)
-        
+
         // Set the length before the data field
         let length = UInt16(buffer.endIndex - startPosition)
         buffer.replaceSubrange((startPosition - 2)..<startPosition, with: length.bytes)
@@ -411,7 +407,7 @@ extension StartOfAuthorityRecord: ResourceRecord {
             throw DecodeError.invalidDataSize
         }
     }
-    
+
     public func serialize(onto buffer: inout Data, labels: inout Labels) throws {
         try serializeRecordCommonFields((name, ResourceRecordType.startOfAuthority, unique, internetClass, ttl), onto: &buffer, labels: &labels)
         buffer += [0, 0]
@@ -423,7 +419,7 @@ extension StartOfAuthorityRecord: ResourceRecord {
         buffer += retry.bytes
         buffer += expire.bytes
         buffer += minimum.bytes
-        
+
         // Set the length before the data field
         let length = UInt16(buffer.endIndex - startPosition)
         buffer.replaceSubrange((startPosition - 2)..<startPosition, with: length.bytes)

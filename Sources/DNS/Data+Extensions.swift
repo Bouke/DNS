@@ -20,7 +20,7 @@ extension Data {
 
 extension RandomAccessCollection where Iterator.Element == UInt8, Index == Int {
     var hex: String {
-        return self.reduce("") { $0 + String(format:"%02x", $1) }
+        return self.reduce("") { $0 + String(format: "%02x", $1) }
     }
 }
 
@@ -36,7 +36,7 @@ extension RandomAccessCollection where Iterator.Element == UInt8, Index == Int {
             var byteStart = start
             for pos in 0..<24 {
                 if byteStart < endIndex {
-                    print(String(format:"%02x", self[byteStart]), terminator: "")
+                    print(String(format: "%02x", self[byteStart]), terminator: "")
                 } else {
                     print("  ", terminator: "")
                 }
@@ -66,5 +66,3 @@ extension RandomAccessCollection where Iterator.Element == UInt8, Index == Int {
         }
     }
 }
-
-
