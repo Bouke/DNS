@@ -9,7 +9,7 @@ let package = Package(
         .executable(name: "dns-forwarder", targets: ["Server"])
     ],
     dependencies: [
-        .package(url: "https://github.com/Bouke/BlueSocket.git", .branch("patch-1")),
+        .package(url: "https://github.com/IBM-Swift/BlueSocket.git", from: "1.0.8"),
         .package(url: "https://github.com/apple/swift-package-manager.git", from: "0.2.0"),
     ],
     targets: [
