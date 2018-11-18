@@ -1,7 +1,6 @@
 import Foundation
 
 enum EncodeError: Swift.Error {
-    case unicodeEncodingNotSupported
 }
 
 enum DecodeError: Swift.Error {
@@ -9,7 +8,6 @@ enum DecodeError: Swift.Error {
     case invalidLabelSize
     case invalidLabelOffset
     case unicodeDecodingError
-    case unicodeEncodingNotSupported
     case invalidIntegerSize
     case invalidIPAddress
     case invalidDataSize
@@ -43,11 +41,6 @@ func deserializeName(_ data: Data, _ position: inout Data.Index) throws -> Strin
             throw DecodeError.invalidLabelSize
         }
         if step > 0 {
-            for byte in data[start..<end] {
-                guard (0x20..<0xff).contains(byte) else {
-                    throw DecodeError.unicodeEncodingNotSupported
-                }
-            }
             guard let component = String(bytes: Data(data[start..<end]), encoding: .utf8) else {
                 throw DecodeError.unicodeDecodingError
             }
@@ -63,9 +56,6 @@ func deserializeName(_ data: Data, _ position: inout Data.Index) throws -> Strin
 
 public typealias Labels = [String: Data.Index]
 func serializeName(_ name: String, onto buffer: inout Data, labels: inout Labels) throws {
-    if name.utf8.reduce(false, { $0 || $1 & 128 == 128 }) {
-        throw EncodeError.unicodeEncodingNotSupported
-    }
     // re-use existing label
     if let index = labels[name] {
         buffer += (0xc000 | UInt16(index)).bytes

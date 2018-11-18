@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## 1.1.1 - 2018-11-18
+### Added
+- Allow encoding of UTF-8 names
+
 ## 1.1.0 - 2018-08-03
 ### Added
 - StartOfAuthorityRecord type.

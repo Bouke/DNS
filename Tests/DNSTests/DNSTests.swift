@@ -13,6 +13,7 @@ class DNSTests: XCTestCase {
             ("testMessage5", testMessage5),
             ("testDeserializeName", testDeserializeName),
             ("testDeserializeCorruptedName", testDeserializeCorruptedName),
+            ("testSerializeName", testSerializeName),
             ("testSerializeNameCondensed", testSerializeNameCondensed),
             ("testLinuxTestSuiteIncludesAllTests", testLinuxTestSuiteIncludesAllTests),
             ("testDeserializeFuzzMessages", testDeserializeFuzzMessages)
@@ -130,6 +131,13 @@ class DNSTests: XCTestCase {
         if (try? Message(deserialize: data)) != nil {
             return XCTFail("Should not have deserialized message")
         }
+    }
+
+    func testSerializeName() {
+        let message = Message(type: .response,
+                              questions: [Question(name: "🤩", type: .pointer)])
+        let size0 = try! message.serialize().count
+        XCTAssertEqual(size0, 22)
     }
 
     func testSerializeNameCondensed() {
