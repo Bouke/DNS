@@ -73,15 +73,15 @@ public struct IPv4: IP {
     }
 }
 
-extension IPv4: Equatable, Hashable {
+extension IPv4: Hashable {
     // MARK: Conformance to `Hashable`
 
     public static func == (lhs: IPv4, rhs: IPv4) -> Bool {
         return lhs.address.s_addr == rhs.address.s_addr
     }
-
-    public var hashValue: Int {
-        return Int(address.s_addr)
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(Int(address.s_addr))
     }
 }
 
@@ -146,14 +146,14 @@ public struct IPv6: IP {
     }
 }
 
-extension IPv6: Equatable, Hashable {
+extension IPv6: Hashable {
     // MARK: Conformance to `Hashable`
 
     public static func == (lhs: IPv6, rhs: IPv6) -> Bool {
         return lhs.presentation == rhs.presentation
     }
-
-    public var hashValue: Int {
-        return presentation.hashValue
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(presentation)
     }
 }
