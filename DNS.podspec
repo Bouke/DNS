@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "DNS"
-  s.version      = "1.0.2"
+  s.version      = "2.0.0"
   s.summary      = "A lib for parsing and serializing DNS packets."
 
   s.homepage     = "https://github.com/mcfedr/DNS"
@@ -14,5 +14,5 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/mcfedr/DNS.git", :tag => "#{s.version}" }
 
   s.source_files  = "Sources/DNS/**/*.swift"
-  s.swift_version = "4.0"
+  s.swift_version = "4.2"
 end
