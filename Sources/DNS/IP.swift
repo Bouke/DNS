@@ -90,13 +90,13 @@ extension IPv4: Hashable {
         return lhs.address.s_addr == rhs.address.s_addr
     }
 
-    #if swift(<4.2)
-    public var hashValue: Int {
-        return Int(address.s_addr)
-    }
-    #else
+    #if swift(>=4.2)
     public func hash(into hasher: inout Hasher) {
         hasher.combine(Int(address.s_addr))
+    }
+    #else
+    public var hashValue: Int {
+        return Int(address.s_addr)
     }
     #endif
 }
@@ -185,13 +185,13 @@ extension IPv6: Hashable {
         return lhs.presentation == rhs.presentation
     }
 
-    #if swift(<4.2)
-    public var hashValue: Int {
-        return presentation.hashValue
-    }
-    #else
+    #if swift(>=4.2)
     public func hash(into hasher: inout Hasher) {
         hasher.combine(presentation)
+    }
+    #else
+    public var hashValue: Int {
+        return presentation.hashValue
     }
     #endif
 }
