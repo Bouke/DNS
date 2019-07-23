@@ -17,9 +17,5 @@ matrix:
       install:
         - brew update
         - brew upgrade swiftlint || true
-      addons:
-        sonarcloud:
-          organization: bouke-github
       script:
         - swiftlint --strict
-        - sonar-scanner
