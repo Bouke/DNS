@@ -78,7 +78,7 @@ extension IPv4: Hashable {
     public static func == (lhs: IPv4, rhs: IPv4) -> Bool {
         return lhs.address.s_addr == rhs.address.s_addr
     }
-    
+
     public func hash(into hasher: inout Hasher) {
         hasher.combine(Int(address.s_addr))
     }
@@ -150,7 +150,7 @@ extension IPv6: Hashable {
     public static func == (lhs: IPv6, rhs: IPv6) -> Bool {
         return lhs.presentation == rhs.presentation
     }
-    
+
     public func hash(into hasher: inout Hasher) {
         hasher.combine(presentation)
     }
