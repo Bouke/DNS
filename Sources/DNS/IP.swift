@@ -2,7 +2,6 @@ import Foundation
 
 // TODO: replace by sockaddr_storage
 
-
 /// Undefined for LE
 func htonl(_ value: UInt32) -> UInt32 {
     return value.byteSwapped
@@ -60,12 +59,12 @@ public struct IPv4: IP {
     public var presentation: String {
         var output = Data(count: Int(INET_ADDRSTRLEN))
         var address = self.address
-        guard let p = output.withUnsafeMutableBytes({
+        guard let presentationBytes = output.withUnsafeMutableBytes({
             inet_ntop(AF_INET, &address, $0, socklen_t(INET_ADDRSTRLEN))
         }) else {
             return "Invalid IPv4 address"
         }
-        return String(cString: p)
+        return String(cString: presentationBytes)
     }
 
     public var bytes: Data {
@@ -92,7 +91,6 @@ extension IPv4: ExpressibleByIntegerLiteral {
     }
 }
 
-
 public struct IPv6: IP {
     public let address: in6_addr
 
@@ -112,8 +110,8 @@ public struct IPv6: IP {
         guard bytes.count == MemoryLayout<in6_addr>.size else {
             return nil
         }
-        address = bytes.withUnsafeBytes { (p1: UnsafePointer<UInt8>) -> in6_addr in
-            p1.withMemoryRebound(to: in6_addr.self, capacity: 1) { $0.pointee }
+        address = bytes.withUnsafeBytes { (bytesPointer: UnsafePointer<UInt8>) -> in6_addr in
+            bytesPointer.withMemoryRebound(to: in6_addr.self, capacity: 1) { $0.pointee }
         }
     }
 
@@ -121,12 +119,12 @@ public struct IPv6: IP {
     public var presentation: String {
         var output = Data(count: Int(INET6_ADDRSTRLEN))
         var address = self.address
-        guard let p = output.withUnsafeMutableBytes({
+        guard let presentationBytes = output.withUnsafeMutableBytes({
             inet_ntop(AF_INET6, &address, $0, socklen_t(INET6_ADDRSTRLEN))
         }) else {
             return "Invalid IPv6 address"
         }
-        return String(cString: p)
+        return String(cString: presentationBytes)
     }
 
     public var bytes: Data {

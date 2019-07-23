@@ -2,7 +2,7 @@ import XCTest
 @testable import DNS
 
 class DNSTests: XCTestCase {
-    static var allTests : [(String, (DNSTests) -> () throws -> Void)] {
+    static var allTests: [(String, (DNSTests) -> () throws -> Void)] {
         return [
             ("testReadMe", testReadMe),
             ("testPointerRecord", testPointerRecord),
@@ -13,9 +13,10 @@ class DNSTests: XCTestCase {
             ("testMessage5", testMessage5),
             ("testDeserializeName", testDeserializeName),
             ("testDeserializeCorruptedName", testDeserializeCorruptedName),
+            ("testSerializeName", testSerializeName),
             ("testSerializeNameCondensed", testSerializeNameCondensed),
             ("testLinuxTestSuiteIncludesAllTests", testLinuxTestSuiteIncludesAllTests),
-            ("testDeserializeFuzzMessages", testDeserializeFuzzMessages),
+            ("testDeserializeFuzzMessages", testDeserializeFuzzMessages)
         ]
     }
 
@@ -55,7 +56,7 @@ class DNSTests: XCTestCase {
 
         XCTAssertEqual(pointer0, pointer0copy)
     }
-    
+
     func testMessage1() {
         let message0 = Message(id: 4529, type: .response, operationCode: .query, authoritativeAnswer: false, truncation: false, recursionDesired: false, recursionAvailable: false, returnCode: .nonExistentDomain)
         let serialized0 = try! message0.serialize()
@@ -124,12 +125,19 @@ class DNSTests: XCTestCase {
         let data = Data(hex: "000084000001000200000002085f61692e706c6179045f746370065f6c6f63616c00000c0001c00c000c0001000000780013076578616d706c65085f616972706c6179c015c03200210001000000780015000000001b58076578616d706c65056c6f63616c00c057000100010000007800040a000102c00c000c000100000078000c0b68656c6c6f3d776f726c64")!
         _ = try? Message(deserialize: data) // should either deserialize or throw, but not sigfault
     }
-    
+
     func testDeserializeCorruptedName() {
         let data = Data(hex: "000084000001000200009302085f616972706c6179045f746370065f6c6f63616c00000c0001c00c000c0001000000480013076578616d706c65085f616972706c6179c03ac03200210001000000780015000000001b5807656a616d706c65056c6f63616c00c057000100010000007800040a000102c00c0010000143000078000c0b68656c6c6f3d7767726c64")!
-        if let _ = try? Message(deserialize: data) {
+        if (try? Message(deserialize: data)) != nil {
             return XCTFail("Should not have deserialized message")
         }
+    }
+
+    func testSerializeName() {
+        let message = Message(type: .response,
+                              questions: [Question(name: "🤩", type: .pointer)])
+        let size0 = try! message.serialize().count
+        XCTAssertEqual(size0, 22)
     }
 
     func testSerializeNameCondensed() {
@@ -137,7 +145,7 @@ class DNSTests: XCTestCase {
                               questions: [Question(name: "abc.def.ghi.jk.local.", type: .pointer)])
         let size0 = try! message.serialize().count
         XCTAssertEqual(size0, 38)
-        
+
         message.questions.append(Question(name: "abc.def.ghi.jk.local.", type: .pointer))
         let size1 = try! message.serialize().count
         XCTAssertEqual(size1, size0 + 6)
@@ -145,7 +153,7 @@ class DNSTests: XCTestCase {
         message.questions.append(Question(name: "def.ghi.jk.local.", type: .pointer))
         let size2 = try! message.serialize().count
         XCTAssertEqual(size2, size1 + 10)
-        
+
         message.questions.append(Question(name: "xyz.def.ghi.jk.local.", type: .pointer))
         let size3 = try! message.serialize().count
         XCTAssertEqual(size3, size2 + 10)

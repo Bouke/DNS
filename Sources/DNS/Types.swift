@@ -1,6 +1,5 @@
 import Foundation
 
-
 public typealias InternetClass = UInt16
 
 public extension InternetClass {
@@ -10,7 +9,6 @@ public extension InternetClass {
     static let none: InternetClass = 254
     static let any: InternetClass = 255
 }
-
 
 public struct Question {
     public var name: String
@@ -71,7 +69,6 @@ extension ResourceRecordType: CustomDebugStringConvertible {
     }
 }
 
-
 public protocol ResourceRecord {
     var name: String { get set }
     var unique: Bool { get set }
@@ -80,7 +77,6 @@ public protocol ResourceRecord {
 
     func serialize(onto: inout Data, labels: inout Labels) throws
 }
-
 
 public struct Record {
     public var name: String
@@ -100,7 +96,6 @@ public struct Record {
     }
 }
 
-
 public struct HostRecord<IPType: IP> {
     public var name: String
     public var unique: Bool
@@ -117,7 +112,6 @@ public struct HostRecord<IPType: IP> {
     }
 }
 
-
 extension HostRecord: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(name)
@@ -128,7 +122,6 @@ extension HostRecord: Hashable {
         // TODO: check equality of IP addresses
     }
 }
-
 
 public struct ServiceRecord {
     public var name: String
@@ -152,7 +145,6 @@ public struct ServiceRecord {
     }
 }
 
-
 extension ServiceRecord: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(name)
@@ -162,7 +154,6 @@ extension ServiceRecord: Hashable {
         return lhs.name == rhs.name
     }
 }
-
 
 public struct TextRecord {
     public var name: String
@@ -182,7 +173,6 @@ public struct TextRecord {
     }
 }
 
-
 public struct PointerRecord {
     public var name: String
     public var unique: Bool
@@ -199,7 +189,6 @@ public struct PointerRecord {
     }
 }
 
-
 extension PointerRecord: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(destination)
@@ -209,7 +198,6 @@ extension PointerRecord: Hashable {
         return lhs.name == rhs.name && lhs.destination == rhs.destination
     }
 }
-
 
 public struct AliasRecord {
     public var name: String
@@ -232,7 +220,7 @@ public struct StartOfAuthorityRecord {
     public var retry: Int32
     public var expire: Int32
     public var minimum: UInt32
-    
+
     public init(name: String, unique: Bool = false, internetClass: InternetClass = .internet, ttl: UInt32, mname: String, rname: String, serial: UInt32, refresh: Int32, retry: Int32, expire: Int32, minimum: UInt32) {
         self.name = name
         self.unique = unique
