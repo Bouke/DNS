@@ -5,8 +5,19 @@ matrix:
   include:
     - os: osx
       osx_image: xcode10
+      script:
+        - swift test
+        - pod --version
+        - pod lib lint --swift-version=4.0
+        - pod lib lint --swift-version=4.2
     - os: osx
       osx_image: xcode11
+      script:
+        - swift test
+        - pod --version
+        - pod lib lint --swift-version=4.0
+        - pod lib lint --swift-version=4.2
+        - pod lib lint --swift-version=5.0
     - name: Swift 4.2
       os: linux
       dist: trusty
