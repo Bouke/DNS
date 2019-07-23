@@ -5,6 +5,8 @@ matrix:
   include:
     - os: osx
       osx_image: xcode10
+    - os: osx
+      osx_image: xcode11
     - name: Swift 4.2
       os: linux
       dist: trusty

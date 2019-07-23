@@ -14,5 +14,5 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/mcfedr/DNS.git", :tag => "#{s.version}" }
 
   s.source_files  = "Sources/DNS/**/*.swift"
-  s.swift_version = "4.2"
+  s.swift_version = ["4.0", "4.2", "5.0"]
 end
