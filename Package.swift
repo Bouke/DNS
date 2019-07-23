@@ -11,5 +11,5 @@ let package = Package(
         .target(name: "DNS", dependencies: []),
         .testTarget(name: "DNSTests", dependencies: ["DNS"])
     ],
-    swiftLanguageVersions: [.v4_2]
+    swiftLanguageVersions: [.v4, .v4_2]
 )

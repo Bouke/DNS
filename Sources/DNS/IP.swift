@@ -59,11 +59,22 @@ public struct IPv4: IP {
     public var presentation: String {
         var output = Data(count: Int(INET_ADDRSTRLEN))
         var address = self.address
+        #if swift(>=5.0)
+        guard let presentationBytes = output.withUnsafeMutableBytes({ (rawBufferPointer: UnsafeMutableRawBufferPointer) -> UnsafePointer<Int8>? in
+            let unsafeBufferPointer = rawBufferPointer.bindMemory(to: Int8.self)
+            guard let base = unsafeBufferPointer.baseAddress else { return nil }
+            let mutableBase = UnsafeMutablePointer(mutating: base)
+            return inet_ntop(AF_INET, &address, mutableBase, socklen_t(INET_ADDRSTRLEN))
+        }) else {
+            return "Invalid IPv4 address"
+        }
+        #else
         guard let presentationBytes = output.withUnsafeMutableBytes({
             inet_ntop(AF_INET, &address, $0, socklen_t(INET_ADDRSTRLEN))
         }) else {
             return "Invalid IPv4 address"
         }
+        #endif
         return String(cString: presentationBytes)
     }
 
@@ -79,9 +90,15 @@ extension IPv4: Hashable {
         return lhs.address.s_addr == rhs.address.s_addr
     }
 
+    #if swift(<4.2)
+    public var hashValue: Int {
+        return Int(address.s_addr)
+    }
+    #else
     public func hash(into hasher: inout Hasher) {
         hasher.combine(Int(address.s_addr))
     }
+    #endif
 }
 
 extension IPv4: ExpressibleByIntegerLiteral {
@@ -110,20 +127,37 @@ public struct IPv6: IP {
         guard bytes.count == MemoryLayout<in6_addr>.size else {
             return nil
         }
+        #if swift(>=5.0)
+        address = bytes.withUnsafeBytes({ (rawBufferPointer: UnsafeRawBufferPointer) -> in6_addr? in
+            return rawBufferPointer.bindMemory(to: in6_addr.self).baseAddress?.pointee
+        })!
+        #else
         address = bytes.withUnsafeBytes { (bytesPointer: UnsafePointer<UInt8>) -> in6_addr in
             bytesPointer.withMemoryRebound(to: in6_addr.self, capacity: 1) { $0.pointee }
         }
+        #endif
     }
 
     /// Format this IPv6 address using common `a:b:c:d:e:f:g:h` notation.
     public var presentation: String {
         var output = Data(count: Int(INET6_ADDRSTRLEN))
         var address = self.address
+        #if swift(>=5.0)
+        guard let presentationBytes = output.withUnsafeMutableBytes({ (rawBufferPointer: UnsafeMutableRawBufferPointer) -> UnsafePointer<Int8>? in
+            let unsafeBufferPointer = rawBufferPointer.bindMemory(to: Int8.self)
+            guard let base = unsafeBufferPointer.baseAddress else { return nil }
+            let mutableBase = UnsafeMutablePointer(mutating: base)
+            return inet_ntop(AF_INET6, &address, mutableBase, socklen_t(INET6_ADDRSTRLEN))
+        }) else {
+            return "Invalid IPv6 address"
+        }
+        #else
         guard let presentationBytes = output.withUnsafeMutableBytes({
             inet_ntop(AF_INET6, &address, $0, socklen_t(INET6_ADDRSTRLEN))
         }) else {
             return "Invalid IPv6 address"
         }
+        #endif
         return String(cString: presentationBytes)
     }
 
@@ -151,7 +185,13 @@ extension IPv6: Hashable {
         return lhs.presentation == rhs.presentation
     }
 
+    #if swift(<4.2)
+    public var hashValue: Int {
+        return presentation.hashValue
+    }
+    #else
     public func hash(into hasher: inout Hasher) {
         hasher.combine(presentation)
     }
+    #endif
 }
