@@ -5,6 +5,8 @@ matrix:
   include:
     - os: osx
       osx_image: xcode10
+      install:
+        - gem install cocoapods
       script:
         - swift test
         - pod --version
@@ -12,6 +14,8 @@ matrix:
         - pod lib lint --swift-version=4.2
     - os: osx
       osx_image: xcode11
+      install:
+        - gem install cocoapods
       script:
         - swift test
         - pod --version
