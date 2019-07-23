@@ -9,7 +9,6 @@ matrix:
         - gem install cocoapods
       script:
         - swift test
-        - pod --version
         - pod lib lint --swift-version=4.0
         - pod lib lint --swift-version=4.2
     - os: osx
@@ -18,7 +17,6 @@ matrix:
         - gem install cocoapods
       script:
         - swift test
-        - pod --version
         - pod lib lint --swift-version=4.0
         - pod lib lint --swift-version=4.2
         - pod lib lint --swift-version=5.0
