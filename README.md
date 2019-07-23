@@ -1,8 +1,7 @@
 DNS Record Types
 ================
 
-A Swift implementation of DNS Record Types. Used for example in mDNS /
-NetService.
+A Swift implementation of DNS Record Types.
 
 [![Build Status](https://travis-ci.org/mcfedr/DNS.svg?branch=master)](https://travis-ci.org/mcfedr/DNS)
 
