@@ -21,7 +21,7 @@ matrix:
         - wget https://swift.org/builds/swift-5.0-release/ubuntu1404/swift-5.0-RELEASE/swift-5.0-RELEASE-ubuntu14.04.tar.gz
         - tar xzf swift-5.0-RELEASE-ubuntu14.04.tar.gz
         - export PATH=`pwd`/swift-5.0-RELEASE-ubuntu14.04/usr/bin:"${PATH}"
-    - name: Code Quality Checks
+    - name: Code Quality Checks (Lint)
       os: osx
       osx_image: xcode10
       install:
@@ -32,4 +32,15 @@ matrix:
           organization: bouke-github
       script:
         - swiftlint --strict
+    - name: Code Quality and Security Checks
+      os: osx
+      osx_image: xcode10
+      install:
+        - curl -O https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.0.0.1744-macosx.zip
+        - unzip sonar-scanner-cli-4.0.0.1744-macosx.zip
+        - export PATH=`pwd`/sonar-scanner-4.0.0.1744-macosx/bin:"${PATH}"
+      addons:
+        sonarcloud:
+          organization: bouke-github
+      script:
         - sonar-scanner
