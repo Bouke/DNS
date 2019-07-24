@@ -3,7 +3,7 @@ DNS Record Types
 
 A Swift implementation of DNS Record Types.
 
-[![Build Status](https://travis-ci.org/mcfedr/DNS.svg?branch=master)](https://travis-ci.org/mcfedr/DNS)
+[![Build Status](https://travis-ci.org/Bouke/DNS.svg?branch=master)](https://travis-ci.org/Bouke/DNS)
 
 ## Usage
 

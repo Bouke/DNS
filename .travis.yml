@@ -5,20 +5,8 @@ matrix:
   include:
     - os: osx
       osx_image: xcode10
-      install:
-        - gem install cocoapods
-      script:
-        - swift test
-        - pod lib lint --swift-version=4.0
-        - pod lib lint --swift-version=4.2
     - os: osx
       osx_image: xcode11
-      install:
-        - gem install cocoapods
-      script:
-        - swift test
-        - pod lib lint --swift-version=4.2
-        - pod lib lint --swift-version=5.0
     - name: Swift 4.2
       os: linux
       dist: trusty
@@ -39,5 +27,9 @@ matrix:
       install:
         - brew update
         - brew upgrade swiftlint || true
+      addons:
+        sonarcloud:
+          organization: bouke-github
       script:
         - swiftlint --strict
+        - sonar-scanner
