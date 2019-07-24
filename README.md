@@ -4,6 +4,8 @@ DNS Record Types
 A Swift implementation of DNS Record Types.
 
 [![Build Status](https://travis-ci.org/Bouke/DNS.svg?branch=master)](https://travis-ci.org/Bouke/DNS)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Bouke_DNS&metric=alert_status)](https://sonarcloud.io/dashboard?id=Bouke_DNS)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
 ## Usage
 
