@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "DNS"
-  s.version      = "1.0.2"
+  s.version      = "1.1.1"
   s.summary      = "A lib for parsing and serializing DNS packets."
 
   s.homepage     = "https://github.com/mcfedr/DNS"
