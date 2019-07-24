@@ -42,7 +42,5 @@ matrix:
       addons:
         sonarcloud:
           organization: bouke-github
-          token:
-            secure: "JfJTxuP2e8Sz3ybxnL6z+w0XPOYFNQSA63hX0AIwZ028pGd8rRV2iWj0Biwsw9qHpzFF/8rBABYc3HBUUrSfPWsYO1vtwY6sM21zrlnv2Wh4uv+cHmmkPMZOTe1qvOqxsjjjbvurBrfqEEyPo0SzLsTrKlBOwEsbbM819hcfoBUfB9jAVmNrErn7uPVZxzpHH9FE5TFpBR2dMphMuaA3CBGYysy1hwDjbiZuJ6hojAMB9CktAnvxisZfOzUHKTkTy/SntRnIsyjMDIY/6o0RhOVmdzzjxHBn6ftzu8BuQjWffUcSjFVbaKH3AwLcNf91j1Y5nXr4j0uA02dnoF9ArSLAIKY1Ozz/qcRyJDFtDO6G01eevnKydbsrbfF+RH0LwS9QfJOx3Pgg9S+4ltYcDzv5HsBwia0w9HifLYNCVvUMKzNT62z95pHXok+Owje7v/9bKGj8PBYZfE2a5ZCrBEXrejBfpgvNK6Gl9Tp4cw1UsK8VIUrufdJkKmCoWiCCXtvHKCOvz+mqypMupOcCfZHomvObOsm2NwhmPNjIO9VIZzYasHaMKlzOCl/t8FKFA6DjwrUTMtm9ZAshFEpYGs0GpEm+80FdBZOJuYX2VKTmVo4/yrh3fPaPBE8/Y/0FMwP9i8yr0M7g2qVzZAcj5lBgPSxP5sCsRWIdehjRvHg="
       script:
         - sonar-scanner
