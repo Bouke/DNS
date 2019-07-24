@@ -33,12 +33,12 @@ matrix:
       script:
         - swiftlint --strict
     - name: Code Quality and Security Checks
-      os: osx
-      osx_image: xcode10
+      os: linux
+      dist: trusty
       install:
-        - curl -O https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.0.0.1744-macosx.zip
-        - unzip sonar-scanner-cli-4.0.0.1744-macosx.zip
-        - export PATH=`pwd`/sonar-scanner-4.0.0.1744-macosx/bin:"${PATH}"
+        - curl -O https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.0.0.1744-linux.zip
+        - unzip sonar-scanner-cli-4.0.0.1744-linux.zip
+        - export PATH=`pwd`/sonar-scanner-4.0.0.1744-linux/bin:"${PATH}"
       addons:
         sonarcloud:
           organization: bouke-github
