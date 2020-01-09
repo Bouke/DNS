@@ -79,8 +79,8 @@ extension IPv4: Equatable, Hashable {
         return lhs.address.s_addr == rhs.address.s_addr
     }
 
-    public var hashValue: Int {
-        return Int(address.s_addr)
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(Int(address.s_addr))
     }
 }
 
@@ -151,7 +151,7 @@ extension IPv6: Equatable, Hashable {
         return lhs.presentation == rhs.presentation
     }
 
-    public var hashValue: Int {
-        return presentation.hashValue
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(presentation.hashValue)
     }
 }
