@@ -59,7 +59,7 @@ public struct IPv4: IP {
     public var presentation: String {
         var output = Data(count: Int(INET_ADDRSTRLEN))
         var address = self.address
-        guard let presentationBytes = output.withUnsafeMutableBytes({ (rawBufferPointer:UnsafeMutableRawBufferPointer) -> UnsafePointer<CChar>? in
+        guard let presentationBytes = output.withUnsafeMutableBytes({ (rawBufferPointer: UnsafeMutableRawBufferPointer) -> UnsafePointer<CChar>? in
             // Convert UnsafeMutableRawBufferPointer to UnsafeMutableBufferPointer<CChar>
             let charBufferPointer = rawBufferPointer.bindMemory(to: CChar.self)
             // Convert UnsafeMutableBufferPointer<CChar> to UnsafeMutablePointer<CChar>
@@ -131,7 +131,7 @@ public struct IPv6: IP {
     public var presentation: String {
         var output = Data(count: Int(INET6_ADDRSTRLEN))
         var address = self.address
-        guard let presentationBytes = output.withUnsafeMutableBytes({ (rawBufferPointer:UnsafeMutableRawBufferPointer) -> UnsafePointer<CChar>? in
+        guard let presentationBytes = output.withUnsafeMutableBytes({ (rawBufferPointer: UnsafeMutableRawBufferPointer) -> UnsafePointer<CChar>? in
             // Convert UnsafeMutableRawBufferPointer to UnsafeMutableBufferPointer<CChar>
             let charBufferPointer = rawBufferPointer.bindMemory(to: CChar.self)
             // Convert UnsafeMutableBufferPointer<CChar> to UnsafeMutablePointer<CChar>
