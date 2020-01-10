@@ -114,9 +114,9 @@ public struct HostRecord<IPType: IP> {
 
 extension HostRecord: Hashable {
 
-	public func hash(into hasher: inout Hasher) {
-		hasher.combine(name.hashValue)
-	}
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name.hashValue)
+    }
 
     public static func ==<IPType> (lhs: HostRecord<IPType>, rhs: HostRecord<IPType>) -> Bool {
         return lhs.name == rhs.name
@@ -147,9 +147,9 @@ public struct ServiceRecord {
 }
 
 extension ServiceRecord: Hashable {
-	public func hash(into hasher: inout Hasher) {
-		hasher.combine(name.hashValue)
-	}
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name.hashValue)
+    }
 
     public static func == (lhs: ServiceRecord, rhs: ServiceRecord) -> Bool {
         return lhs.name == rhs.name
@@ -191,9 +191,9 @@ public struct PointerRecord {
 }
 
 extension PointerRecord: Hashable {
-	public func hash(into hasher: inout Hasher) {
-		hasher.combine(destination.hashValue)
-	}
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(destination.hashValue)
+    }
 
     public static func == (lhs: PointerRecord, rhs: PointerRecord) -> Bool {
         return lhs.name == rhs.name && lhs.destination == rhs.destination

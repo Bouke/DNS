@@ -197,11 +197,11 @@ extension Message: CustomDebugStringConvertible {
 public typealias OperationCode = UInt8
 
 public extension OperationCode { // 4 bits: 0-15
-	static let query: OperationCode = 0 // QUERY
-	static let inverseQuery: OperationCode = 1 // IQUERY
-	static let statusRequest: OperationCode = 2 // STATUS
-	static let notify: OperationCode = 4 // NOTIFY
-	static let update: OperationCode = 5 // UPDATE
+    static let query: OperationCode = 0 // QUERY
+    static let inverseQuery: OperationCode = 1 // IQUERY
+    static let statusRequest: OperationCode = 2 // STATUS
+    static let notify: OperationCode = 4 // NOTIFY
+    static let update: OperationCode = 5 // UPDATE
 }
 
 /// Response code - this 4 bit field is set as part of responses.
@@ -212,46 +212,46 @@ public extension ReturnCode { // 4 bits: 0-15
     // MARK: Basic DNS (RFC1035)
 
     /// No error condition.
-	static let noError: ReturnCode = 0 // NOERROR
+    static let noError: ReturnCode = 0 // NOERROR
 
     /// Format error - he name server was unable to interpret the query.
-	static let formatError: ReturnCode = 1 // FORMERR
+    static let formatError: ReturnCode = 1 // FORMERR
 
     /// Server failure - The name server was unable to process this query due
     /// to a problem with the name server.
-	static let serverFailure: ReturnCode = 2 // SERVFAIL
+    static let serverFailure: ReturnCode = 2 // SERVFAIL
 
     /// Name Error - Meaningful only for responses from an authoritative name
     /// server, this code signifies that the domain name referenced in the
     /// query does not exist.
-	static let nonExistentDomain: ReturnCode = 3 // NXDOMAIN
+    static let nonExistentDomain: ReturnCode = 3 // NXDOMAIN
 
     /// Not Implemented - The name server does not support the requested kind
     /// of query.
-	static let notImplemented: ReturnCode = 4 // NOTIMPL
+    static let notImplemented: ReturnCode = 4 // NOTIMPL
 
     /// Refused - The name server refuses to perform the specified operation
     /// for policy reasons.  For example, a name server may not wish to provide
     /// the information to the particular requester, or a name server may not
     /// wish to perform a particular operation (e.g., zone transfer) for
     /// particular data.
-	static let queryRefused: ReturnCode = 5 // REFUSED
+    static let queryRefused: ReturnCode = 5 // REFUSED
 
     // MARK: DNS UPDATE (RFC2136)
 
     /// Some name that ought not to exist, does exist.
-	static let nameExistsWhenItShouldNot: ReturnCode = 6 // YXDOMAIN
+    static let nameExistsWhenItShouldNot: ReturnCode = 6 // YXDOMAIN
 
     /// Some RRset that ought not to exist, does exist.
-	static let rrSetExistsWhenItShouldNot: ReturnCode = 7 // YXRRSET
+    static let rrSetExistsWhenItShouldNot: ReturnCode = 7 // YXRRSET
 
     /// Some RRset that ought to exist, does not exist.
-	static let rrSetThatShouldExistDoestNot: ReturnCode = 8 // NXRRSET
+    static let rrSetThatShouldExistDoestNot: ReturnCode = 8 // NXRRSET
 
     /// The server is not authoritative for the zone named in the Zone Section.
-	static let serverNotAuthoritativeForZone: ReturnCode = 9 // NOTAUTH
+    static let serverNotAuthoritativeForZone: ReturnCode = 9 // NOTAUTH
 
     /// A name used in the Prerequisite or Update Section is not within the
     /// zone denoted by the Zone Section.
-	static let nameNotContainedInZone: ReturnCode = 10 // NOTZONE
+    static let nameNotContainedInZone: ReturnCode = 10 // NOTZONE
 }

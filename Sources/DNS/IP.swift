@@ -59,15 +59,15 @@ public struct IPv4: IP {
     public var presentation: String {
         var output = Data(count: Int(INET_ADDRSTRLEN))
         var address = self.address
-		guard let presentationBytes = output.withUnsafeMutableBytes({ (rawBufferPointer: UnsafeMutableRawBufferPointer) -> UnsafePointer<CChar>? in
-			// Convert UnsafeMutableRawBufferPointer to UnsafeMutableBufferPointer<CChar>
-			let charBufferPointer = rawBufferPointer.bindMemory(to: CChar.self)
-			// Convert UnsafeMutableBufferPointer<CChar> to UnsafeMutablePointer<CChar>
-			if let charPointer = charBufferPointer.baseAddress?.withMemoryRebound(to: CChar.self, capacity: Int(INET_ADDRSTRLEN), { return $0 }) {
-				return inet_ntop(AF_INET, &address, charPointer, socklen_t(INET_ADDRSTRLEN))
-			}
-			return nil
-		}) else {
+        guard let presentationBytes = output.withUnsafeMutableBytes({ (rawBufferPointer:UnsafeMutableRawBufferPointer) -> UnsafePointer<CChar>? in
+            // Convert UnsafeMutableRawBufferPointer to UnsafeMutableBufferPointer<CChar>
+            let charBufferPointer = rawBufferPointer.bindMemory(to: CChar.self)
+            // Convert UnsafeMutableBufferPointer<CChar> to UnsafeMutablePointer<CChar>
+            if let charPointer = charBufferPointer.baseAddress?.withMemoryRebound(to: CChar.self, capacity: Int(INET_ADDRSTRLEN), { return $0 }) {
+                return inet_ntop(AF_INET, &address, charPointer, socklen_t(INET_ADDRSTRLEN))
+            }
+            return nil
+        }) else {
             return "Invalid IPv4 address"
         }
         return String(cString: presentationBytes)
@@ -85,9 +85,9 @@ extension IPv4: Equatable, Hashable {
         return lhs.address.s_addr == rhs.address.s_addr
     }
 
-	public func hash(into hasher: inout Hasher) {
-		hasher.combine(Int(address.s_addr))
-	}
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(Int(address.s_addr))
+    }
 }
 
 extension IPv4: ExpressibleByIntegerLiteral {
@@ -116,30 +116,30 @@ public struct IPv6: IP {
         guard bytes.count == MemoryLayout<in6_addr>.size else {
             return nil
         }
-		address = bytes.withUnsafeBytes({ (rawBufferPointer: UnsafeRawBufferPointer) -> in6_addr in
-			// Convert UnsafeRawBufferPointer to UnsafeBufferPointer<UInt8>
-			let bufferPointer = rawBufferPointer.bindMemory(to: UInt8.self)
-			// Convert UnsafeBufferPointer<UInt8> to UnsafePointer<UInt8>
-			if let bytesPointer = bufferPointer.baseAddress?.withMemoryRebound(to: UInt8.self, capacity: bytes.count, { return $0 }) {
-				return bytesPointer.withMemoryRebound(to: in6_addr.self, capacity: 1) { $0.pointee }
-			}
-			return in6_addr()
-		})
+        address = bytes.withUnsafeBytes({ (rawBufferPointer: UnsafeRawBufferPointer) -> in6_addr in
+            // Convert UnsafeRawBufferPointer to UnsafeBufferPointer<UInt8>
+            let bufferPointer = rawBufferPointer.bindMemory(to: UInt8.self)
+            // Convert UnsafeBufferPointer<UInt8> to UnsafePointer<UInt8>
+            if let bytesPointer = bufferPointer.baseAddress?.withMemoryRebound(to: UInt8.self, capacity: bytes.count, { return $0 }) {
+                return bytesPointer.withMemoryRebound(to: in6_addr.self, capacity: 1) { $0.pointee }
+            }
+            return in6_addr()
+        })
     }
 
     /// Format this IPv6 address using common `a:b:c:d:e:f:g:h` notation.
     public var presentation: String {
         var output = Data(count: Int(INET6_ADDRSTRLEN))
         var address = self.address
-		guard let presentationBytes = output.withUnsafeMutableBytes({ (rawBufferPointer: UnsafeMutableRawBufferPointer) -> UnsafePointer<CChar>? in
-			// Convert UnsafeMutableRawBufferPointer to UnsafeMutableBufferPointer<CChar>
-			let charBufferPointer = rawBufferPointer.bindMemory(to: CChar.self)
-			// Convert UnsafeMutableBufferPointer<CChar> to UnsafeMutablePointer<CChar>
-			if let charPointer = charBufferPointer.baseAddress?.withMemoryRebound(to: CChar.self, capacity: Int(INET6_ADDRSTRLEN), { return $0 }) {
-				return inet_ntop(AF_INET6, &address, charPointer, socklen_t(INET6_ADDRSTRLEN))
-			}
-			return nil
-		}) else {
+        guard let presentationBytes = output.withUnsafeMutableBytes({ (rawBufferPointer:UnsafeMutableRawBufferPointer) -> UnsafePointer<CChar>? in
+            // Convert UnsafeMutableRawBufferPointer to UnsafeMutableBufferPointer<CChar>
+            let charBufferPointer = rawBufferPointer.bindMemory(to: CChar.self)
+            // Convert UnsafeMutableBufferPointer<CChar> to UnsafeMutablePointer<CChar>
+            if let charPointer = charBufferPointer.baseAddress?.withMemoryRebound(to: CChar.self, capacity: Int(INET6_ADDRSTRLEN), { return $0 }) {
+                return inet_ntop(AF_INET6, &address, charPointer, socklen_t(INET6_ADDRSTRLEN))
+            }
+            return nil
+        }) else {
             return "Invalid IPv6 address"
         }
         return String(cString: presentationBytes)
@@ -169,7 +169,7 @@ extension IPv6: Equatable, Hashable {
         return lhs.presentation == rhs.presentation
     }
 
-	public func hash(into hasher: inout Hasher) {
-		hasher.combine(presentation.hashValue)
-	}
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(presentation.hashValue)
+    }
 }
