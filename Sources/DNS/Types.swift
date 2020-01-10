@@ -3,11 +3,11 @@ import Foundation
 public typealias InternetClass = UInt16
 
 public extension InternetClass {
-    public static let internet: InternetClass = 1 // IN
-    public static let chaos: InternetClass = 3 // CH
-    public static let hesiod: InternetClass = 4 // HS
-    public static let none: InternetClass = 254
-    public static let any: InternetClass = 255
+    static let internet: InternetClass = 1 // IN
+    static let chaos: InternetClass = 3 // CH
+    static let hesiod: InternetClass = 4 // HS
+    static let none: InternetClass = 254
+    static let any: InternetClass = 255
 }
 
 public struct Question {
@@ -35,18 +35,18 @@ public struct Question {
 public typealias ResourceRecordType = UInt16
 
 public extension ResourceRecordType {
-    public static let host: ResourceRecordType = 0x0001
-    public static let nameServer: ResourceRecordType = 0x0002
-    public static let alias: ResourceRecordType = 0x0005
-    public static let startOfAuthority: ResourceRecordType = 0x0006
-    public static let pointer: ResourceRecordType = 0x000c
-    public static let mailExchange: ResourceRecordType = 0x000f
-    public static let text: ResourceRecordType = 0x0010
-    public static let host6: ResourceRecordType = 0x001c
-    public static let service: ResourceRecordType = 0x0021
-    public static let incrementalZoneTransfer: ResourceRecordType = 0x00fb
-    public static let standardZoneTransfer: ResourceRecordType = 0x00fc
-    public static let all: ResourceRecordType = 0x00ff // All cached records
+    static let host: ResourceRecordType = 0x0001
+    static let nameServer: ResourceRecordType = 0x0002
+    static let alias: ResourceRecordType = 0x0005
+    static let startOfAuthority: ResourceRecordType = 0x0006
+    static let pointer: ResourceRecordType = 0x000c
+    static let mailExchange: ResourceRecordType = 0x000f
+    static let text: ResourceRecordType = 0x0010
+    static let host6: ResourceRecordType = 0x001c
+    static let service: ResourceRecordType = 0x0021
+    static let incrementalZoneTransfer: ResourceRecordType = 0x00fb
+    static let standardZoneTransfer: ResourceRecordType = 0x00fc
+    static let all: ResourceRecordType = 0x00ff // All cached records
 }
 
 extension ResourceRecordType: CustomDebugStringConvertible {
@@ -113,8 +113,9 @@ public struct HostRecord<IPType: IP> {
 }
 
 extension HostRecord: Hashable {
-    public var hashValue: Int {
-        return name.hashValue
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name.hashValue)
     }
 
     public static func ==<IPType> (lhs: HostRecord<IPType>, rhs: HostRecord<IPType>) -> Bool {
@@ -146,8 +147,8 @@ public struct ServiceRecord {
 }
 
 extension ServiceRecord: Hashable {
-    public var hashValue: Int {
-        return name.hashValue
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name.hashValue)
     }
 
     public static func == (lhs: ServiceRecord, rhs: ServiceRecord) -> Bool {
@@ -190,8 +191,8 @@ public struct PointerRecord {
 }
 
 extension PointerRecord: Hashable {
-    public var hashValue: Int {
-        return destination.hashValue
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(destination.hashValue)
     }
 
     public static func == (lhs: PointerRecord, rhs: PointerRecord) -> Bool {
