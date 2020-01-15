@@ -10,7 +10,7 @@ NetService.
 
 ```swift
 // Encoding a message
-let request = Message(
+let request = DNSMessage(
     type: .query,
     questions: [Question(name: "apple.com.", type: .pointer)]
 )
@@ -20,7 +20,7 @@ let requestData = try request.serialize()
 
 // Decoding a message
 let responseData = Data()
-let response = try Message.init(deserialize: responseData)
+let response = try DNSMessage.init(deserialize: responseData)
 print(response.answers.first)
 ```
 

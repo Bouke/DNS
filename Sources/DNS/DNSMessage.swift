@@ -41,7 +41,7 @@ public enum MessageType {
 /// authoritative name server; the additional records section contains RRs
 /// which relate to the query, but are not strictly answers for the
 /// question.
-public struct Message {
+public struct DNSMessage {
 
     // MARK: Message header section
 
@@ -175,7 +175,7 @@ public struct Message {
     }
 }
 
-extension Message: CustomDebugStringConvertible {
+extension DNSMessage: CustomDebugStringConvertible {
     /// A textual representation of this instance, suitable for debugging.
     public var debugDescription: String {
         switch type {

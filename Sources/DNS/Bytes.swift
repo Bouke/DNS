@@ -112,11 +112,11 @@ func deserializeRecord(_ data: Data, _ position: inout Data.Index) throws -> Res
     }
 }
 
-extension Message {
+extension DNSMessage {
 
     // MARK: Serialization
 
-    /// Serialize a `Message` for sending over TCP.
+    /// Serialize a `DNSMessage` for sending over TCP.
     ///
     /// The DNS TCP format prepends the message size before the actual
     /// message.
@@ -129,7 +129,7 @@ extension Message {
         return UInt16(truncatingIfNeeded: data.count).bytes + data
     }
 
-    /// Serialize a `Message` for sending over UDP.
+    /// Serialize a `DNSMessage` for sending over UDP.
     ///
     /// - Returns: `Data` to be send over UDP.
     /// - Throws:
@@ -173,7 +173,7 @@ extension Message {
         return bytes
     }
 
-    /// Deserializes a `Message` from a TCP stream.
+    /// Deserializes a `DNSMessage` from a TCP stream.
     ///
     /// The DNS TCP format prepends the message size before the actual
     /// message.
@@ -192,7 +192,7 @@ extension Message {
         try self.init(deserialize: bytes)
     }
 
-    /// Deserializes a `Message` from a UDP stream.
+    /// Deserializes a `DNSMessage` from a UDP stream.
     ///
     /// - Parameter bytes: the bytes to deserialize.
     /// - Throws:

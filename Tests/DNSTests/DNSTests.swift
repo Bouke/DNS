@@ -23,7 +23,7 @@ class DNSTests: XCTestCase {
     func testReadMe() throws {
         // If the code below doesn't work, also update the README.md to
         // demonstrate the changes in the API.
-        let request = Message(
+        let request = DNSMessage(
             type: .query,
             questions: [Question(name: "apple.com.", type: .pointer)]
         )
@@ -33,7 +33,7 @@ class DNSTests: XCTestCase {
         let responseData = requestData
 
         // Decoding a message
-        let response = try Message(deserialize: responseData)
+        let response = try DNSMessage(deserialize: responseData)
         print(response.answers.first ?? "No answers")
     }
 
@@ -58,28 +58,28 @@ class DNSTests: XCTestCase {
     }
 
     func testMessage1() {
-        let message0 = Message(id: 4529, type: .response, operationCode: .query, authoritativeAnswer: false, truncation: false, recursionDesired: false, recursionAvailable: false, returnCode: .nonExistentDomain)
+        let message0 = DNSMessage(id: 4529, type: .response, operationCode: .query, authoritativeAnswer: false, truncation: false, recursionDesired: false, recursionAvailable: false, returnCode: .nonExistentDomain)
         let serialized0 = try! message0.serialize()
         XCTAssertEqual(serialized0.hex, "11b180030000000000000000")
-        let message1 = try! Message(deserialize: serialized0)
+        let message1 = try! DNSMessage(deserialize: serialized0)
         let serialized1 = try! message1.serialize()
         XCTAssertEqual(serialized0.hex, serialized1.hex)
     }
 
     func testMessage2() {
-        let message0 = Message(id: 18765, type: .response, operationCode: .query, authoritativeAnswer: true, truncation: true, recursionDesired: true, recursionAvailable: true, returnCode: .noError)
+        let message0 = DNSMessage(id: 18765, type: .response, operationCode: .query, authoritativeAnswer: true, truncation: true, recursionDesired: true, recursionAvailable: true, returnCode: .noError)
         let serialized0 = try! message0.serialize()
         XCTAssertEqual(serialized0.hex, "494d87800000000000000000")
-        let message1 = try! Message(deserialize: serialized0)
+        let message1 = try! DNSMessage(deserialize: serialized0)
         let serialized1 = try! message1.serialize()
         XCTAssertEqual(serialized0.hex, serialized1.hex)
     }
 
     func testMessage3() {
-        let message0 = Message(type: .query,
-                               questions: [Question(name: "_airplay._tcp._local", type: .pointer)])
+        let message0 = DNSMessage(type: .query,
+                                  questions: [Question(name: "_airplay._tcp._local", type: .pointer)])
         let serialized0 = try! message0.serialize()
-        let message1 = try! Message(deserialize: serialized0)
+        let message1 = try! DNSMessage(deserialize: serialized0)
         let serialized1 = try! message1.serialize()
         XCTAssertEqual(serialized0.hex, serialized1.hex)
     }
@@ -87,11 +87,11 @@ class DNSTests: XCTestCase {
     func testMessage4() {
         let service = "_airplay._tcp._local."
         let name = "example.\(service)"
-        let message0 = Message(type: .response,
-                               questions: [Question(name: service, type: .pointer)],
-                               answers: [PointerRecord(name: service, ttl: 120, destination: name)])
+        let message0 = DNSMessage(type: .response,
+                                  questions: [Question(name: service, type: .pointer)],
+                                  answers: [PointerRecord(name: service, ttl: 120, destination: name)])
         let serialized0 = try! message0.serialize()
-        let message1 = try! Message(deserialize: serialized0)
+        let message1 = try! DNSMessage(deserialize: serialized0)
         let serialized1 = try! message1.serialize()
         XCTAssertEqual(serialized0.hex, serialized1.hex)
     }
@@ -100,14 +100,14 @@ class DNSTests: XCTestCase {
         let service = "_airplay._tcp._local."
         let name = "example.\(service)"
         let server = "example.local."
-        let message0 = Message(type: .response,
-                               questions: [Question(name: service, type: .pointer)],
-                               answers: [PointerRecord(name: service, ttl: 120, destination: name),
-                                         ServiceRecord(name: name, ttl: 120, port: 7000, server: server)],
-                               additional: [HostRecord<IPv4>(name: server, ttl: 120, ip: IPv4("10.0.1.2")!),
-                                            TextRecord(name: service, ttl: 120, attributes: ["hello": "world"])])
+        let message0 = DNSMessage(type: .response,
+                                  questions: [Question(name: service, type: .pointer)],
+                                  answers: [PointerRecord(name: service, ttl: 120, destination: name),
+                                            ServiceRecord(name: name, ttl: 120, port: 7000, server: server)],
+                                  additional: [HostRecord<IPv4>(name: server, ttl: 120, ip: IPv4("10.0.1.2")!),
+                                               TextRecord(name: service, ttl: 120, attributes: ["hello": "world"])])
         let serialized0 = try! message0.serialize()
-        let message1 = try! Message(deserialize: serialized0)
+        let message1 = try! DNSMessage(deserialize: serialized0)
         let serialized1 = try! message1.serialize()
         XCTAssertEqual(serialized0.hex, serialized1.hex)
     }
@@ -123,26 +123,26 @@ class DNSTests: XCTestCase {
 
     func testDeserializeFuzzMessages() {
         let data = Data(hex: "000084000001000200000002085f61692e706c6179045f746370065f6c6f63616c00000c0001c00c000c0001000000780013076578616d706c65085f616972706c6179c015c03200210001000000780015000000001b58076578616d706c65056c6f63616c00c057000100010000007800040a000102c00c000c000100000078000c0b68656c6c6f3d776f726c64")!
-        _ = try? Message(deserialize: data) // should either deserialize or throw, but not sigfault
+        _ = try? DNSMessage(deserialize: data) // should either deserialize or throw, but not sigfault
     }
 
     func testDeserializeCorruptedName() {
         let data = Data(hex: "000084000001000200009302085f616972706c6179045f746370065f6c6f63616c00000c0001c00c000c0001000000480013076578616d706c65085f616972706c6179c03ac03200210001000000780015000000001b5807656a616d706c65056c6f63616c00c057000100010000007800040a000102c00c0010000143000078000c0b68656c6c6f3d7767726c64")!
-        if (try? Message(deserialize: data)) != nil {
+        if (try? DNSMessage(deserialize: data)) != nil {
             return XCTFail("Should not have deserialized message")
         }
     }
 
     func testSerializeName() {
-        let message = Message(type: .response,
-                              questions: [Question(name: "🤩", type: .pointer)])
+        let message = DNSMessage(type: .response,
+                                 questions: [Question(name: "🤩", type: .pointer)])
         let size0 = try! message.serialize().count
         XCTAssertEqual(size0, 22)
     }
 
     func testSerializeNameCondensed() {
-        var message = Message(type: .response,
-                              questions: [Question(name: "abc.def.ghi.jk.local.", type: .pointer)])
+        var message = DNSMessage(type: .response,
+                                 questions: [Question(name: "abc.def.ghi.jk.local.", type: .pointer)])
         let size0 = try! message.serialize().count
         XCTAssertEqual(size0, 38)
 

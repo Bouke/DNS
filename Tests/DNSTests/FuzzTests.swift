@@ -24,7 +24,7 @@ class FuzzTests: XCTestCase {
             let data = randomData()
             print(data.hex)
             do {
-                _ = try Message(deserialize: data)
+                _ = try DNSMessage(deserialize: data)
             } catch {
             }
         }
@@ -35,12 +35,12 @@ class FuzzTests: XCTestCase {
         let service = "_airplay._tcp._local."
         let name = "example.\(service)"
         let server = "example.local."
-        let message = Message(type: .response,
-                              questions: [Question(name: service, type: .pointer)],
-                              answers: [PointerRecord(name: service, ttl: 120, destination: name),
-                                        ServiceRecord(name: name, ttl: 120, port: 7000, server: server)],
-                              additional: [HostRecord<IPv4>(name: server, ttl: 120, ip: IPv4("10.0.1.2")!),
-                                           TextRecord(name: service, ttl: 120, attributes: ["hello": "world"])])
+        let message = DNSMessage(type: .response,
+                                 questions: [Question(name: service, type: .pointer)],
+                                 answers: [PointerRecord(name: service, ttl: 120, destination: name),
+                                           ServiceRecord(name: name, ttl: 120, port: 7000, server: server)],
+                                 additional: [HostRecord<IPv4>(name: server, ttl: 120, ip: IPv4("10.0.1.2")!),
+                                              TextRecord(name: service, ttl: 120, attributes: ["hello": "world"])])
         let original = try! message.serialize()
         for _ in 0..<101_000_00000 {
             var corrupted = original
@@ -59,7 +59,7 @@ class FuzzTests: XCTestCase {
             }
             print(corrupted.hex)
             do {
-                _ = try Message(deserialize: corrupted)
+                _ = try DNSMessage(deserialize: corrupted)
             } catch {
             }
         }

@@ -12,7 +12,7 @@ dash_url: http://boukehaarsma.nl/DNS/DNS.xml
 custom_categories:
   - name: Querying
     children:
-      - Message
+      - DNSMessage
       - MessageType
       - OperationCode
       - Question
