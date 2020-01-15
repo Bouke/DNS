@@ -1,15 +1,5 @@
 import Foundation
 
-/// A one bit field that specifies whether this message is a
-/// query (0), or a response (1).
-///
-/// - query: query to a name server
-/// - response: response from a name server
-public enum MessageType {
-    case query
-    case response
-}
-
 /// All communications inside of the domain protocol are carried in a single
 /// format called a message.  The top level format of message is divided
 /// into 5 sections (some of which are empty in certain cases) shown below:
@@ -43,6 +33,16 @@ public enum MessageType {
 /// question.
 public struct DNSMessage {
 
+    /// A one bit field that specifies whether this message is a
+    /// query (0), or a response (1).
+    ///
+    /// - query: query to a name server
+    /// - response: response from a name server
+    public enum MessageType {
+        case query
+        case response
+    }
+
     // MARK: Message header section
 
     /// A 16 bit identifier assigned by the program that
@@ -53,7 +53,7 @@ public struct DNSMessage {
 
     /// A one bit field that specifies whether this message is a
     /// query (0), or a response (1).
-    public var type: MessageType
+    public var type: DNSMessage.MessageType
 
     /// A four bit field that specifies kind of query in this
     /// message.  This value is set by the originator of a query
@@ -147,7 +147,7 @@ public struct DNSMessage {
     ///   - additional:
     public init(
         id: UInt16 = 0,
-        type: MessageType,
+        type: DNSMessage.MessageType,
         operationCode: OperationCode = .query,
         authoritativeAnswer: Bool = true,
         truncation: Bool = false,
