@@ -186,7 +186,7 @@ extension Message {
         let size = try Int(UInt16(data: bytes, position: &position))
 
         // strip size bytes (tcp only?)
-        var bytes = Data(bytes[2..<2+size]) // copy? :(
+        let bytes = Data(bytes[2..<2+size]) // copy? :(
         precondition(bytes.count == Int(size))
 
         try self.init(deserialize: bytes)
