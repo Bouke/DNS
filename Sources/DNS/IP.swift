@@ -56,21 +56,18 @@ public struct IPv4: IP {
     }
 
     /// Format this IPv4 address using common `a.b.c.d` notation.
-    public var presentation: String {
-        var output = Data(count: Int(INET_ADDRSTRLEN))
-        var address = self.address
-        guard let presentationBytes = output.withUnsafeMutableBytes({ (rawBufferPointer: UnsafeMutableRawBufferPointer) -> UnsafePointer<CChar>? in
-            // Convert UnsafeMutableRawBufferPointer to UnsafeMutableBufferPointer<CChar>
-            let charBufferPointer = rawBufferPointer.bindMemory(to: CChar.self)
-            // Convert UnsafeMutableBufferPointer<CChar> to UnsafeMutablePointer<CChar>
-            if let charPointer = charBufferPointer.baseAddress?.withMemoryRebound(to: CChar.self, capacity: Int(INET_ADDRSTRLEN), { return $0 }) {
-                return inet_ntop(AF_INET, &address, charPointer, socklen_t(INET_ADDRSTRLEN))
-            }
+    public var presentationString: String? {
+        let length = Int(INET_ADDRSTRLEN)
+        var presentationBytes = [CChar](repeating: 0, count: length)
+        var addr = self.address
+        guard inet_ntop(AF_INET, &addr, &presentationBytes, socklen_t(length)) != nil else {
             return nil
-        }) else {
-            return "Invalid IPv4 address"
         }
         return String(cString: presentationBytes)
+    }
+
+    public var presentation: String {
+        return presentationString ?? "Invalid IPv4 address"
     }
 
     public var bytes: Data {
@@ -128,21 +125,18 @@ public struct IPv6: IP {
     }
 
     /// Format this IPv6 address using common `a:b:c:d:e:f:g:h` notation.
-    public var presentation: String {
-        var output = Data(count: Int(INET6_ADDRSTRLEN))
-        var address = self.address
-        guard let presentationBytes = output.withUnsafeMutableBytes({ (rawBufferPointer: UnsafeMutableRawBufferPointer) -> UnsafePointer<CChar>? in
-            // Convert UnsafeMutableRawBufferPointer to UnsafeMutableBufferPointer<CChar>
-            let charBufferPointer = rawBufferPointer.bindMemory(to: CChar.self)
-            // Convert UnsafeMutableBufferPointer<CChar> to UnsafeMutablePointer<CChar>
-            if let charPointer = charBufferPointer.baseAddress?.withMemoryRebound(to: CChar.self, capacity: Int(INET6_ADDRSTRLEN), { return $0 }) {
-                return inet_ntop(AF_INET6, &address, charPointer, socklen_t(INET6_ADDRSTRLEN))
-            }
+    public var presentationString: String? {
+        let length = Int(INET6_ADDRSTRLEN)
+        var presentationBytes = [CChar](repeating: 0, count: length)
+        var addr = self.address
+        guard inet_ntop(AF_INET6, &addr, &presentationBytes, socklen_t(length)) != nil else {
             return nil
-        }) else {
-            return "Invalid IPv6 address"
         }
         return String(cString: presentationBytes)
+    }
+
+    public var presentation: String {
+        return presentationString ?? "Invalid IPv6 address"
     }
 
     public var bytes: Data {
