@@ -106,12 +106,12 @@ public struct DNSMessage {
 
     // MARK: Initializing
 
-    /// Create a `Message` instance.
+    /// Create a `DNSMessage` instance.
     ///
     /// To create a query:
     ///
     /// ```swift
-    /// let query = Message(
+    /// let query = DNSMessage(
     ///     id: UInt16(extendingOrTruncating: arc4random()),
     ///     type: .query,
     ///     questions: [
@@ -122,7 +122,7 @@ public struct DNSMessage {
     /// To create a response for this query:
     ///
     /// ```swift
-    /// let response = Message(
+    /// let response = DNSMessage(
     ///     id: query.id,
     ///     type: .response,
     ///     returnCode: .noError,
