@@ -25,6 +25,9 @@ public struct Question {
 
     init(deserialize data: Data, position: inout Data.Index) throws {
         name = try deserializeName(data, &position)
+        guard data.endIndex - position >= 4 else {
+            throw DecodeError.invalidQuestion
+        }
         type = try ResourceRecordType(data: data, position: &position)
         unique = data[position] & 0x80 == 0x80
         let rawInternetClass = try UInt16(data: data, position: &position)
