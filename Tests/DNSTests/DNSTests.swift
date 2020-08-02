@@ -132,6 +132,10 @@ class DNSTests: XCTestCase {
         let data = Data(hex: "14bf8ba7a13993cdb5346356008119")!
         _ = try? Message(deserialize: data) // should either deserialize or throw, but not segfault
     }
+
+    func testDeserializeInvalidLabel() {
+        let data = Data(hex: "e983e8f7b88aed06c83f590fc00c6e5a6d0fe8898a21dd")!
+        _ = try? Message(deserialize: data) // should either deserialize or throw, but not segfault
     }
 
     func testDeserializeCorruptedName() {

@@ -11,6 +11,7 @@ enum DecodeError: Swift.Error {
     case invalidIntegerSize
     case invalidIPAddress
     case invalidDataSize
+    case invalidQuestion
 }
 
 func deserializeName(_ data: Data, _ position: inout Data.Index) throws -> String {
@@ -23,13 +24,10 @@ func deserializeName(_ data: Data, _ position: inout Data.Index) throws -> Strin
         let step = data[position]
         if step & 0xc0 == 0xc0 {
             let offset = Int(try UInt16(data: data, position: &position) ^ 0xc000)
-            guard var pointer = data.index(data.startIndex, offsetBy: offset, limitedBy: data.endIndex) else {
-                throw DecodeError.invalidLabelOffset
-            }
             // Prevent cyclic references
             // Its safe to assume the pointer is to an earlier label
             // See https://www.ietf.org/rfc/rfc1035.txt 4.1.4
-            guard pointer < startPosition else {
+            guard var pointer = data.index(data.startIndex, offsetBy: offset, limitedBy: startPosition - 1) else {
                 throw DecodeError.invalidLabelOffset
             }
             components += try deserializeName(data, &pointer).components(separatedBy: ".").filter({ $0 != "" })
