@@ -106,6 +106,7 @@ func deserializeRecord(_ data: Data, _ position: inout Data.Index) throws -> Res
     case .pointer: return try PointerRecord(deserialize: data, position: &position, common: common)
     case .alias: return try AliasRecord(deserialize: data, position: &position, common: common)
     case .startOfAuthority: return try StartOfAuthorityRecord(deserialize: data, position: &position, common: common)
+    case .nameServer: return try NameServerRecord(deserialize: data, position: &position, common: common)
     default: return try Record(deserialize: data, position: &position, common: common)
     }
 }
