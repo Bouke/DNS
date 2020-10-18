@@ -246,7 +246,6 @@ extension NameServerRecord: ResourceRecord {
         let length = try UInt16(data: data, position: &position)
         let expectedPosition = position + Data.Index(length)
         self.nameServer = try deserializeName(data, &position)
-        
         guard position == expectedPosition else {
             throw DecodeError.invalidDataSize
         }
@@ -254,17 +253,14 @@ extension NameServerRecord: ResourceRecord {
 
     public func serialize(onto buffer: inout Data, labels: inout Labels) throws {
         try serializeRecordCommonFields((name, type, unique, internetClass, ttl), onto: &buffer, labels: &labels)
-        
         buffer += [0, 0]
         let startPosition = buffer.endIndex
         try serializeName(nameServer, onto: &buffer, labels: &labels)
-        
         // Set the length before the data field
         let length = UInt16(buffer.endIndex - startPosition)
         buffer.replaceSubrange((startPosition - 2)..<startPosition, with: length.bytes)
     }
 }
-
 
 extension HostRecord: ResourceRecord {
     init(deserialize data: Data, position: inout Data.Index, common: RecordCommonFields) throws {
