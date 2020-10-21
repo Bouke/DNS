@@ -99,6 +99,34 @@ public struct Record {
     }
 }
 
+public struct NameServerRecord {
+    public var name: String
+    public var type: UInt16
+    public var internetClass: InternetClass
+    public var unique: Bool
+    public var ttl: UInt32
+    public var nameServer: String
+
+    public init(name: String, type: UInt16, internetClass: InternetClass, unique: Bool, ttl: UInt32, nameServer: String) {
+        self.name = name
+        self.type = type
+        self.internetClass = internetClass
+        self.unique = unique
+        self.ttl = ttl
+        self.nameServer = nameServer
+    }
+}
+
+extension NameServerRecord: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(nameServer.hashValue)
+    }
+
+    public static func == (lhs: NameServerRecord, rhs: NameServerRecord) -> Bool {
+        return lhs.name == rhs.name && lhs.nameServer == rhs.nameServer
+    }
+}
+
 public struct HostRecord<IPType: IP> {
     public var name: String
     public var unique: Bool
