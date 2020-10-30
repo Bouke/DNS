@@ -24,6 +24,27 @@ let response = try Message.init(deserialize: responseData)
 print(response.answers.first)
 ```
 
+## Installation
+
+### Carthage (iOS/macOS)
+
+[Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
+
+You can install Carthage with [Homebrew](http://brew.sh/) using the following command:
+
+```bash
+$ brew update
+$ brew install carthage
+```
+
+To integrate DNS.framework into your Xcode project using Carthage, specify it in your `Cartfile`:
+
+```ogdl
+github "Bouke/DNS"
+```
+
+Run `carthage` to build the framework and drag the built `Monitored.framework` into your Xcode project.
+
 ## Credits
 
 This library was written by [Bouke Haarsma](https://twitter.com/BoukeHaarsma).
