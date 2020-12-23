@@ -237,6 +237,14 @@ public struct AliasRecord {
     public var internetClass: InternetClass
     public var ttl: UInt32
     public var canonicalName: String
+    
+    public init(name: String, unique: Bool, internetClass: InternetClass, ttl: UInt32, canonicalName: String) {
+        self.name = name
+        self.unique = unique
+        self.internetClass = internetClass
+        self.ttl = ttl
+        self.canonicalName = canonicalName
+    }
 }
 
 // https://tools.ietf.org/html/rfc1035#section-3.3.13
