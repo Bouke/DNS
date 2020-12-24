@@ -237,7 +237,7 @@ public struct AliasRecord {
     public var internetClass: InternetClass
     public var ttl: UInt32
     public var canonicalName: String
-    
+
     public init(name: String, unique: Bool, internetClass: InternetClass, ttl: UInt32, canonicalName: String) {
         self.name = name
         self.unique = unique
