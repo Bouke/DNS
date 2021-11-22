@@ -20,7 +20,7 @@ class DNSTests: XCTestCase {
             ("testDeserializeInvalidQuestion", testDeserializeInvalidQuestion),
             ("testDeserializeInvalidLabel", testDeserializeInvalidLabel),
             ("testNameServerRecordLabel", testNameServerRecord),
-            ("testMXRecordLabel", testMXRecord)
+            ("testMXRecordLabel", testMailExchangeRecord)
         ]
     }
 
@@ -82,7 +82,7 @@ class DNSTests: XCTestCase {
         XCTAssertEqual(nameServer, nameServer0Copy)
     }
     
-    func testMXRecord() {
+    func testMailExchangeRecord() {
         var labels0 = Labels()
         var serialized0 = Data()
         let nameServer = MailExchangeRecord(name: "google.com.", type: 1, internetClass: .nameServer, unique: true, ttl: 3600, priority: 40, exchangeServer: "ex1.google.com.")
