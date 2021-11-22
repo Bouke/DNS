@@ -19,7 +19,8 @@ class DNSTests: XCTestCase {
             ("testDeserializeFuzzMessages", testDeserializeFuzzMessages),
             ("testDeserializeInvalidQuestion", testDeserializeInvalidQuestion),
             ("testDeserializeInvalidLabel", testDeserializeInvalidLabel),
-            ("testNameServerRecordLabel", testNameServerRecord)
+            ("testNameServerRecordLabel", testNameServerRecord),
+            ("testMXRecordLabel", testMailExchangeRecord)
         ]
     }
 
@@ -77,6 +78,27 @@ class DNSTests: XCTestCase {
         let rcf = try! deserializeRecordCommonFields(serialized0, &position)
 
         let nameServer0Copy = try! NameServerRecord(deserialize: serialized0, position: &position, common: rcf)
+
+        XCTAssertEqual(nameServer, nameServer0Copy)
+    }
+    
+    func testMailExchangeRecord() {
+        var labels0 = Labels()
+        var serialized0 = Data()
+        let nameServer = MailExchangeRecord(name: "google.com.", type: 1, internetClass: .nameServer, unique: true, ttl: 3600, priority: 40, exchangeServer: "ex1.google.com.")
+        try! nameServer.serialize(onto: &serialized0, labels: &labels0)
+
+        var labels1 = Labels()
+        var serialized1 = Data()
+        let nameServer1 = MailExchangeRecord(name: "google.com.", type: 1, internetClass: .nameServer, unique: true, ttl: 3600, priority: 40, exchangeServer: "ex1.google.com.")
+        try! nameServer1.serialize(onto: &serialized1, labels: &labels1)
+
+        XCTAssertEqual(serialized0.hex, serialized1.hex)
+
+        var position = serialized0.startIndex
+        let rcf = try! deserializeRecordCommonFields(serialized0, &position)
+
+        let nameServer0Copy = try! MailExchangeRecord(deserialize: serialized0, position: &position, common: rcf)
 
         XCTAssertEqual(nameServer, nameServer0Copy)
     }
