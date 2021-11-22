@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Querying  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+    <a name="//apple_ref/swift/Section/Querying" class="dashAnchor"></a>
+
+    <a title="Querying  Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="index.html">
+          DNS Docs
+        </a>
+        
+      </p>
+    
+      <div class="header-col--secondary">
+        <form role="search" action="search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </div>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/Bouke/DNS">
+            <img class="header-icon" src="img/gh.png" alt="GitHub"/>
+            View on GitHub
+          </a>
+        </p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="dash-feed://http%3A%2F%2Fboukehaarsma.nl%2FDNS%2FDNS.xml">
+            <img class="header-icon" src="img/dash.png" alt="Dash"/>
+            Install in Dash
+          </a>
+        </p>
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="index.html">DNS Reference</a>
+      <img class="carat" src="img/carat.png" alt=""/>
+      Querying  Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Querying.html">Querying</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/Message.html">Message</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/MessageType.html">MessageType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Querying.html#/s:3DNS13OperationCodea">OperationCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/OperationCode.html">OperationCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/Question.html">Question</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Querying.html#/s:3DNS10ReturnCodea">ReturnCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/ReturnCode.html">ReturnCode</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Resource%20Record.html">Resource Record</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/ResourceRecord.html">ResourceRecord</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Resource%20Record.html#/s:3DNS18ResourceRecordTypea">ResourceRecordType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/ResourceRecordType.html">ResourceRecordType</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Resource%20Record%20Types.html">Resource Record Types</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/AliasRecord.html">AliasRecord</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/HostRecord.html">HostRecord</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/PointerRecord.html">PointerRecord</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/Record.html">Record</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/ServiceRecord.html">ServiceRecord</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/StartOfAuthorityRecord.html">StartOfAuthorityRecord</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/TextRecord.html">TextRecord</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Resource%20Data%20Types.html">Resource Data Types</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Resource%20Data%20Types.html#/s:3DNS13InternetClassa">InternetClass</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/InternetClass.html">InternetClass</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/IP.html">IP</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/IPv4.html">IPv4</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/IPv6.html">IPv6</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Resource%20Data%20Types.html#/s:3DNS6Labelsa">Labels</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Other%20Structs.html">Other Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/MailExchangeRecord.html">MailExchangeRecord</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/NameServerRecord.html">NameServerRecord</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content top-matter">
+            <h1>Querying</h1>
+            
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-content">
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:3DNS7MessageV"></a>
+                    <a name="//apple_ref/swift/Struct/Message" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3DNS7MessageV">Message</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>All communications inside of the domain protocol are carried in a single
+format called a message.  The top level format of message is divided
+into 5 sections (some of which are empty in certain cases) shown below:</p>
+<pre class="highlight swift"><code><span class="o">+---------------------+</span>
+<span class="o">|</span>        <span class="kt">Header</span>       <span class="o">|</span>
+<span class="o">+---------------------+</span>
+<span class="o">|</span>       <span class="kt">Question</span>      <span class="o">|</span> <span class="n">the</span> <span class="n">question</span> <span class="k">for</span> <span class="n">the</span> <span class="n">name</span> <span class="n">server</span>
+<span class="o">+---------------------+</span>
+<span class="o">|</span>        <span class="kt">Answer</span>       <span class="o">|</span> <span class="kt">RRs</span> <span class="n">answering</span> <span class="n">the</span> <span class="n">question</span>
+<span class="o">+---------------------+</span>
+<span class="o">|</span>      <span class="kt">Authority</span>      <span class="o">|</span> <span class="kt">RRs</span> <span class="n">pointing</span> <span class="n">toward</span> <span class="n">an</span> <span class="n">authority</span>
+<span class="o">+---------------------+</span>
+<span class="o">|</span>      <span class="kt">Additional</span>     <span class="o">|</span> <span class="kt">RRs</span> <span class="n">holding</span> <span class="n">additional</span> <span class="n">information</span>
+<span class="o">+---------------------+</span>
+</code></pre>
+
+<p>The header section is always present.  The header includes fields that
+specify which of the remaining sections are present, and also specify
+whether the message is a query or a response, a standard query or some
+other opcode, etc.</p>
+
+<p>The names of the sections after the header are derived from their use in
+standard queries.  The question section contains fields that describe a
+question to a name server.  These fields are a query type (QTYPE), a
+query class (QCLASS), and a query domain name (QNAME).  The last three
+sections have the same format: a possibly empty list of concatenated
+resource records (RRs).  The answer section contains RRs that answer the
+question; the authority section contains RRs that point toward an
+authoritative name server; the additional records section contains RRs
+which relate to the query, but are not strictly answers for the
+question.</p>
+
+                        <a href="Structs/Message.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Message</span></code></pre>
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">Message</span><span class="p">:</span> <span class="kt">CustomDebugStringConvertible</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Bouke/DNS/tree/master/Sources/DNS/Message.swift#L44-L176">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:3DNS11MessageTypeO"></a>
+                    <a name="//apple_ref/swift/Enum/MessageType" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3DNS11MessageTypeO">MessageType</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A one bit field that specifies whether this message is a
+query (0), or a response (1).</p>
+
+<ul>
+<li>query: query to a name server</li>
+<li>response: response from a name server</li>
+</ul>
+
+                        <a href="Enums/MessageType.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">MessageType</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Bouke/DNS/tree/master/Sources/DNS/Message.swift#L8-L11">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:3DNS13OperationCodea"></a>
+                    <a name="//apple_ref/swift/Alias/OperationCode" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3DNS13OperationCodea">OperationCode</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A four bit field that specifies kind of query in this
+message.  This value is set by the originator of a query
+and copied into the response.</p>
+
+<ul>
+<li>query: a standard query (QUERY)</li>
+<li>inverseQuery: an inverse query (IQUERY)</li>
+<li>statusRequest: a server status request (STATUS)</li>
+<li>notify: (NOTIFY)</li>
+<li>update: (UPDATE)</li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">OperationCode</span> <span class="o">=</span> <span class="kt">UInt8</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Bouke/DNS/tree/master/Sources/DNS/Message.swift#L197">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:3DNS13OperationCodea"></a>
+                    <a name="//apple_ref/swift/Extension/OperationCode" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3DNS13OperationCodea">OperationCode</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Extensions/OperationCode.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">extension</span> <span class="kt"><a href="Querying.html#/s:3DNS13OperationCodea">OperationCode</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Bouke/DNS/tree/master/Sources/DNS/Message.swift#L199-L205">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:3DNS8QuestionV"></a>
+                    <a name="//apple_ref/swift/Struct/Question" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3DNS8QuestionV">Question</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                        <a href="Structs/Question.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Question</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Bouke/DNS/tree/master/Sources/DNS/Types.swift#L13-L36">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:3DNS10ReturnCodea"></a>
+                    <a name="//apple_ref/swift/Alias/ReturnCode" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3DNS10ReturnCodea">ReturnCode</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Response code - this 4 bit field is set as part of responses.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">ReturnCode</span> <span class="o">=</span> <span class="kt">UInt8</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Bouke/DNS/tree/master/Sources/DNS/Message.swift#L209">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:3DNS10ReturnCodea"></a>
+                    <a name="//apple_ref/swift/Extension/ReturnCode" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3DNS10ReturnCodea">ReturnCode</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Extensions/ReturnCode.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">extension</span> <span class="kt"><a href="Querying.html#/s:3DNS10ReturnCodea">ReturnCode</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Bouke/DNS/tree/master/Sources/DNS/Message.swift#L211-L257">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2021 <a class="link" href="https://twitter.com/BoukeHaarsma" target="_blank" rel="external noopener">Bouke Haarsma</a>. All rights reserved. (Last updated: 2021-11-22)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+    </section>
+  </body>
+</html>

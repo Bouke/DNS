@@ -1,0 +1,1125 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Bytes.swift",
+      "line": 55,
+      "symbol": "Labels",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Bytes.swift",
+      "line": 238,
+      "symbol": "Record.serialize(onto:labels:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Bytes.swift",
+      "line": 255,
+      "symbol": "NameServerRecord.serialize(onto:labels:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Bytes.swift",
+      "line": 279,
+      "symbol": "MailExchangeRecord.serialize(onto:labels:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Bytes.swift",
+      "line": 306,
+      "symbol": "HostRecord.serialize(onto:labels:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Bytes.swift",
+      "line": 338,
+      "symbol": "ServiceRecord.serialize(onto:labels:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Bytes.swift",
+      "line": 383,
+      "symbol": "TextRecord.serialize(onto:labels:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Bytes.swift",
+      "line": 401,
+      "symbol": "PointerRecord.serialize(onto:labels:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Bytes.swift",
+      "line": 420,
+      "symbol": "AliasRecord.serialize(onto:labels:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Bytes.swift",
+      "line": 449,
+      "symbol": "StartOfAuthorityRecord.serialize(onto:labels:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/IP.swift",
+      "line": 11,
+      "symbol": "IP",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/IP.swift",
+      "line": 12,
+      "symbol": "IP.init(networkBytes:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/IP.swift",
+      "line": 13,
+      "symbol": "IP.init(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/IP.swift",
+      "line": 14,
+      "symbol": "IP.presentation",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/IP.swift",
+      "line": 20,
+      "symbol": "IP",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/IP.swift",
+      "line": 29,
+      "symbol": "IPv4",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/IP.swift",
+      "line": 33,
+      "symbol": "IPv4.init(address:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/IP.swift",
+      "line": 37,
+      "symbol": "IPv4.init(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/IP.swift",
+      "line": 69,
+      "symbol": "IPv4.presentation",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/IP.swift",
+      "line": 78,
+      "symbol": "IPv4",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/IP.swift",
+      "line": 90,
+      "symbol": "IPv4",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/IP.swift",
+      "line": 97,
+      "symbol": "IPv6",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/IP.swift",
+      "line": 98,
+      "symbol": "IPv6.address",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/IP.swift",
+      "line": 100,
+      "symbol": "IPv6.init(address:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/IP.swift",
+      "line": 104,
+      "symbol": "IPv6.init(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/IP.swift",
+      "line": 112,
+      "symbol": "IPv6.init(networkBytes:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/IP.swift",
+      "line": 138,
+      "symbol": "IPv6.presentation",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/IP.swift",
+      "line": 159,
+      "symbol": "IPv6",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Message.swift",
+      "line": 9,
+      "symbol": "MessageType.query",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Message.swift",
+      "line": 10,
+      "symbol": "MessageType.response",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Message.swift",
+      "line": 200,
+      "symbol": "OperationCode.query",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Message.swift",
+      "line": 201,
+      "symbol": "OperationCode.inverseQuery",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Message.swift",
+      "line": 202,
+      "symbol": "OperationCode.statusRequest",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Message.swift",
+      "line": 203,
+      "symbol": "OperationCode.notify",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Message.swift",
+      "line": 204,
+      "symbol": "OperationCode.update",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 3,
+      "symbol": "InternetClass",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 5,
+      "symbol": "InternetClass",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 6,
+      "symbol": "InternetClass.internet",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 7,
+      "symbol": "InternetClass.chaos",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 8,
+      "symbol": "InternetClass.hesiod",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 9,
+      "symbol": "InternetClass.none",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 10,
+      "symbol": "InternetClass.any",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 13,
+      "symbol": "Question",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 14,
+      "symbol": "Question.name",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 15,
+      "symbol": "Question.type",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 16,
+      "symbol": "Question.unique",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 17,
+      "symbol": "Question.internetClass",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 19,
+      "symbol": "Question.init(name:type:unique:internetClass:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 38,
+      "symbol": "ResourceRecordType",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 40,
+      "symbol": "ResourceRecordType",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 41,
+      "symbol": "ResourceRecordType.host",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 42,
+      "symbol": "ResourceRecordType.nameServer",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 43,
+      "symbol": "ResourceRecordType.alias",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 44,
+      "symbol": "ResourceRecordType.startOfAuthority",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 45,
+      "symbol": "ResourceRecordType.pointer",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 46,
+      "symbol": "ResourceRecordType.mailExchange",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 47,
+      "symbol": "ResourceRecordType.text",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 48,
+      "symbol": "ResourceRecordType.host6",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 49,
+      "symbol": "ResourceRecordType.service",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 50,
+      "symbol": "ResourceRecordType.incrementalZoneTransfer",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 51,
+      "symbol": "ResourceRecordType.standardZoneTransfer",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 52,
+      "symbol": "ResourceRecordType.all",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 55,
+      "symbol": "ResourceRecordType",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 75,
+      "symbol": "ResourceRecord",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 76,
+      "symbol": "ResourceRecord.name",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 77,
+      "symbol": "ResourceRecord.unique",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 78,
+      "symbol": "ResourceRecord.internetClass",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 79,
+      "symbol": "ResourceRecord.ttl",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 81,
+      "symbol": "ResourceRecord.serialize(onto:labels:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 84,
+      "symbol": "Record",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 85,
+      "symbol": "Record.name",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 86,
+      "symbol": "Record.type",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 87,
+      "symbol": "Record.internetClass",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 88,
+      "symbol": "Record.unique",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 89,
+      "symbol": "Record.ttl",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 90,
+      "symbol": "Record.data",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 92,
+      "symbol": "Record.init(name:type:internetClass:unique:ttl:data:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 102,
+      "symbol": "NameServerRecord",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 103,
+      "symbol": "NameServerRecord.name",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 104,
+      "symbol": "NameServerRecord.type",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 105,
+      "symbol": "NameServerRecord.internetClass",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 106,
+      "symbol": "NameServerRecord.unique",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 107,
+      "symbol": "NameServerRecord.ttl",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 108,
+      "symbol": "NameServerRecord.nameServer",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 110,
+      "symbol": "NameServerRecord.init(name:type:internetClass:unique:ttl:nameServer:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 120,
+      "symbol": "NameServerRecord",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 130,
+      "symbol": "MailExchangeRecord",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 131,
+      "symbol": "MailExchangeRecord.name",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 132,
+      "symbol": "MailExchangeRecord.type",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 133,
+      "symbol": "MailExchangeRecord.internetClass",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 134,
+      "symbol": "MailExchangeRecord.unique",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 135,
+      "symbol": "MailExchangeRecord.ttl",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 136,
+      "symbol": "MailExchangeRecord.priority",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 137,
+      "symbol": "MailExchangeRecord.exchangeServer",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 139,
+      "symbol": "MailExchangeRecord.init(name:type:internetClass:unique:ttl:priority:exchangeServer:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 150,
+      "symbol": "MailExchangeRecord",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 160,
+      "symbol": "HostRecord",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 161,
+      "symbol": "HostRecord.name",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 162,
+      "symbol": "HostRecord.unique",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 163,
+      "symbol": "HostRecord.internetClass",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 164,
+      "symbol": "HostRecord.ttl",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 165,
+      "symbol": "HostRecord.ip",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 167,
+      "symbol": "HostRecord.init(name:unique:internetClass:ttl:ip:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 176,
+      "symbol": "HostRecord",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 188,
+      "symbol": "ServiceRecord",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 189,
+      "symbol": "ServiceRecord.name",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 190,
+      "symbol": "ServiceRecord.unique",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 191,
+      "symbol": "ServiceRecord.internetClass",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 192,
+      "symbol": "ServiceRecord.ttl",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 193,
+      "symbol": "ServiceRecord.priority",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 194,
+      "symbol": "ServiceRecord.weight",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 195,
+      "symbol": "ServiceRecord.port",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 196,
+      "symbol": "ServiceRecord.server",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 198,
+      "symbol": "ServiceRecord.init(name:unique:internetClass:ttl:priority:weight:port:server:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 210,
+      "symbol": "ServiceRecord",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 220,
+      "symbol": "TextRecord",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 221,
+      "symbol": "TextRecord.name",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 222,
+      "symbol": "TextRecord.unique",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 223,
+      "symbol": "TextRecord.internetClass",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 224,
+      "symbol": "TextRecord.ttl",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 225,
+      "symbol": "TextRecord.attributes",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 226,
+      "symbol": "TextRecord.values",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 227,
+      "symbol": "Record",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 228,
+      "symbol": "TextRecord.init(name:unique:internetClass:ttl:attributes:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 238,
+      "symbol": "PointerRecord",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 239,
+      "symbol": "PointerRecord.name",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 240,
+      "symbol": "PointerRecord.unique",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 241,
+      "symbol": "PointerRecord.internetClass",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 242,
+      "symbol": "PointerRecord.ttl",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 243,
+      "symbol": "PointerRecord.destination",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 244,
+      "symbol": "NameServerRecord",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 245,
+      "symbol": "PointerRecord.init(name:unique:internetClass:ttl:destination:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 254,
+      "symbol": "PointerRecord",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 264,
+      "symbol": "AliasRecord",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 265,
+      "symbol": "AliasRecord.name",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 266,
+      "symbol": "AliasRecord.unique",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 266,
+      "symbol": "MailExchangeRecord",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 267,
+      "symbol": "AliasRecord.internetClass",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 268,
+      "symbol": "AliasRecord.ttl",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 269,
+      "symbol": "AliasRecord.canonicalName",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 271,
+      "symbol": "AliasRecord.init(name:unique:internetClass:ttl:canonicalName:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 281,
+      "symbol": "StartOfAuthorityRecord",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 282,
+      "symbol": "StartOfAuthorityRecord.name",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 283,
+      "symbol": "StartOfAuthorityRecord.unique",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 284,
+      "symbol": "StartOfAuthorityRecord.internetClass",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 285,
+      "symbol": "StartOfAuthorityRecord.ttl",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 286,
+      "symbol": "StartOfAuthorityRecord.mname",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 287,
+      "symbol": "StartOfAuthorityRecord.rname",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 288,
+      "symbol": "StartOfAuthorityRecord.serial",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 289,
+      "symbol": "StartOfAuthorityRecord.refresh",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 290,
+      "symbol": "StartOfAuthorityRecord.retry",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 291,
+      "symbol": "StartOfAuthorityRecord.expire",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 292,
+      "symbol": "HostRecord",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 292,
+      "symbol": "StartOfAuthorityRecord.minimum",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 294,
+      "symbol": "StartOfAuthorityRecord.init(name:unique:internetClass:ttl:mname:rname:serial:refresh:retry:expire:minimum:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 324,
+      "symbol": "ServiceRecord",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 353,
+      "symbol": "TextRecord",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 394,
+      "symbol": "PointerRecord",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 413,
+      "symbol": "AliasRecord",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/DNS/DNS/Sources/DNS/Types.swift",
+      "line": 432,
+      "symbol": "StartOfAuthorityRecord",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/runner/work/DNS/DNS"
+}

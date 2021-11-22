@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Message Structure Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+    <a name="//apple_ref/swift/Struct/Message" class="dashAnchor"></a>
+
+    <a title="Message Structure Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="../index.html">
+          DNS Docs
+        </a>
+        
+      </p>
+    
+      <div class="header-col--secondary">
+        <form role="search" action="../search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </div>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/Bouke/DNS">
+            <img class="header-icon" src="../img/gh.png" alt="GitHub"/>
+            View on GitHub
+          </a>
+        </p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="dash-feed://http%3A%2F%2Fboukehaarsma.nl%2FDNS%2FDNS.xml">
+            <img class="header-icon" src="../img/dash.png" alt="Dash"/>
+            Install in Dash
+          </a>
+        </p>
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="../index.html">DNS Reference</a>
+      <img class="carat" src="../img/carat.png" alt=""/>
+      Message Structure Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Querying.html">Querying</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Message.html">Message</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/MessageType.html">MessageType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Querying.html#/s:3DNS13OperationCodea">OperationCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/OperationCode.html">OperationCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Question.html">Question</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Querying.html#/s:3DNS10ReturnCodea">ReturnCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/ReturnCode.html">ReturnCode</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Resource%20Record.html">Resource Record</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/ResourceRecord.html">ResourceRecord</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Resource%20Record.html#/s:3DNS18ResourceRecordTypea">ResourceRecordType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/ResourceRecordType.html">ResourceRecordType</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Resource%20Record%20Types.html">Resource Record Types</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/AliasRecord.html">AliasRecord</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/HostRecord.html">HostRecord</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/PointerRecord.html">PointerRecord</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Record.html">Record</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ServiceRecord.html">ServiceRecord</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/StartOfAuthorityRecord.html">StartOfAuthorityRecord</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/TextRecord.html">TextRecord</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Resource%20Data%20Types.html">Resource Data Types</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Resource%20Data%20Types.html#/s:3DNS13InternetClassa">InternetClass</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/InternetClass.html">InternetClass</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/IP.html">IP</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/IPv4.html">IPv4</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/IPv6.html">IPv6</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Resource%20Data%20Types.html#/s:3DNS6Labelsa">Labels</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Other%20Structs.html">Other Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/MailExchangeRecord.html">MailExchangeRecord</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/NameServerRecord.html">NameServerRecord</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content top-matter">
+            <h1>Message</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Message</span></code></pre>
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">Message</span><span class="p">:</span> <span class="kt">CustomDebugStringConvertible</span></code></pre>
+
+                </div>
+              </div>
+            <p>All communications inside of the domain protocol are carried in a single
+format called a message.  The top level format of message is divided
+into 5 sections (some of which are empty in certain cases) shown below:</p>
+<pre class="highlight swift"><code><span class="o">+---------------------+</span>
+<span class="o">|</span>        <span class="kt">Header</span>       <span class="o">|</span>
+<span class="o">+---------------------+</span>
+<span class="o">|</span>       <span class="kt">Question</span>      <span class="o">|</span> <span class="n">the</span> <span class="n">question</span> <span class="k">for</span> <span class="n">the</span> <span class="n">name</span> <span class="n">server</span>
+<span class="o">+---------------------+</span>
+<span class="o">|</span>        <span class="kt">Answer</span>       <span class="o">|</span> <span class="kt">RRs</span> <span class="n">answering</span> <span class="n">the</span> <span class="n">question</span>
+<span class="o">+---------------------+</span>
+<span class="o">|</span>      <span class="kt">Authority</span>      <span class="o">|</span> <span class="kt">RRs</span> <span class="n">pointing</span> <span class="n">toward</span> <span class="n">an</span> <span class="n">authority</span>
+<span class="o">+---------------------+</span>
+<span class="o">|</span>      <span class="kt">Additional</span>     <span class="o">|</span> <span class="kt">RRs</span> <span class="n">holding</span> <span class="n">additional</span> <span class="n">information</span>
+<span class="o">+---------------------+</span>
+</code></pre>
+
+<p>The header section is always present.  The header includes fields that
+specify which of the remaining sections are present, and also specify
+whether the message is a query or a response, a standard query or some
+other opcode, etc.</p>
+
+<p>The names of the sections after the header are derived from their use in
+standard queries.  The question section contains fields that describe a
+question to a name server.  These fields are a query type (QTYPE), a
+query class (QCLASS), and a query domain name (QNAME).  The last three
+sections have the same format: a possibly empty list of concatenated
+resource records (RRs).  The answer section contains RRs that answer the
+question; the authority section contains RRs that point toward an
+authoritative name server; the additional records section contains RRs
+which relate to the query, but are not strictly answers for the
+question.</p>
+
+              <div class="slightly-smaller">
+                <a href="https://github.com/Bouke/DNS/tree/master/Sources/DNS/Message.swift#L44-L176">Show on GitHub</a>
+              </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-content">
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Message%20header%20section"></a>
+                <a name="//apple_ref/swift/Section/Message header section" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Message%20header%20section"></a>
+                  <h3 class="section-name"><span>Message header section</span>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:3DNS7MessageV2ids6UInt16Vvp"></a>
+                    <a name="//apple_ref/swift/Property/id" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3DNS7MessageV2ids6UInt16Vvp">id</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A 16 bit identifier assigned by the program that
+generates any kind of query.  This identifier is copied
+the corresponding reply and can be used by the requester
+to match up replies to outstanding queries.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">id</span><span class="p">:</span> <span class="kt">UInt16</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Bouke/DNS/tree/master/Sources/DNS/Message.swift#L52">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:3DNS7MessageV4typeAA0B4TypeOvp"></a>
+                    <a name="//apple_ref/swift/Property/type" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3DNS7MessageV4typeAA0B4TypeOvp">type</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A one bit field that specifies whether this message is a
+query (0), or a response (1).</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">type</span><span class="p">:</span> <span class="kt"><a href="../Enums/MessageType.html">MessageType</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Bouke/DNS/tree/master/Sources/DNS/Message.swift#L56">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:3DNS7MessageV13operationCodes5UInt8Vvp"></a>
+                    <a name="//apple_ref/swift/Property/operationCode" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3DNS7MessageV13operationCodes5UInt8Vvp">operationCode</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A four bit field that specifies kind of query in this
+message.  This value is set by the originator of a query
+and copied into the response.  The values are:</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">operationCode</span><span class="p">:</span> <span class="kt"><a href="../Querying.html#/s:3DNS13OperationCodea">OperationCode</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Bouke/DNS/tree/master/Sources/DNS/Message.swift#L61">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:3DNS7MessageV19authoritativeAnswerSbvp"></a>
+                    <a name="//apple_ref/swift/Property/authoritativeAnswer" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3DNS7MessageV19authoritativeAnswerSbvp">authoritativeAnswer</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Authoritative Answer - this bit is valid in responses,
+and specifies that the responding name server is an
+authority for the domain name in question section.</p>
+
+<p>Note that the contents of the answer section may have
+multiple owner names because of aliases.  The AA bit
+corresponds to the name which matches the query name, or
+the first owner name in the answer section.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">authoritativeAnswer</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Bouke/DNS/tree/master/Sources/DNS/Message.swift#L71">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:3DNS7MessageV10truncationSbvp"></a>
+                    <a name="//apple_ref/swift/Property/truncation" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3DNS7MessageV10truncationSbvp">truncation</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>TrunCation - specifies that this message was truncated
+due to length greater than that permitted on the
+transmission channel.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">truncation</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Bouke/DNS/tree/master/Sources/DNS/Message.swift#L76">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:3DNS7MessageV16recursionDesiredSbvp"></a>
+                    <a name="//apple_ref/swift/Property/recursionDesired" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3DNS7MessageV16recursionDesiredSbvp">recursionDesired</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Recursion Desired - this bit may be set in a query and
+is copied into the response.  If RD is set, it directs
+the name server to pursue the query recursively.
+Recursive query support is optional.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">recursionDesired</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Bouke/DNS/tree/master/Sources/DNS/Message.swift#L82">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:3DNS7MessageV18recursionAvailableSbvp"></a>
+                    <a name="//apple_ref/swift/Property/recursionAvailable" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3DNS7MessageV18recursionAvailableSbvp">recursionAvailable</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Recursion Available - this be is set or cleared in a
+response, and denotes whether recursive query support is
+available in the name server.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">recursionAvailable</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Bouke/DNS/tree/master/Sources/DNS/Message.swift#L87">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:3DNS7MessageV10returnCodes5UInt8Vvp"></a>
+                    <a name="//apple_ref/swift/Property/returnCode" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3DNS7MessageV10returnCodes5UInt8Vvp">returnCode</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Response code - this 4 bit field is set as part of
+responses.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">returnCode</span><span class="p">:</span> <span class="kt"><a href="../Querying.html#/s:3DNS10ReturnCodea">ReturnCode</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Bouke/DNS/tree/master/Sources/DNS/Message.swift#L91">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Other%20sections"></a>
+                <a name="//apple_ref/swift/Section/Other sections" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Other%20sections"></a>
+                  <h3 class="section-name"><span>Other sections</span>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:3DNS7MessageV9questionsSayAA8QuestionVGvp"></a>
+                    <a name="//apple_ref/swift/Property/questions" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3DNS7MessageV9questionsSayAA8QuestionVGvp">questions</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Question section.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">questions</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Structs/Question.html">Question</a></span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Bouke/DNS/tree/master/Sources/DNS/Message.swift#L96">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:3DNS7MessageV7answersSayAA14ResourceRecord_pGvp"></a>
+                    <a name="//apple_ref/swift/Property/answers" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3DNS7MessageV7answersSayAA14ResourceRecord_pGvp">answers</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Answer section.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">answers</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/ResourceRecord.html">ResourceRecord</a></span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Bouke/DNS/tree/master/Sources/DNS/Message.swift#L99">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:3DNS7MessageV11authoritiesSayAA14ResourceRecord_pGvp"></a>
+                    <a name="//apple_ref/swift/Property/authorities" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3DNS7MessageV11authoritiesSayAA14ResourceRecord_pGvp">authorities</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Authority section.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">authorities</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/ResourceRecord.html">ResourceRecord</a></span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Bouke/DNS/tree/master/Sources/DNS/Message.swift#L102">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:3DNS7MessageV10additionalSayAA14ResourceRecord_pGvp"></a>
+                    <a name="//apple_ref/swift/Property/additional" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3DNS7MessageV10additionalSayAA14ResourceRecord_pGvp">additional</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Additional records section.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">additional</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/ResourceRecord.html">ResourceRecord</a></span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Bouke/DNS/tree/master/Sources/DNS/Message.swift#L105">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Initializing"></a>
+                <a name="//apple_ref/swift/Section/Initializing" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Initializing"></a>
+                  <h3 class="section-name"><span>Initializing</span>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:3DNS7MessageV2id4type13operationCode19authoritativeAnswer10truncation16recursionDesired0J9Available06returnF09questions7answers11authorities10additionalACs6UInt16V_AA0B4TypeOs5UInt8VS4bAUSayAA8QuestionVGSayAA14ResourceRecord_pGA2Ztcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(id:type:operationCode:authoritativeAnswer:truncation:recursionDesired:recursionAvailable:returnCode:questions:answers:authorities:additional:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3DNS7MessageV2id4type13operationCode19authoritativeAnswer10truncation16recursionDesired0J9Available06returnF09questions7answers11authorities10additionalACs6UInt16V_AA0B4TypeOs5UInt8VS4bAUSayAA8QuestionVGSayAA14ResourceRecord_pGA2Ztcfc">init(id:<wbr>type:<wbr>operationCode:<wbr>authoritativeAnswer:<wbr>truncation:<wbr>recursionDesired:<wbr>recursionAvailable:<wbr>returnCode:<wbr>questions:<wbr>answers:<wbr>authorities:<wbr>additional:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create a <code>Message</code> instance.</p>
+
+<p>To create a query:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">query</span> <span class="o">=</span> <span class="kt">Message</span><span class="p">(</span>
+    <span class="nv">id</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">(</span><span class="nv">extendingOrTruncating</span><span class="p">:</span> <span class="nf">arc4random</span><span class="p">()),</span>
+    <span class="nv">type</span><span class="p">:</span> <span class="o">.</span><span class="n">query</span><span class="p">,</span>
+    <span class="nv">questions</span><span class="p">:</span> <span class="p">[</span>
+        <span class="kt">Question</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"apple.com"</span><span class="p">,</span> <span class="nv">type</span><span class="p">:</span> <span class="o">.</span><span class="n">host</span><span class="p">)</span>
+    <span class="p">])</span>
+</code></pre>
+
+<p>To create a response for this query:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">response</span> <span class="o">=</span> <span class="kt">Message</span><span class="p">(</span>
+    <span class="nv">id</span><span class="p">:</span> <span class="n">query</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="nv">type</span><span class="p">:</span> <span class="o">.</span><span class="n">response</span><span class="p">,</span>
+    <span class="nv">returnCode</span><span class="p">:</span> <span class="o">.</span><span class="n">noError</span><span class="p">,</span>
+    <span class="nv">questions</span><span class="p">:</span> <span class="n">query</span><span class="o">.</span><span class="n">questions</span><span class="p">,</span>
+    <span class="nv">answers</span><span class="p">:</span> <span class="p">[</span>
+        <span class="kt">HostRecord</span><span class="o">&lt;</span><span class="kt">IPv4</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"apple.com"</span><span class="p">,</span> <span class="nv">ttl</span><span class="p">:</span> <span class="mi">3600</span><span class="p">,</span> <span class="nv">ip</span><span class="p">:</span> <span class="kt">IPv4</span><span class="p">(</span><span class="s">"17.172.224.47"</span><span class="p">)</span><span class="o">!</span><span class="p">)</span>
+    <span class="p">])</span>
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
+    <span class="nv">id</span><span class="p">:</span> <span class="kt">UInt16</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nv">type</span><span class="p">:</span> <span class="kt"><a href="../Enums/MessageType.html">MessageType</a></span><span class="p">,</span>
+    <span class="nv">operationCode</span><span class="p">:</span> <span class="kt"><a href="../Querying.html#/s:3DNS13OperationCodea">OperationCode</a></span> <span class="o">=</span> <span class="o">.</span><span class="n">query</span><span class="p">,</span>
+    <span class="nv">authoritativeAnswer</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nv">truncation</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nv">recursionDesired</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nv">recursionAvailable</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nv">returnCode</span><span class="p">:</span> <span class="kt"><a href="../Querying.html#/s:3DNS10ReturnCodea">ReturnCode</a></span> <span class="o">=</span> <span class="o">.</span><span class="n">noError</span><span class="p">,</span>
+    <span class="nv">questions</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Structs/Question.html">Question</a></span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="nv">answers</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/ResourceRecord.html">ResourceRecord</a></span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="nv">authorities</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/ResourceRecord.html">ResourceRecord</a></span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="nv">additional</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/ResourceRecord.html">ResourceRecord</a></span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>id</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>operationCode</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>authoritativeAnswer</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>truncation</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>recursionDesired</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>recursionAvailable</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>returnCode</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>questions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>answers</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>authorities</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>additional</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p></p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Bouke/DNS/tree/master/Sources/DNS/Message.swift#L148-L175">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Serialization"></a>
+                <a name="//apple_ref/swift/Section/Serialization" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Serialization"></a>
+                  <h3 class="section-name"><span>Serialization</span>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:3DNS7MessageV12serializeTCP10Foundation4DataVyKF"></a>
+                    <a name="//apple_ref/swift/Method/serializeTCP()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3DNS7MessageV12serializeTCP10Foundation4DataVyKF">serializeTCP()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Serialize a <code>Message</code> for sending over TCP.</p>
+
+<p>The DNS TCP format prepends the message size before the actual
+message.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">serializeTCP</span><span class="p">()</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Data</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>Data</code> to be send over TCP.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Bouke/DNS/tree/master/Sources/DNS/Bytes.swift#L126-L130">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:3DNS7MessageV9serialize10Foundation4DataVyKF"></a>
+                    <a name="//apple_ref/swift/Method/serialize()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3DNS7MessageV9serialize10Foundation4DataVyKF">serialize()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Serialize a <code>Message</code> for sending over UDP.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">serialize</span><span class="p">()</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Data</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>Data</code> to be send over UDP.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Bouke/DNS/tree/master/Sources/DNS/Bytes.swift#L136-L174">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:3DNS7MessageV14deserializeTCPAC10Foundation4DataV_tKcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(deserializeTCP:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3DNS7MessageV14deserializeTCPAC10Foundation4DataV_tKcfc">init(deserializeTCP:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Deserializes a <code>Message</code> from a TCP stream.</p>
+
+<p>The DNS TCP format prepends the message size before the actual
+message.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">deserializeTCP</span> <span class="nv">bytes</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>bytes</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the received bytes.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Bouke/DNS/tree/master/Sources/DNS/Bytes.swift#L183-L193">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:3DNS7MessageV11deserializeAC10Foundation4DataV_tKcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(deserialize:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3DNS7MessageV11deserializeAC10Foundation4DataV_tKcfc">init(deserialize:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Deserializes a <code>Message</code> from a UDP stream.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">deserialize</span> <span class="nv">bytes</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>bytes</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the bytes to deserialize.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Bouke/DNS/tree/master/Sources/DNS/Bytes.swift#L199-L224">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:3DNS7MessageV16debugDescriptionSSvp"></a>
+                    <a name="//apple_ref/swift/Property/debugDescription" class="dashAnchor"></a>
+                    <a class="token" href="#/s:3DNS7MessageV16debugDescriptionSSvp">debugDescription</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A textual representation of this instance, suitable for debugging.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">debugDescription</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Bouke/DNS/tree/master/Sources/DNS/Message.swift#L180-L185">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2021 <a class="link" href="https://twitter.com/BoukeHaarsma" target="_blank" rel="external noopener">Bouke Haarsma</a>. All rights reserved. (Last updated: 2021-11-22)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+    </section>
+  </body>
+</html>
