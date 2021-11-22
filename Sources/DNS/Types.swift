@@ -136,7 +136,7 @@ public struct MailExchangeRecord {
     public var priority: UInt16
     public var exchangeServer: String
 
-    public init(name: String, type: UInt16, internetClass: InternetClass, unique: Bool, ttl: UInt32, priority:UInt16, exchangeServer: String) {
+    public init(name: String, type: UInt16, internetClass: InternetClass, unique: Bool, ttl: UInt32, priority: UInt16, exchangeServer: String) {
         self.name = name
         self.type = type
         self.internetClass = internetClass
