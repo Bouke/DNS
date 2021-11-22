@@ -107,6 +107,7 @@ func deserializeRecord(_ data: Data, _ position: inout Data.Index) throws -> Res
     case .alias: return try AliasRecord(deserialize: data, position: &position, common: common)
     case .startOfAuthority: return try StartOfAuthorityRecord(deserialize: data, position: &position, common: common)
     case .nameServer: return try NameServerRecord(deserialize: data, position: &position, common: common)
+    case .mailExchange: return try MailExchangeRecord(deserialize: data, position: &position, common: common)
     default: return try Record(deserialize: data, position: &position, common: common)
     }
 }
@@ -261,6 +262,29 @@ extension NameServerRecord: ResourceRecord {
         buffer.replaceSubrange((startPosition - 2)..<startPosition, with: length.bytes)
     }
 }
+
+extension MailExchangeRecord: ResourceRecord {
+    init(deserialize data: Data, position: inout Data.Index, common: RecordCommonFields) throws {
+        (name, type, unique, internetClass, ttl) = common
+        let length = try UInt16(data: data, position: &position)
+        let expectedPosition = position + Data.Index(length)
+        self.exchangeServer = try deserializeName(data, &position)
+        guard position == expectedPosition else {
+            throw DecodeError.invalidDataSize
+        }
+    }
+
+    public func serialize(onto buffer: inout Data, labels: inout Labels) throws {
+        try serializeRecordCommonFields((name, type, unique, internetClass, ttl), onto: &buffer, labels: &labels)
+        buffer += [0, 0]
+        let startPosition = buffer.endIndex
+        try serializeName(exchangeServer, onto: &buffer, labels: &labels)
+        // Set the length before the data field
+        let length = UInt16(buffer.endIndex - startPosition)
+        buffer.replaceSubrange((startPosition - 2)..<startPosition, with: length.bytes)
+    }
+}
+
 
 extension HostRecord: ResourceRecord {
     init(deserialize data: Data, position: inout Data.Index, common: RecordCommonFields) throws {

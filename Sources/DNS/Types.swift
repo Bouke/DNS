@@ -127,6 +127,34 @@ extension NameServerRecord: Hashable {
     }
 }
 
+public struct MailExchangeRecord {
+    public var name: String
+    public var type: UInt16
+    public var internetClass: InternetClass
+    public var unique: Bool
+    public var ttl: UInt32
+    public var exchangeServer: String
+
+    public init(name: String, type: UInt16, internetClass: InternetClass, unique: Bool, ttl: UInt32, exchangeServer: String) {
+        self.name = name
+        self.type = type
+        self.internetClass = internetClass
+        self.unique = unique
+        self.ttl = ttl
+        self.exchangeServer = exchangeServer
+    }
+}
+
+extension MailExchangeRecord: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(exchangeServer.hashValue)
+    }
+
+    public static func == (lhs: MailExchangeRecord, rhs: MailExchangeRecord) -> Bool {
+        return lhs.name == rhs.name && lhs.exchangeServer == rhs.exchangeServer
+    }
+}
+
 public struct HostRecord<IPType: IP> {
     public var name: String
     public var unique: Bool
