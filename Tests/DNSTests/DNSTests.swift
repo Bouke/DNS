@@ -85,12 +85,12 @@ class DNSTests: XCTestCase {
     func testMXRecord() {
         var labels0 = Labels()
         var serialized0 = Data()
-        let nameServer = MailExchangeRecord(name: "google.com.", type: 1, internetClass: .nameServer, unique: true, ttl: 3600, exchangeServer: "ex1.google.com.")
+        let nameServer = MailExchangeRecord(name: "google.com.", type: 1, internetClass: .nameServer, unique: true, ttl: 3600, priority: 40, exchangeServer: "ex1.google.com.")
         try! nameServer.serialize(onto: &serialized0, labels: &labels0)
 
         var labels1 = Labels()
         var serialized1 = Data()
-        let nameServer1 = MailExchangeRecord(name: "google.com.", type: 1, internetClass: .nameServer, unique: true, ttl: 3600, exchangeServer: "ex1.google.com.")
+        let nameServer1 = MailExchangeRecord(name: "google.com.", type: 1, internetClass: .nameServer, unique: true, ttl: 3600, priority: 40, exchangeServer: "ex1.google.com.")
         try! nameServer1.serialize(onto: &serialized1, labels: &labels1)
 
         XCTAssertEqual(serialized0.hex, serialized1.hex)

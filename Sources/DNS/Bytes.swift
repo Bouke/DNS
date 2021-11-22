@@ -268,7 +268,9 @@ extension MailExchangeRecord: ResourceRecord {
         (name, type, unique, internetClass, ttl) = common
         let length = try UInt16(data: data, position: &position)
         let expectedPosition = position + Data.Index(length)
+        self.priority = try UInt16(data: data, position: &position)
         self.exchangeServer = try deserializeName(data, &position)
+        
         guard position == expectedPosition else {
             throw DecodeError.invalidDataSize
         }
@@ -278,6 +280,7 @@ extension MailExchangeRecord: ResourceRecord {
         try serializeRecordCommonFields((name, type, unique, internetClass, ttl), onto: &buffer, labels: &labels)
         buffer += [0, 0]
         let startPosition = buffer.endIndex
+        buffer += priority.bytes
         try serializeName(exchangeServer, onto: &buffer, labels: &labels)
         // Set the length before the data field
         let length = UInt16(buffer.endIndex - startPosition)
