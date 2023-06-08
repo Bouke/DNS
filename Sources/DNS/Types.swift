@@ -42,6 +42,7 @@ public extension ResourceRecordType {
     static let nameServer: ResourceRecordType = 0x0002
     static let alias: ResourceRecordType = 0x0005
     static let startOfAuthority: ResourceRecordType = 0x0006
+    static let caa: ResourceRecordType = 0x0101
     static let pointer: ResourceRecordType = 0x000c
     static let mailExchange: ResourceRecordType = 0x000f
     static let text: ResourceRecordType = 0x0010
@@ -59,6 +60,7 @@ extension ResourceRecordType: CustomDebugStringConvertible {
         case .nameServer: return "NS"
         case .alias: return "CNAME"
         case .startOfAuthority: return "SOA"
+        case .caa: return "CAA"
         case .pointer: return "PTR"
         case .mailExchange: return "MX"
         case .text: return "TXT"
@@ -303,5 +305,36 @@ public struct StartOfAuthorityRecord {
         self.retry = retry
         self.expire = expire
         self.minimum = minimum
+    }
+}
+
+// https://datatracker.ietf.org/doc/html/rfc6844#page-5
+public struct CAARecord {
+    public var name: String
+    public var unique: Bool
+    public var internetClass: InternetClass
+    public var ttl: UInt32
+    public var flags: UInt8
+    public var tag: String
+    public var value: String
+
+    public init(name: String, unique: Bool, internetClass: InternetClass, ttl: UInt32, flags: UInt8, tag: String, value: String) {
+        self.name = name
+        self.unique = unique
+        self.internetClass = internetClass
+        self.ttl = ttl
+        self.flags = flags
+        self.tag = tag
+        self.value = value
+    }
+}
+
+extension CAARecord: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name.hashValue)
+    }
+
+    public static func == (lhs: CAARecord, rhs: CAARecord) -> Bool {
+        return lhs.name == rhs.name && lhs.flags == rhs.flags && lhs.tag == rhs.tag && lhs.value == rhs.value
     }
 }

@@ -81,7 +81,7 @@ class DNSTests: XCTestCase {
 
         XCTAssertEqual(nameServer, nameServer0Copy)
     }
-    
+
     func testMailExchangeRecord() {
         var labels0 = Labels()
         var serialized0 = Data()
@@ -101,6 +101,27 @@ class DNSTests: XCTestCase {
         let nameServer0Copy = try! MailExchangeRecord(deserialize: serialized0, position: &position, common: rcf)
 
         XCTAssertEqual(nameServer, nameServer0Copy)
+    }
+
+    func testCAARecord() {
+        var labels0 = Labels()
+        var serialized0 = Data()
+        let caa = CAARecord(name: "google.com.", unique: true, internetClass: .caa, ttl: 3600, flags: 4, tag: "issue", value: "helloworld.org")
+        try! caa.serialize(onto: &serialized0, labels: &labels0)
+
+        var labels1 = Labels()
+        var serialized1 = Data()
+        let caa1 = CAARecord(name: "google.com.", unique: true, internetClass: .caa, ttl: 3600, flags: 4, tag: "issue", value: "helloworld.org")
+        try! caa1.serialize(onto: &serialized1, labels: &labels1)
+
+        XCTAssertEqual(serialized0.hex, serialized1.hex)
+
+        var position = serialized0.startIndex
+        let rcf = try! deserializeRecordCommonFields(serialized0, &position)
+
+        let caa0Copy = try! CAARecord(deserialize: serialized0, position: &position, common: rcf)
+
+        XCTAssertEqual(caa, caa0Copy)
     }
 
     func testMessage1() {
