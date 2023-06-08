@@ -469,10 +469,19 @@ extension CAARecord: ResourceRecord {
         (name, _, unique, internetClass, ttl) = common
         position += 2
         flags = try UInt8(data: data, position: &position)
+
         let tagLength = Int(try UInt8(data: data, position: &position))
-        tag = String(bytes: data[position..<(position + tagLength)], encoding: .utf8)!
+        let tagData = data[position..<(position + tagLength)]
+        guard let tagDecoded = String(bytes: tagData, encoding: .utf8) else {
+            throw DecodeError.unicodeDecodingError
+        }
+        tag = tagDecoded
         position += tagLength
-        value = String(bytes: data[position..<data.endIndex], encoding: .utf8)!
+
+        guard let valueDecoded = String(bytes: data[position..<data.endIndex], encoding: .utf8) else {
+            throw DecodeError.unicodeDecodingError
+        }
+        value = valueDecoded
     }
 
     public func serialize(onto buffer: inout Data, labels: inout Labels) throws {
