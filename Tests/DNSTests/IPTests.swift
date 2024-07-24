@@ -1,6 +1,17 @@
 import XCTest
 @testable import DNS
 
+#if os(Windows)
+import WinSDK
+// WinSDK exposes INADDR_LOOPBACK as an Int32 for some reason
+let INADDR_LOOPBACK: UInt32 = UInt32(WinSDK.INADDR_LOOPBACK)
+// These are not defined in my copy of WinSDK
+let INADDR_UNSPEC_GROUP : UInt32 = 0xE0000000
+let INADDR_ALLHOSTS_GROUP: UInt32 = 0xE0000001
+let INADDR_ALLRTRS_GROUP: UInt32 = 0xE0000002
+let INADDR_MAX_LOCAL_GROUP: UInt32 = 0xE00000FF
+#endif
+
 class IPTests: XCTestCase {
     static var allTests: [(String, (IPTests) -> () throws -> Void)] {
         return [

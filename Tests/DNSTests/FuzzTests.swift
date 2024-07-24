@@ -7,6 +7,10 @@ import XCTest
     public func arc4random_uniform(_ max: UInt32) -> Int32 {
         return Glibc.rand() % Int32(max - 1)
     }
+#elseif os(Windows)
+    public func arc4random_uniform(_ max: UInt32) -> Int32 {
+        return Int32.random(in: 0...Int32(max - 1))
+    }
 #endif
 
 class FuzzTests: XCTestCase {

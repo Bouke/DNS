@@ -1,5 +1,25 @@
 import Foundation
 
+#if os(Windows)
+import WinSDK
+
+// WinSDK inet_ntop takes an Int as the length, but socklen_t is Int32
+// import struct WinSDK.socklen_t
+fileprivate typealias socklen_t = Int
+
+public typealias in_addr = IN_ADDR
+extension in_addr {
+    public init(s_addr: UInt32) {
+        self.init(S_un: .init(S_addr: s_addr))
+    }
+    var s_addr: UInt32 {
+        return self.S_un.S_addr
+    }
+}
+
+public typealias in6_addr = IN6_ADDR
+#endif
+
 // TODO: replace by sockaddr_storage
 
 /// Undefined for LE
@@ -146,6 +166,15 @@ public struct IPv6: IP {
                 htonl(address.__in6_u.__u6_addr32.1).bytes +
                 htonl(address.__in6_u.__u6_addr32.2).bytes +
                 htonl(address.__in6_u.__u6_addr32.3).bytes
+        #elseif os(Windows)
+            return withUnsafeBytes(of: address.u.Byte) {
+                rawPtr in
+                return (
+                    htonl(rawPtr.load(fromByteOffset: 0, as: UInt32.self)).bytes +
+                    htonl(rawPtr.load(fromByteOffset: 4, as: UInt32.self)).bytes +
+                    htonl(rawPtr.load(fromByteOffset: 8, as: UInt32.self)).bytes +
+                    htonl(rawPtr.load(fromByteOffset: 12, as: UInt32.self)).bytes)
+            }
         #else
             return
                 htonl(address.__u6_addr.__u6_addr32.0).bytes +
